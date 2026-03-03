@@ -1,0 +1,149 @@
+﻿@font-face {
+    font-family: "Alta";
+    src: url("fonts/alta-regular.otf") format("opentype");
+}
+
+@font-face {
+    font-family: "Open Sauce Light";
+    src: url("fonts/open-sauce.sans-light.ttf") format("truetype");
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    background-image: url("fundo_animado.gif");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+header {
+    background-color: #bcdcf0;
+    color: #4b4b4b;
+    font-family: "Alta", sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.9rem 1rem;
+}
+
+.sisgeh {
+    margin: 0;
+    font-size: clamp(1.4rem, 2.8vw, 2.1rem);
+}
+
+header a {
+    color: #4b4b4b;
+    text-decoration: none;
+    font-size: clamp(1rem, 1.7vw, 1.2rem);
+}
+
+.caixa_de_texto {
+    width: min(260px, 42vw);
+    height: 42px;
+    border: 2px solid #4b4b4b;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    border-radius: 999px;
+    padding: 0 0.7rem;
+}
+
+.caixa_de_texto input {
+    width: 100%;
+    border: none;
+    background: none;
+    outline: none;
+    text-align: center;
+    font-size: 0.95rem;
+}
+
+.opcoes-principal {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: clamp(1rem, 4vw, 3rem);
+    padding: 1.5rem 1rem;
+    font-family: "Open Sauce Light", sans-serif;
+    flex-wrap: wrap;
+}
+
+.logo {
+    width: min(360px, 70vw);
+    height: auto;
+}
+
+.botao {
+    color: #4b4b4b;
+    border: 1px solid #4b4b4b;
+    border-radius: 16px;
+    background-color: #e1ecf2;
+    text-decoration: none;
+    font-size: clamp(1rem, 1.9vw, 1.25rem);
+    padding: 0.9rem 1.4rem;
+    min-width: 150px;
+    text-align: center;
+}
+
+.opcao1:hover,
+.opcao2:hover {
+    background-color: white;
+}
+
+footer {
+    text-align: center;
+    color: white;
+    font-family: "Open Sauce Light", sans-serif;
+    font-size: 0.95rem;
+    padding: 0.8rem 1rem 1rem;
+}
+
+footer a {
+    color: white;
+}
+
+/* Tablet */
+@media (max-width: 900px) {
+    .opcoes-principal {
+        gap: 1.2rem;
+    }
+
+    .logo {
+        width: min(300px, 72vw);
+    }
+}
+
+/* Celular */
+@media (max-width: 640px) {
+    header {
+        flex-wrap: wrap;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .caixa_de_texto {
+        width: min(300px, 90vw);
+        order: 3;
+    }
+
+    .opcoes-principal {
+        flex-direction: column;
+    }
+
+    .botao {
+        width: min(280px, 90vw);
+    }
+
+    .logo {
+        width: min(240px, 65vw);
+    }
+}

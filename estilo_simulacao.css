@@ -1,0 +1,295 @@
+﻿/* Fonte "Alta" adcionada e indicando abaixo o tipo de formato de arquivo da fonte que � "Opentype" */
+@font-face {
+    font-family: "Alta";
+    src: url("fonts/alta-regular.otf") format("opentype");
+}
+
+@font-face {
+    font-family: "Open Sans Regular";
+    src: url("fonts/open-sans.bold.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Open Sauce Light";
+    src: url("fonts/open-sauce.sans-light.ttf") format("truetype");
+}
+
+/* Deixando a tela responsiva, se a tela do dispositivo tiver a altura entre 1200 e 660 pixels (Que � o padr�o) certas a��es v�o acontecer */
+@media (max-height: 1200px) and (min-height: 660px) {
+    header {
+        font-size: 5vh;
+        height: 14vh; 
+        }
+
+    header input {
+        font-size: 2vh;
+        width: 15vw;
+    }
+
+    .config, .home {
+        height: 7vh;
+    }
+
+    .simular {
+        height: 78vh;
+        width: 44vw;
+        font-size: 2vh;
+    }
+
+}
+
+@media (max-height: 659px) {
+    header{
+        font-size: 7vh;
+        height: 10vh;
+        }
+
+    header input {
+        font-size: 2.5vh;
+        width: 18vw;
+    }
+
+    .config, .home {
+        height: 6vh;
+    }
+
+    .simular {
+        height: 78vh;
+        width: 80vw;
+        font-size: 3.8vh;
+    }
+
+
+    footer {
+        font-size: 3vh;
+    }
+}
+
+@media (max-width: 820px) {
+
+    header {
+        font-size: 2vh;
+    }
+
+    header input {
+        font-size: 1vh;
+        width: 18vw;
+    }
+
+    .config, .home {
+        height: 4vh;
+    }
+
+    .simular {
+        height: 70vh;
+        width: 80vw;
+	font-size: 2vh;
+    }
+
+    footer {
+        font-size: 2vh;
+    }
+
+}
+
+ /* Estilização do header */
+header {   
+    background-color: #bcdcf0;    
+    font-family: "Alta"; /* Fonte "Alta" no começo do código sendo usada */
+    color: #4B4B4B;
+    display: flex; 
+    justify-content: space-between;
+    padding: 0 4vw;
+    align-items: center; /* Uso de display flex para deixar a área do header centrilazada automáticamente e com espaçamento entre os items*/
+}
+
+header a {	
+    margin-left: 2vw; /* Deixando um espaçamento entre os items 'sobre' e o icone de 'configura��o. Detalhe: Ambos t�m a propriedade 'a' */
+    color: #4B4B4B;
+    }
+
+.home {
+    margin-left: 6vw;
+}    
+
+.link_home, .link_config {
+    text-decoration: none;
+}
+
+.caixa_de_texto {
+    height: 5vh;
+    width: 17vw;
+    border: 2px solid #4b4b4b;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    border-radius: 25px;
+}
+
+.caixa_de_texto input {
+    border: none;
+    background: none;
+    outline: none;
+    text-align: center;
+}
+
+
+body {  
+     height: 100vh;
+    width: auto;     /* Ajuste  do tamanho da tela do body */
+    background-image: url("fundo_estatico.png");
+    background-size: cover;
+    background-repeat: no-repeat; /* Adicionando gif como plano de fundo e ajustando-o para prencher a tela toda de forma que o gif não repita */
+    background-attachment: fixed; /* mantém o fundo fixo mesmo ao rolar a página */
+    margin: 0;
+    flex-wrap: wrap; /* Ajuda a ajustar a tela automatica fazendo os items que ultrapassar o limite de tela quebrar uma linha e descer.*/
+}
+
+.layoutSimular { 
+    height: auto;
+    margin: 0;
+    padding: 0;
+    width: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.simular {
+    height: auto;
+    text-align: center;
+    background-color: white;
+    box-shadow: 8px 10px 5px 3px rgb(160,160,180, 0.6);
+    display: flex;
+    margin: 2vh;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    flex-direction: column;
+    font-family: "Open Sauce Light";
+    border-radius: 12vh;
+}
+
+.simular h1 {
+   color: #4b4b4b;
+}
+
+.layoutSimular p {
+    	color: #b4b1b1;
+}
+
+form {
+    text-align: center;
+    margin-top: 2vh;
+    font-family: "Open Sauce Light";
+}
+
+.simular input {
+    height: 5vh;
+	border: none;
+	text-decoration: none;
+	background-color: #bcdcf0;
+	border-radius:20px;
+	width: 38vw;
+	color: #4B4B4B;
+    margin-bottom: 2vh;   
+    text-align: center;
+    padding-right: 1vw;
+    padding-left: 1vw;
+}
+
+
+
+input[type="submit"] {
+    background-color: #4b4b4b;
+    color: white;
+    margin-top: 4vh; 
+    width: 15vw;
+    height: 8vh;
+}
+
+input[type="submit"]:hover {
+	background-color: #000000;
+}
+
+#resultados {
+  text-align: center;
+}
+
+#tabelaResultados {
+  margin: 0 auto;
+  border-collapse: collapse;
+  width: 60%;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  width: 37vw;;
+}
+
+#tabelaResultados th, #tabelaResultados td {
+  padding: 12px 16px;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+}
+
+#tabelaResultados th {
+  background-color: #007BFF;
+  color: white;
+}
+
+#tabelaResultados tr:hover {
+  background-color: #f1f1f1;
+}
+
+#salvar, #exportar {
+  margin: 10px;
+  padding: 10px 20px;
+  background-color: #007BFF;
+  border: none;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+#salvar:hover, #exportar:hover {
+  background-color: #0056b3;
+}
+
+/* Nome do usuário no header - tamanho correto e alinhamento central */
+.nome-usuario {
+    font-size: 1.2rem;               /* tamanho fixo do texto */
+    font-weight: 250;
+    color: #4B4B4B;
+    margin: 0 1vw;
+    height: auto;
+    display: flex;                 /* permite alinhar verticalmente */
+    align-items: center;           /* centraliza verticalmente dentro do header */
+    white-space: nowrap;           /* impede quebra de linha */
+    overflow: hidden;              
+    text-overflow: ellipsis;
+}
+
+#mensagemSucesso {
+    display: none;           /* Esconde inicialmente */
+    position: fixed;         /* Fica sobreposta na tela */
+    top: 10%;                /* Distância do topo */
+    left: 50%;               /* Centraliza horizontalmente */
+    transform: translateX(-50%);
+    background-color: #d4edda;  /* Verde claro de sucesso */
+    color: #155724;             /* Texto verde escuro */
+    padding: 15px 25px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    font-family: "Open Sauce Light";
+    font-size: 1.2rem;
+    z-index: 9999;           /* Fica acima de tudo */
+}
+
+
+footer, footer a {
+    text-align: center;
+    color: #4b4b4b;
+    font-family: "Open Sauce Light";
+}
