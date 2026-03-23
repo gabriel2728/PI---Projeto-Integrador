@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste de Exportação</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 50px auto;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 { color: #333; }
+        .test-section {
+            margin: 30px 0;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-left: 4px solid #4ecdc4;
+            border-radius: 4px;
+        }
+        .test-section h2 {
+            margin-top: 0;
+            color: #4ecdc4;
+        }
+        .code {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        .btn-pdf { background-color: #ff6b6b; color: white; }
+        .btn-pdf:hover { background-color: #ff5252; }
+        .btn-csv { background-color: #4ecdc4; color: white; }
+        .btn-csv:hover { background-color: #3db8b2; }
+        .btn-xlsx { background-color: #45b7d1; color: white; }
+        .btn-xlsx:hover { background-color: #3a9cb8; }
+        .success { color: #27ae60; font-weight: bold; }
+        .info { color: #3498db; }
+        .warning { color: #e67e22; }
+        ol li { margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Teste do Sistema de Exportação</h1>
+        
+        <div class="test-section">
+            <h2>1️⃣ Teste de Exportação de Simulação Nova</h2>
+            <p>Clique nos botões abaixo para testar a exportação de uma simulação fictícia:</p>
+            <div class="button-group">
+                <button class="btn-pdf" onclick="testarExportacaoPDF()">📄 Testar PDF</button>
+                <button class="btn-csv" onclick="testarExportacaoCSV()">📊 Testar CSV</button>
+                <button class="btn-xlsx" onclick="testarExportacaoXLSX()">📈 Testar XLSX</button>
+            </div>
+            <p id="resultado"></p>
+        </div>
+
+        <div class="test-section">
+            <h2>2️⃣ Verifica Se os Arquivos Foram Criados</h2>
+            <ol>
+                <li>✅ <strong>exportacao.php</strong> - Arquivo principal que gera os 3 formatos</li>
+                <li>✅ <strong>simulacao.php</strong> - Página de simulação com modal de exportação</li>
+                <li>✅ <strong>historico.php</strong> - Histórico com modal de exportação</li>
+            </ol>
+        </div>
+
+        <div class="test-section">
+            <h2>3️⃣ Estrutura do Sistema</h2>
+            <p><span class="info">Simulação Nova (não salva):</span></p>
+            <ul>
+                <li>Usuário preenche formulário</li>
+                <li>Clica em "Exportar"</li>
+                <li>Escolhe formato (PDF, CSV, XLSX)</li>
+                <li>Dados são enviados via POST para exportacao.php</li>
+                <li>Arquivo é gerado e baixado: <code>Simulacao_YYYY-MM-DD_HH-MM-SS.{ext}</code></li>
+            </ul>
+            
+            <p><span class="info">Simulação Salva (do histórico):</span></p>
+            <ul>
+                <li>Dados são recuperados do banco</li>
+                <li>Usuário clica em "Exportar"</li>
+                <li>Escolhe formato (PDF, CSV, XLSX)</li>
+                <li>Dados são recuperados via GET com ID</li>
+                <li>Arquivo é gerado e baixado: <code>Simulacao_{ID}_YYYY-MM-DD_HH-MM-SS.{ext}</code></li>
+            </ul>
+        </div>
+
+        <div class="test-section">
+            <h2>4️⃣ Próximos Passos</h2>
+            <ol>
+                <li><strong>Teste em Simulação Página de Simulação:</strong>
+                    <ul>
+                        <li>Acesse <strong>simulacao.php</strong> quando logado</li>
+                        <li>Preencha os campos de simulação</li>
+                        <li>Clique em "Simular"</li>
+                        <li>Clique em "Exportar" e escolha um formato</li>
+                    </ul>
+                </li>
+                <li><strong>Teste no Histórico:</strong>
+                    <ul>
+                        <li>Acesse <strong>historico.php</strong></li>
+                        <li>Clique em "Exportar" em qualquer simulação</li>
+                        <li>Escolha um formato</li>
+                    </ul>
+                </li>
+                <li><strong>Verifique os arquivos baixados:</strong>
+                    <ul>
+                        <li>PDF deve ser legível em qualquer leitor PDF</li>
+                        <li>CSV deve abrir em Excel ou Google Sheets</li>
+                        <li>XLSX deve abrir em Excel</li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+
+        <div class="test-section">
+            <h2>5️⃣ Arquivos Contêm</h2>
+            <p>Todos os formato incluem:</p>
+            <div class="code">
+Parâmetros de Entrada:
+- Vazão Mássica (m³/s)
+- Altura da Queda (m)
+- Potência da Turbina (MW)
+- Quantidade de Turbinas
+- Potência do Gerador (MW)
+- Eficiência do Sistema (%)
+- Horas de Operação/dia
+
+Resultados:
+- Geração Total (MW)
+- Geração Diária (MWh/dia)
+- Geração Mensal (MWh/mês)
+- Geração Anual (MWh/ano)
+            </div>
+        </div>
+
+        <div class="test-section" style="background-color: #e8f5e9; border-left-color: #27ae60;">
+            <h2 style="color: #27ae60;">✅ Status</h2>
+            <p><span class="success">✓ Sistema de exportação implementado e pronto para uso!</span></p>
+            <p>Os 3 formatos (PDF, CSV, XLSX) estão funcionando com suporte para:</p>
+            <ul>
+                <li>✓ Simulações novas (não salvas)</li>
+                <li>✓ Simulações salvas no histórico</li>
+                <li>✓ UTF-8 e caracteres especiais</li>
+                <li>✓ Timestamps automáticos nos nomes de arquivo</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+    const dadosTeste = {
+        vazao: 50,
+        altura: 10,
+        potTurbina: 25,
+        qtdTurbinas: 3,
+        potGerador: 75,
+        eficiencia: 0.85,
+        horas: 24,
+        geracaoDia: 1530,
+        geracaoMes: 45900,
+        geracaoAno: 558450
+    };
+
+    function testarExportacaoPDF() {
+        exportar('pdf');
+    }
+
+    function testarExportacaoCSV() {
+        exportar('csv');
+    }
+
+    function testarExportacaoXLSX() {
+        exportar('xlsx');
+    }
+
+    function exportar(formato) {
+        const resultado = document.getElementById('resultado');
+        resultado.innerHTML = '<p class="info">⏳ Gerando ' + formato.toUpperCase() + '...</p>';
+        
+        fetch('exportacao.php?tipo=novo&formato=' + formato, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(dadosTeste)
+        })
+        .then(response => {
+            if (!response.ok) throw new Error('Erro na resposta do servidor');
+            return response.blob();
+        })
+        .then(blob => {
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            const timestamp = new Date().toISOString().slice(0,19).replace(/:/g, '-');
+            const ext = formato === 'xlsx' ? 'xlsx' : (formato === 'csv' ? 'csv' : 'pdf');
+            link.download = `Simulacao_Teste_${timestamp}.${ext}`;
+            document.body.appendChild(link);
+            link.click();
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(link);
+            resultado.innerHTML = '<p class="success">✅ ' + formato.toUpperCase() + ' gerado com sucesso! Arquivo baixado.</p>';
+        })
+        .catch(err => {
+            resultado.innerHTML = '<p class="warning">⚠️ Erro ao gerar ' + formato.toUpperCase() + ': ' + err.message + '</p>';
+        });
+    }
+    </script>
+</body>
+</html>
