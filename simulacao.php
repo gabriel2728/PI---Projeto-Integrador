@@ -71,6 +71,19 @@ $primeiroNome = explode(" ", $nomeUsuario)[0];
     </div>
   </div>
 
+  <!-- Modal de Exportação -->
+  <div id="modalExportacao" class="modal" style="display:none; position:fixed; z-index:1000; left:0; top:0; width:100%; height:100%; background-color:rgba(0,0,0,0.4);">
+    <div class="modal-content" style="background-color:#fefefe; margin:15% auto; padding:20px; border:1px solid #888; width:400px; border-radius:8px; box-shadow:0 4px 8px rgba(0,0,0,0.2);">
+      <span class="close" id="closeModal" style="color:#aaa; float:right; font-size:28px; font-weight:bold; cursor:pointer;">&times;</span>
+      <h2 style="text-align:center; color:#333;">Escolha o formato de exportação</h2>
+      <div style="display:flex; gap:10px; margin-top:20px; justify-content:center;">
+        <button type="button" id="exportPDF" style="padding:12px 24px; background-color:#ff6b6b; color:white; border:none; border-radius:5px; cursor:pointer; font-size:16px;">📄 PDF</button>
+        <button type="button" id="exportCSV" style="padding:12px 24px; background-color:#4ecdc4; color:white; border:none; border-radius:5px; cursor:pointer; font-size:16px;">📊 CSV</button>
+        <button type="button" id="exportXLSX" style="padding:12px 24px; background-color:#45b7d1; color:white; border:none; border-radius:5px; cursor:pointer; font-size:16px;">📈 XLSX</button>
+      </div>
+    </div>
+  </div>
+
   <footer>
     <p>&copy; Todos os direitos reservados. <a href="politica.html">Políticas de privacidade.</a></p>
   </footer>
@@ -151,6 +164,88 @@ document.getElementById("salvar").addEventListener("click", function() {
     })
     .catch(err => alert("Erro: " + err));
 });
+
+// Modal de Exportação
+const modal = document.getElementById("modalExportacao");
+const closeBtn = document.getElementById("closeModal");
+
+document.getElementById("exportar").addEventListener("click", function() {
+    if (!window.simulacaoAtual) {
+        alert("Simule primeiro antes de exportar!");
+        return;
+    }
+    modal.style.display = "block";
+});
+
+closeBtn.addEventListener("click", function() {
+    modal.style.display = "none";
+});
+
+window.addEventListener("click", function(event) {
+    if (event.target === modal) {
+        modal.style.display = "none";
+    }
+});
+
+document.getElementById("exportPDF").addEventListener("click", function() {
+    exportarSimulacao('pdf');
+    modal.style.display = "none";
+});
+
+document.getElementById("exportCSV").addEventListener("click", function() {
+    exportarSimulacao('csv');
+    modal.style.display = "none";
+});
+
+document.getElementById("exportXLSX").addEventListener("click", function() {
+    exportarSimulacao('xlsx');
+    modal.style.display = "none";
+});
+
+function exportarSimulacao(formato) {
+    if (!window.simulacaoAtual) {
+        alert("Nenhuma simulação para exportar!");
+        return;
+    }
+
+    fetch('exportacao.php?tipo=novo&formato=' + formato, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(window.simulacaoAtual)
+    })
+    .then(response => {
+        if (!response.ok) throw new Error('Erro na exportação');
+        return response.blob();
+    })
+    .then(blob => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        
+        const timestamp = new Date().toISOString().slice(0,19).replace(/:/g, '-');
+        const nomeArquivo = `Simulacao_${timestamp}`;
+        
+        switch(formato) {
+            case 'pdf':
+                a.download = nomeArquivo + '.pdf';
+                break;
+            case 'csv':
+                a.download = nomeArquivo + '.csv';
+                break;
+            case 'xlsx':
+                a.download = nomeArquivo + '.xlsx';
+                break;
+        }
+        
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+    })
+    .catch(err => {
+        alert("Erro ao exportar: " + err.message);
+    });
+}
 </script>
 
 </body>

@@ -100,6 +100,19 @@ $stmt->close();
     </div>
 </div>
 
+<!-- Modal de Exportação -->
+<div id="modalExportacao" class="modal" style="display:none; position:fixed; z-index:1000; left:0; top:0; width:100%; height:100%; background-color:rgba(0,0,0,0.4);">
+    <div class="modal-content" style="background-color:#fefefe; margin:15% auto; padding:20px; border:1px solid #888; width:400px; border-radius:8px; box-shadow:0 4px 8px rgba(0,0,0,0.2);">
+      <span class="close" id="closeModal" style="color:#aaa; float:right; font-size:28px; font-weight:bold; cursor:pointer;">&times;</span>
+      <h2 style="text-align:center; color:#333;">Escolha o formato de exportação</h2>
+      <div style="display:flex; gap:10px; margin-top:20px; justify-content:center;">
+        <button type="button" id="exportPDF" style="padding:12px 24px; background-color:#ff6b6b; color:white; border:none; border-radius:5px; cursor:pointer; font-size:16px;">📄 PDF</button>
+        <button type="button" id="exportCSV" style="padding:12px 24px; background-color:#4ecdc4; color:white; border:none; border-radius:5px; cursor:pointer; font-size:16px;">📊 CSV</button>
+        <button type="button" id="exportXLSX" style="padding:12px 24px; background-color:#45b7d1; color:white; border:none; border-radius:5px; cursor:pointer; font-size:16px;">📈 XLSX</button>
+      </div>
+    </div>
+  </div>
+
 <footer>
     <p>&copy; Todos os direitos reservados. <a href="politica.html">Políticas de privacidade.</a></p>
 </footer>
@@ -114,9 +127,55 @@ document.querySelectorAll('.btnDetalhes').forEach(btn => {
     });
 });
 
-// Exportação (PDF/CSV pode ser implementada aqui)
+// Modal de Exportação
+const modal = document.getElementById("modalExportacao");
+const closeBtn = document.getElementById("closeModal");
+let idSimulacaoAtual = null;
+
+function abrirModalExportacao(id) {
+    idSimulacaoAtual = id;
+    modal.style.display = "block";
+}
+
 function exportSimulacao(id) {
-    alert('Aqui você pode gerar o PDF ou CSV da simulação ID ' + id);
+    abrirModalExportacao(id);
+}
+
+closeBtn.addEventListener("click", function() {
+    modal.style.display = "none";
+});
+
+window.addEventListener("click", function(event) {
+    if (event.target === modal) {
+        modal.style.display = "none";
+    }
+});
+
+document.getElementById("exportPDF").addEventListener("click", function() {
+    if (idSimulacaoAtual) {
+        realizarExportacao('pdf', idSimulacaoAtual);
+        modal.style.display = "none";
+    }
+});
+
+document.getElementById("exportCSV").addEventListener("click", function() {
+    if (idSimulacaoAtual) {
+        realizarExportacao('csv', idSimulacaoAtual);
+        modal.style.display = "none";
+    }
+});
+
+document.getElementById("exportXLSX").addEventListener("click", function() {
+    if (idSimulacaoAtual) {
+        realizarExportacao('xlsx', idSimulacaoAtual);
+        modal.style.display = "none";
+    }
+});
+
+function realizarExportacao(formato, id) {
+    // Para simulações salvas, vamos usar GET direto
+    const url = `exportacao.php?tipo=salvo&id=${id}&formato=${formato}`;
+    window.location.href = url;
 }
 </script>
 
