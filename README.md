@@ -195,7 +195,35 @@ Este projeto está sob a licença MIT. Veja o arquivo `LICENSE` para mais detalh
 - **Período**: 3º Semestre
 - **Projeto**: Projeto Integrador
 
-## 🙏 Agradecimentos
+## �️ Status Atual do Desenvolvimento
+
+### ✅ O que já está implementado e funcionando
+- Sistema de cadastro/login de usuário
+- Simulação de geração de energia (cálculo hidráulico) e armazenamento em banco
+- Visualização de histórico de simulações e exportação CSV
+- Exportação PDF e XLSX (base implementada; precisar de ajustes estéticos)
+- Perfis de conta (status do usuário, segurança de senha)
+- Página de **Configurações** refatorada:
+  - `configuracoes.php`: menu principal `Perfil` / `Sistema`
+  - `configuracoes_perfil.php`: edição de nome/email/senha + exibição de dados (nomeUsuario, emailUsuario, telefoneUsuario)
+  - `configuracoes_sistema.php`: tema (`claro`/`escuro`) e notificações (email/sistema/simulação/relatórios)
+- Tabela nova no banco `UsuarioConfiguracoes` com campos de tema e notificações
+- CSS consolidado em `estilo_configuracao.css`
+- Remoção de scripts expostos no HTML (fix de não renderizar JS como texto)
+
+### 🔧 O que falta / próximo passo
+- Ajustar layout visual de dados do usuário em `configuracoes_perfil.php` (dentro da caixa de configuração)
+- Finalizar exportação PDF e XLSX com formatação completa
+- Adicionar modelos de sessão persistente + tratamento de idioma (UTF-8 completo)
+- Revisar e aplicar testes automatizados (PHPUnit) para acesso ao DB e rotas
+- Melhorar tratamento de erros no frontend (alertas mais amigáveis/Toast UI)
+
+### 📍 Onde paramos (ponto atual)
+- Ambiente funcional com simulação e gerenciamento de conta
+- Refatoração e divisão das telas de configuração concluída
+- Pendência essencial: UX final para dados pessoais na página de perfil
+
+## �🙏 Agradecimentos
 
 - Professores da Fatec Franco da Rocha
 - Comunidade de desenvolvimento PHP
