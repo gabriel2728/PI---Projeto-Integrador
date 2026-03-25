@@ -1,210 +1,105 @@
-﻿<?php
+<?php
 session_start();
+include 'conexao.php';
+
+// Verificar se usu�rio est� logado
+if (!isset($_SESSION['id_usuario'])) {
+    header('Location: login.php');
+    exit();
+}
+
+$id_usuario = $_SESSION['id_usuario'];
+
+// Buscar dados do usu�rio
+$sql = "SELECT nomeUsuario, emailUsuario, telefoneUsuario FROM Usuario WHERE id_usuario = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $id_usuario);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows > 0) {
+    $usuario = $result->fetch_assoc();
+} else {
+    $_SESSION['mensagem_erro'] = 'Usu�rio n�o encontrado.';
+    header('Location: inicio.php');
+    exit();
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Configurações - SiSGEH</title>
+    <title>Configura��es - SiSGEH</title>
     <link rel="stylesheet" href="estilo_configuracao.css">
-    <script>
-        // Função para abrir o formulário de trocar nome
-        function abrirFormularioNome() {
-            // Remover formulários existentes
-            document.querySelectorAll('.form-config').forEach(form => form.remove());
-
-            const areaConfig = document.querySelector('.configuracao');
-            const form = document.createElement('form');
-            form.className = 'form-config';
-            form.innerHTML = `
-		<div id="estiloNome">
-                <input type="text" id="novoNome" placeholder="Digite o novo nome" required>
-                <button type="button" onclick="salvarNome()">Confirmar</button>
-		</div>`;
-
-            // Inserir após o título "Configurações de Perfil"
-            const titulo = areaConfig.querySelector('h1');
-            titulo.insertAdjacentElement('afterend', form);
+    <style>
+        .menu-configuracoes {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 60vh;
+            gap: 30px;
         }
 
-        // Função para salvar o nome
-        function salvarNome() {
-            const novoNome = document.getElementById('novoNome').value.trim();
-            if (novoNome === '') {
-                alert('Por favor, digite um nome válido.');
-                return;
-            }
-
-            // Criar formulário e enviar
-            const form = document.createElement('form');
-            form.method = 'POST';
-            form.action = 'salvar_configuracoes_perfil.php';
-            form.style.display = 'none';
-
-            const tipoInput = document.createElement('input');
-            tipoInput.type = 'hidden';
-            tipoInput.name = 'tipo';
-            tipoInput.value = 'nome';
-            form.appendChild(tipoInput);
-
-            const nomeInput = document.createElement('input');
-            nomeInput.type = 'hidden';
-            nomeInput.name = 'nome';
-            nomeInput.value = novoNome;
-            form.appendChild(nomeInput);
-
-            document.body.appendChild(form);
-            form.submit();
+        .opcao-config {
+            display: block;
+            width: 300px;
+            padding: 25px;
+            background: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
 
-        // Função para abrir o formulário de trocar senha
-        function abrirFormularioSenha() {
-            // Remover formulários existentes
-            document.querySelectorAll('.form-config').forEach(form => form.remove());
-
-            const areaConfig = document.querySelector('.configuracao');
-            const form = document.createElement('form');
-            form.className = 'form-config';
-            form.innerHTML = `
-		<div id="conteudoSenha">
-			<div id="layoutSenha">
-                		<input type="password" id="novaSenha" placeholder="Nova senha" required>
-                		<input type="password" id="confirmarSenha" placeholder="Confirmar senha" required>
-            		</div>
-			<div id="layoutBotaoSenha">
-			<button type="button" onclick="salvarSenha()">Confirmar</button>
-			</div>
-		</div>`;
-
-            // Inserir após o título "Configurações de Perfil"
-            const titulo = areaConfig.querySelector('h1');
-            titulo.insertAdjacentElement('afterend', form);
+        .opcao-config:hover {
+            background: #0056b3;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
         }
 
-        // Função para salvar a senha
-        function salvarSenha() {
-            const senha1 = document.getElementById('novaSenha').value;
-            const senha2 = document.getElementById('confirmarSenha').value;
-
-            if (senha1 === '' || senha2 === '') {
-                alert('Preencha os dois campos de senha.');
-                return;
-            }
-
-            if (senha1 !== senha2) {
-                alert('As senhas não coincidem.');
-                return;
-            }
-
-            // Criar formulário e enviar
-            const form = document.createElement('form');
-            form.method = 'POST';
-            form.action = 'salvar_configuracoes_perfil.php';
-            form.style.display = 'none';
-
-            const tipoInput = document.createElement('input');
-            tipoInput.type = 'hidden';
-            tipoInput.name = 'tipo';
-            tipoInput.value = 'senha';
-            form.appendChild(tipoInput);
-
-            const senhaInput = document.createElement('input');
-            senhaInput.type = 'hidden';
-            senhaInput.name = 'senha';
-            senhaInput.value = senha1;
-            form.appendChild(senhaInput);
-
-            const confirmarInput = document.createElement('input');
-            confirmarInput.type = 'hidden';
-            confirmarInput.name = 'confirmar_senha';
-            confirmarInput.value = senha2;
-            form.appendChild(confirmarInput);
-
-            document.body.appendChild(form);
-            form.submit();
+        .dados-usuario {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 30px;
+            border: 1px solid #ddd;
+            max-width: 400px;
         }
 
-        // Função para abrir o formulário de trocar e-mail
-        function abrirFormularioEmail() {
-            // Remover formulários existentes
-            document.querySelectorAll('.form-config').forEach(form => form.remove());
-
-            const areaConfig = document.querySelector('.configuracao');
-            const form = document.createElement('form');
-            form.className = 'form-config';
-            form.innerHTML = `
-		<div id="conteudoEmail">
-			<div id="layoutEmail">
-               			<input type="email" id="novoEmail" placeholder="Digite o novo e-mail" required>
-                		<input type="email" id="confirmarEmail" placeholder="Confirme o novo e-mail" required>
-			</div>
-			<div id="layoutBotaoEmail">
-                		<button type="button" onclick="salvarEmail()">Confirmar</button>
-			</div>
-		</div>
-            `;
-
-            // Inserir após o título "Configurações de Perfil"
-            const titulo = areaConfig.querySelector('h1');
-            titulo.insertAdjacentElement('afterend', form);
+        .dados-usuario h3 {
+            margin-top: 0;
+            color: #333;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
         }
 
-        // Função para salvar o e-mail
-        function salvarEmail() {
-            const email1 = document.getElementById('novoEmail').value.trim();
-            const email2 = document.getElementById('confirmarEmail').value.trim();
-
-            if (email1 === '' || email2 === '') {
-                alert('Preencha os dois campos de e-mail.');
-                return;
-            }
-
-            if (email1 !== email2) {
-                alert('Os e-mails não coincidem.');
-                return;
-            }
-
-            // Validação simples de formato de e-mail
-            const regexEmail = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
-            if (!regexEmail.test(email1)) {
-                alert('Digite um e-mail válido.');
-                return;
-            }
-
-            // Criar formulário e enviar
-            const form = document.createElement('form');
-            form.method = 'POST';
-            form.action = 'salvar_configuracoes_perfil.php';
-            form.style.display = 'none';
-
-            const tipoInput = document.createElement('input');
-            tipoInput.type = 'hidden';
-            tipoInput.name = 'tipo';
-            tipoInput.value = 'email';
-            form.appendChild(tipoInput);
-
-            const emailInput = document.createElement('input');
-            emailInput.type = 'hidden';
-            emailInput.name = 'email';
-            emailInput.value = email1;
-            form.appendChild(emailInput);
-
-            const confirmarInput = document.createElement('input');
-            confirmarInput.type = 'hidden';
-            confirmarInput.name = 'confirmar_email';
-            confirmarInput.value = email2;
-            form.appendChild(confirmarInput);
-
-            document.body.appendChild(form);
-            form.submit();
+        .dado-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
         }
-    </script>
-    
+
+        .dado-label {
+            font-weight: bold;
+            color: #555;
+        }
+
+        .dado-valor {
+            color: #333;
+        }
+    </style>
 </head>
 <body>
-
-    <header> 
+    <header>
         <div class="caixa_de_texto">
             <input type="text" class="search-text" placeholder="Pesquisar...">
         </div>
@@ -212,47 +107,29 @@ session_start();
 
         <div class="links">
              <a href="inicio.php" class="link_home">
-                 <img src="icon_home.png" alt="Voltar a Home" class="home"> 
+                 <img src="icon_home.png" alt="Voltar a Home" class="home">
             </a>
         </div>
     </header>
 
     <div class="layoutConfiguracao">
+        <div class="configuracao">
+            <h1>Configuracoes</h1>
 
-	    <div class="configuracao">
+            <div class="menu-configuracoes">
+                <a href="configuracoes_perfil.php" class="opcao-config">
+                    👤 Configuracoes de Perfil
+                </a>
 
-            <div style="text-align: center; margin-bottom: 20px;">
-                <a href="configuracoes.php" style="display: inline-block; padding: 10px 20px; margin: 0 10px; background: #007bff; color: white; text-decoration: none; border-radius: 4px;">👤 Perfil</a>
-                <a href="configuracoes_sistema.php" style="display: inline-block; padding: 10px 20px; margin: 0 10px; background: #6c757d; color: white; text-decoration: none; border-radius: 4px;">⚙️ Sistema</a>
+                <a href="configuracoes_sistema.php" class="opcao-config">
+                    ⚙️ Configuracoes do Sistema
+                </a>
             </div>
-
-            <?php if (isset($_SESSION['mensagem_sucesso'])): ?>
-                <div class="mensagem sucesso">
-                    <?php echo $_SESSION['mensagem_sucesso']; unset($_SESSION['mensagem_sucesso']); ?>
-                </div>
-            <?php endif; ?>
-
-            <?php if (isset($_SESSION['mensagem_erro'])): ?>
-                <div class="mensagem erro">
-                    <?php echo $_SESSION['mensagem_erro']; unset($_SESSION['mensagem_erro']); ?>
-                </div>
-            <?php endif; ?>
-
-	    <h1> Configurações de Perfil </h1>
-	
-		<!-- Botões que abrem os formulários -->
-		<a href="#" onclick="abrirFormularioNome()"> 📛 Trocar Nome </a>
-		<a href="#" onclick="abrirFormularioSenha()"> 🔑 Trocar Senha </a>
-        <a href="#" onclick="abrirFormularioEmail()"> 📧 Trocar E-mail </a>
-		<a href="#"> ❌ Excluir conta </a>
-        <a href="#"> 📥 Sair da conta </a>
-		
         </div>
-   </div>
+    </div>
 
-     <footer>
-        <p> &copy Todos os direitos reservados. <a href="politica.html"> Políticas de privacidade. </a> </p>
+    <footer>
+        <p>&copy; Todos os direitos reservados. <a href="politica.html">Pol�ticas de privacidade.</a></p>
     </footer>
-
-<body>
+</body>
 </html>

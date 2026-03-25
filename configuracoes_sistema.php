@@ -85,13 +85,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </header>
 
     <div class="layoutConfiguracao">
-        <div class="config-sistema">
-            <div class="nav-config">
-                <a href="configuracoes.php">Perfil</a>
-                <a href="configuracoes_sistema.php" class="active">Sistema</a>
+        <div class="configuracao">
+            <div style="text-align: center; margin-bottom: 20px;">
+                <a href="configuracoes.php" style="display: inline-block; padding: 10px 20px; margin: 0 10px; background: #6c757d; color: white; text-decoration: none; border-radius: 4px;">← Voltar</a>
             </div>
 
-            <h2>⚙️ Configurações do Sistema</h2>
+            <h1>Configurações do Sistema</h1>
 
             <?php if (isset($_SESSION['mensagem_sucesso'])): ?>
                 <div class="mensagem sucesso">
