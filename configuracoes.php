@@ -1,10 +1,13 @@
-﻿<!DOCTYPE html>
+﻿<?php
+session_start();
+?>
+<!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="estilo_configuracao.css"> 
+    <title>Configurações - SiSGEH</title>
+    <link rel="stylesheet" href="estilo_configuracao.css">
     <script>
         // Função para abrir o formulário de trocar nome
         function abrirFormularioNome() {
@@ -32,9 +35,26 @@
                 return;
             }
 
-            // Aqui vai o fetch() ou requisição ao PHP depois
-            alert('Nome alterado com sucesso para: ' + novoNome);
-            document.getElementById('formNome').remove();
+            // Criar formulário e enviar
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = 'salvar_configuracoes_perfil.php';
+            form.style.display = 'none';
+
+            const tipoInput = document.createElement('input');
+            tipoInput.type = 'hidden';
+            tipoInput.name = 'tipo';
+            tipoInput.value = 'nome';
+            form.appendChild(tipoInput);
+
+            const nomeInput = document.createElement('input');
+            nomeInput.type = 'hidden';
+            nomeInput.name = 'nome';
+            nomeInput.value = novoNome;
+            form.appendChild(nomeInput);
+
+            document.body.appendChild(form);
+            form.submit();
         }
 
         // Função para abrir o formulário de trocar senha
@@ -75,9 +95,32 @@
                 return;
             }
 
-            // Aqui você pode enviar ao PHP depois
-            alert('Senha alterada com sucesso!');
-            document.getElementById('formSenha').remove();
+            // Criar formulário e enviar
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = 'salvar_configuracoes_perfil.php';
+            form.style.display = 'none';
+
+            const tipoInput = document.createElement('input');
+            tipoInput.type = 'hidden';
+            tipoInput.name = 'tipo';
+            tipoInput.value = 'senha';
+            form.appendChild(tipoInput);
+
+            const senhaInput = document.createElement('input');
+            senhaInput.type = 'hidden';
+            senhaInput.name = 'senha';
+            senhaInput.value = senha1;
+            form.appendChild(senhaInput);
+
+            const confirmarInput = document.createElement('input');
+            confirmarInput.type = 'hidden';
+            confirmarInput.name = 'confirmar_senha';
+            confirmarInput.value = senha2;
+            form.appendChild(confirmarInput);
+
+            document.body.appendChild(form);
+            form.submit();
         }
 
         // Função para abrir o formulário de trocar e-mail
@@ -125,9 +168,32 @@
                 return;
             }
 
-            // Aqui você pode enviar ao PHP depois
-            alert('E-mail alterado com sucesso para: ' + email1);
-            document.getElementById('formEmail').remove();
+            // Criar formulário e enviar
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = 'salvar_configuracoes_perfil.php';
+            form.style.display = 'none';
+
+            const tipoInput = document.createElement('input');
+            tipoInput.type = 'hidden';
+            tipoInput.name = 'tipo';
+            tipoInput.value = 'email';
+            form.appendChild(tipoInput);
+
+            const emailInput = document.createElement('input');
+            emailInput.type = 'hidden';
+            emailInput.name = 'email';
+            emailInput.value = email1;
+            form.appendChild(emailInput);
+
+            const confirmarInput = document.createElement('input');
+            confirmarInput.type = 'hidden';
+            confirmarInput.name = 'confirmar_email';
+            confirmarInput.value = email2;
+            form.appendChild(confirmarInput);
+
+            document.body.appendChild(form);
+            form.submit();
         }
     </script>
     
@@ -151,7 +217,24 @@
 
 	    <div class="configuracao">
 
-	    <h1> Configurações </h1>
+            <div style="text-align: center; margin-bottom: 20px;">
+                <a href="configuracoes.php" style="display: inline-block; padding: 10px 20px; margin: 0 10px; background: #007bff; color: white; text-decoration: none; border-radius: 4px;">👤 Perfil</a>
+                <a href="configuracoes_sistema.php" style="display: inline-block; padding: 10px 20px; margin: 0 10px; background: #6c757d; color: white; text-decoration: none; border-radius: 4px;">⚙️ Sistema</a>
+            </div>
+
+            <?php if (isset($_SESSION['mensagem_sucesso'])): ?>
+                <div class="mensagem sucesso">
+                    <?php echo $_SESSION['mensagem_sucesso']; unset($_SESSION['mensagem_sucesso']); ?>
+                </div>
+            <?php endif; ?>
+
+            <?php if (isset($_SESSION['mensagem_erro'])): ?>
+                <div class="mensagem erro">
+                    <?php echo $_SESSION['mensagem_erro']; unset($_SESSION['mensagem_erro']); ?>
+                </div>
+            <?php endif; ?>
+
+	    <h1> Configurações de Perfil </h1>
 	
 		<!-- Botões que abrem os formulários -->
 		<a href="#" onclick="abrirFormularioNome()"> 📛 Trocar Nome </a>
