@@ -336,3 +336,35 @@ button {
 .nav-tabs a.inactive, .nav-config a:not(.active) {
     background: #6c757d;
 }
+
+/* Formulários de configuração */
+.form-config {
+    margin: 20px 0;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+.form-config input {
+    margin: 5px 0;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    max-width: 300px;
+}
+
+.form-config button {
+    margin-top: 10px;
+    padding: 8px 16px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.form-config button:hover {
+    background: #0056b3;
+}

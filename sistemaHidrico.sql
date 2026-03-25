@@ -164,4 +164,16 @@ Usuario.id_usuario, Usuario.nomeUsuario, Simulacoes.id_simulacao,
 from Usuario
 left join Simulacoes
 on Usuario.id_usuario = Simulacoes.id_usuario;
--- teste 2 joins 
+-- teste 2 joins alter 
+
+CREATE TABLE UsuarioConfiguracoes (
+    id_config INT AUTO_INCREMENT PRIMARY KEY,
+    id_usuario INT NOT NULL,
+    tema ENUM('claro', 'escuro') DEFAULT 'claro',
+    notificacoes_email BOOLEAN DEFAULT true,
+    notificacoes_sistema BOOLEAN DEFAULT true,
+    notificacoes_simulacao BOOLEAN DEFAULT true,
+    notificacoes_relatorios BOOLEAN DEFAULT true,
+    FOREIGN KEY (id_usuario) REFERENCES Usuario(id_usuario)
+);
+select * from UsuarioConfiguracoes;

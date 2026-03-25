@@ -11,20 +11,21 @@ session_start();
     <script>
         // Função para abrir o formulário de trocar nome
         function abrirFormularioNome() {
-            const areaConfig = document.querySelector('.configuracao');
-            if (document.getElementById('formNome')) return; // Evita duplicar
+            // Remover formulários existentes
+            document.querySelectorAll('.form-config').forEach(form => form.remove());
 
+            const areaConfig = document.querySelector('.configuracao');
             const form = document.createElement('form');
-            form.id = 'formNome';
+            form.className = 'form-config';
             form.innerHTML = `
 		<div id="estiloNome">
                 <input type="text" id="novoNome" placeholder="Digite o novo nome" required>
                 <button type="button" onclick="salvarNome()">Confirmar</button>
-		</div>`
-		;
+		</div>`;
 
-            const linkTrocarNome = areaConfig.querySelectorAll('a')[0];
-            linkTrocarNome.insertAdjacentElement('afterend', form);
+            // Inserir após o título "Configurações de Perfil"
+            const titulo = areaConfig.querySelector('h1');
+            titulo.insertAdjacentElement('afterend', form);
         }
 
         // Função para salvar o nome
@@ -59,11 +60,12 @@ session_start();
 
         // Função para abrir o formulário de trocar senha
         function abrirFormularioSenha() {
-            const areaConfig = document.querySelector('.configuracao');
-            if (document.getElementById('formSenha')) return;
+            // Remover formulários existentes
+            document.querySelectorAll('.form-config').forEach(form => form.remove());
 
+            const areaConfig = document.querySelector('.configuracao');
             const form = document.createElement('form');
-            form.id = 'formSenha';
+            form.className = 'form-config';
             form.innerHTML = `
 		<div id="conteudoSenha">
 			<div id="layoutSenha">
@@ -73,11 +75,11 @@ session_start();
 			<div id="layoutBotaoSenha">
 			<button type="button" onclick="salvarSenha()">Confirmar</button>
 			</div>
-		</div>
-		`;
+		</div>`;
 
-            const linkTrocarSenha = areaConfig.querySelectorAll('a')[1];
-            linkTrocarSenha.insertAdjacentElement('afterend', form);
+            // Inserir após o título "Configurações de Perfil"
+            const titulo = areaConfig.querySelector('h1');
+            titulo.insertAdjacentElement('afterend', form);
         }
 
         // Função para salvar a senha
@@ -125,11 +127,12 @@ session_start();
 
         // Função para abrir o formulário de trocar e-mail
         function abrirFormularioEmail() {
-            const areaConfig = document.querySelector('.configuracao');
-            if (document.getElementById('formEmail')) return; // Evita duplicar
+            // Remover formulários existentes
+            document.querySelectorAll('.form-config').forEach(form => form.remove());
 
+            const areaConfig = document.querySelector('.configuracao');
             const form = document.createElement('form');
-            form.id = 'formEmail';
+            form.className = 'form-config';
             form.innerHTML = `
 		<div id="conteudoEmail">
 			<div id="layoutEmail">
@@ -142,8 +145,9 @@ session_start();
 		</div>
             `;
 
-            const linkTrocarEmail = areaConfig.querySelectorAll('a')[2];
-            linkTrocarEmail.insertAdjacentElement('afterend', form);
+            // Inserir após o título "Configurações de Perfil"
+            const titulo = areaConfig.querySelector('h1');
+            titulo.insertAdjacentElement('afterend', form);
         }
 
         // Função para salvar o e-mail

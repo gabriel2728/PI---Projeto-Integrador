@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (empty($novo_nome)) {
                 $_SESSION['mensagem_erro'] = 'Nome não pode estar vazio.';
             } else {
-                $sql = "UPDATE Usuario SET nome = ? WHERE id_usuario = ?";
+                $sql = "UPDATE Usuario SET nomeUsuario = ? WHERE id_usuario = ?";
                 $stmt = $conn->prepare($sql);
                 $stmt->bind_param("si", $novo_nome, $id_usuario);
                 if ($stmt->execute()) {
@@ -43,14 +43,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_SESSION['mensagem_erro'] = 'E-mail inválido.';
             } else {
                 // Verificar se e-mail já existe
-                $sql_check = "SELECT id_usuario FROM Usuario WHERE email = ? AND id_usuario != ?";
+                $sql_check = "SELECT id_usuario FROM Usuario WHERE emailUsuario = ? AND id_usuario != ?";
                 $stmt_check = $conn->prepare($sql_check);
                 $stmt_check->bind_param("si", $novo_email, $id_usuario);
                 $stmt_check->execute();
                 if ($stmt_check->get_result()->num_rows > 0) {
                     $_SESSION['mensagem_erro'] = 'Este e-mail já está em uso.';
                 } else {
-                    $sql = "UPDATE Usuario SET email = ? WHERE id_usuario = ?";
+                    $sql = "UPDATE Usuario SET emailUsuario = ? WHERE id_usuario = ?";
                     $stmt = $conn->prepare($sql);
                     $stmt->bind_param("si", $novo_email, $id_usuario);
                     if ($stmt->execute()) {
