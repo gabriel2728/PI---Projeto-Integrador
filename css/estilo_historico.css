@@ -1,15 +1,15 @@
 ﻿/* Fontes */
 @font-face {
     font-family: "Alta";
-    src: url("fonts/alta-regular.otf") format("opentype");
+    src: url("../fonts/alta-regular.otf") format("opentype");
 }
 @font-face {
     font-family: "Open Sans Regular";
-    src: url("fonts/open-sans.bold.ttf") format("truetype");
+    src: url("../fonts/open-sans.bold.ttf") format("truetype");
 }
 @font-face {
     font-family: "Open Sauce Light";
-    src: url("fonts/open-sauce.sans-light.ttf") format("truetype");
+    src: url("../fonts/open-sauce.sans-light.ttf") format("truetype");
 }
 
 @media (max-height: 1200px) and (min-height: 660px) {

@@ -1,28 +1,22 @@
-﻿/* Fonte "Alta" adcionada e indicando abaixo o tipo de formato de arquivo da fonte que é "Opentype" */
-/* Fonte "Alta" é utilizada para o header */
+﻿/* Fontes */
 @font-face {
     font-family: "Alta";
-    src: url("fonts/alta-regular.otf") format("opentype");
+    src: url("../fonts/alta-regular.otf") format("opentype");
 }
-
-/* Fonte "Open Sans Regular" adcionada e indicando abaixo o tipo de formato de arquivo da fonte que é "Truetype" */
-/* Fonte "Open Sans Regular" é utiliza em algumas exceções, como em input e label */
 @font-face {
     font-family: "Open Sans Regular";
-    src: url("fonts/open-sans.bold.ttf") format("truetype");
+    src: url("../fonts/open-sans.bold.ttf") format("truetype");
 }
-
-/* Fonte "Open Sauce Light" adcionada e indicando abaixo o tipo de formato de arquivo da fonte que é "Truetype" */
-/* Fonte "Open Sauce Light" é utilizada como fonte padrão para paragrafos, titulos, etc. */
 @font-face {
     font-family: "Open Sauce Light";
-    src: url("fonts/open-sauce.sans-light.ttf") format("truetype");
+    src: url("../fonts/open-sauce.sans-light.ttf") format("truetype");
 }
+
 
 /* Deixando a tela responsiva, se a tela do dispositivo tiver a altura entre 1200 e 660 pixels (Que é o padrão) certas ações vão acontecer */
 @media (max-height: 1200px) and (min-height: 660px) {
     header {
-        font-size: 5vh;
+        font-size: 7vh;
         height: 14vh; 
         }
 
@@ -31,13 +25,29 @@
         width: 15vw;
     }
 
-    .home {
+    .config, .home {
         height: 7vh;
     }
 
+    .layoutEntrar {
+        height: 74vh;
+        width: 55vw;
+    }
+
     .logo {
-        height: 10vh;
-        width: auto;
+        height: 24vh;
+        margin-top: 30vh;
+        margin-left: 2vw;
+    }
+
+    .lateral {
+        width: 25vw;
+        height: 97%;
+	    font-size: 2vh;
+    }
+
+    .layoutEntrar [placeholder] {
+        font-size: 2vh;
     }
 
      footer {
@@ -51,20 +61,33 @@
     header{
         font-size: 7vh;
         height: 10vh;
-        }
+    }
 
     header input {
-        font-size: 2.5vh;
+        font-size: 2.4vh;
         width: 18vw;
     }
 
-    .home {
+    .config, .home {
         height: 6vh;
+    }
+
+     .layoutEntrar {
+        height: auto;
+	    width: 52vw;
+        font-size: 4vh;
     }
 
     .logo {
         height: 30vh;	
-        left: 4vh;
+        margin-top: 33vh;
+	margin-left: 2vw;
+    }
+
+    .lateral {
+        width: 22vw;
+        height: 97%;
+        font-size: 2vh;
     }
 
  footer {
@@ -90,11 +113,27 @@
         height: 4vh;
     }
 
+    .layoutEntrar {
+        flex-direction: column;
+        font-size: 2vh;
+        height: 74vh;
+        margin-top: 4vh;
+    }
+
+     .layoutEntrar h1 {
+        font-size: 2.5vh
+    }
+
      .logo{
       height: 12vh;
-      left: 0;
 }
 
+    .lateral {
+        width: 28vw;
+        height: 97%;
+        font-size: 1.5vh;
+        flex-wrap:wrap;
+    }
     
     footer {
         font-size: 2vh;
@@ -114,11 +153,15 @@ header {
 }
 
 header a {	
-    margin-left: 13vw; /* Deixando um espaçamento entre os items 'sobre' e o icone de 'configuração. Detalhe: Ambos têm a propriedade 'a' */
+    margin-left: 2vw; /* Deixando um espaçamento entre os items 'sobre' e o icone de 'configuração. Detalhe: Ambos têm a propriedade 'a' */
     color: #4B4B4B;
     }
 
-.link_home {
+.sobre {
+    margin-left: 5.5vw;
+}
+
+.link_home, .link_config {
     text-decoration: none;
 }
 
@@ -150,52 +193,95 @@ body {
     background-size: cover;
     background-repeat: no-repeat; /* Adicionando gif como plano de fundo e ajustando-o para prencher a tela toda de forma que o gif não repita */
     margin: 0;
-    background-attachment: fixed; /* mantém o fundo fixo mesmo ao rolar a página */
     flex-wrap: wrap; /* Ajuda a ajustar a tela automatica fazendo os items que ultrapassar o limite de tela quebrar uma linha e descer.*/
 }
 
-.layoutSobre { 
+.layoutEntrar { 
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     flex-wrap: wrap;
+    color: #4B4B4B;
     font-family: "Open Sauce Light";
 }
 
-.layoutSobre h1 {
-	font-size: 4vh;
+
+.layoutEntrar p {
+    color: #b4b1b1;
+}
+
+label {
+    font-family: "Open Sans Regular";
+}
+
+.layoutEntrar input {
+    	border: none;
+		text-decoration: none;
+		background-color: #bcdcf0;
+		border-radius:20px;
+		width: 30vw;
+		height: 5vh;
+		margin-bottom: 2vh;
+		color: #4B4B4B;
 }
 
 
-.SobreSistema, .funcionalidade, .Sustentabilidade, .Projeto {
-    max-width: 64vw;
-    padding: 0 4vw;
-    margin: 4vh auto;
-    background-color: rgba(255, 255, 255, 0.85);
-    border-radius: 3vh;
-    color: #000000;
-    text-align: justify;
-    line-height: 1.6;
-    box-shadow: 8px 10px 5px 3px rgb(160,160,180, 0.6);
-    font-family: "Open Sauce Light";
+form {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: column;
 }
 
-a {
+input[type="submit"] {
+    background-color: #4b4b4b;
+    color: white;
+    width: 15vw;
+	height: 8vh;
+    margin-top: 1vh;
+    align-items: center;
+}
+
+
+input[type="submit"]:hover {
+    background-color: #000000;
+}
+
+.layoutEntrar a {
     color: #4b4b4b;
+    font-size: 3vh;
+}
+
+/* Estilizando a coluna lateral presente nessa página do site*/
+.lateral {
+	background-color: #bcdcf0;
+	background-repeat: no-repeat;
+	background-size: cover;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+	float: right;
+	color: white;
+	text-align: center;
+    font-family: "Open Sauce Light";
 }
 
 .logo{
-    height: 10vh;
-    position: absolute;
+	float: left;
+    padding-right: 5vw;;
  }
 
-footer, footer a {
-    text-align: center;
-    color: #4b4b4b;
-    font-family: "Open Sauce Light";
+.lateral a {
+    text-decoration: none;
+	color: white;
+    border: 2px solid white;
+	border-radius: 20px;
+    padding: 1vh 5vh; 
 }
 
-.SobreSistema:hover, .funcionalidade:hover, .Sustentabilidade:hover, .Projeto:hover {
-    background-color: #e1ecf2;
+.lateral a:hover {
+    background-color: white;
+    color:#bcdcf0
 }

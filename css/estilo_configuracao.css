@@ -1,22 +1,22 @@
 ﻿/* Fonte "Alta" adcionada e indicando abaixo o tipo de formato de arquivo da fonte que � "Opentype" */
 @font-face {
     font-family: "Alta";
-    src: url("fonts/alta-regular.otf") format("opentype");
+    src: url("../fonts/alta-regular.otf") format("opentype");
 }
 
 @font-face {
     font-family: "Open Sans Regular";
-    src: url("fonts/open-sans.bold.ttf") format("truetype");
+    src: url("../fonts/open-sans.bold.ttf") format("truetype");
 }
 
 @font-face {
     font-family: "Open Sauce Regular";
-    src: url("fonts/open-sauce.sans-regular.ttf") format("truetype");
+    src: url("../fonts/open-sauce.sans-regular.ttf") format("truetype");
 }
 
 @font-face {
     font-family: "Open Sauce Light";
-    src: url("fonts/open-sauce.sans-light.ttf") format("truetype");
+    src: url("../fonts/open-sauce.sans-light.ttf") format("truetype");
 }
 
 /* Deixando a tela responsiva, se a tela do dispositivo tiver a altura entre 1200 e 660 pixels (Que � o padr�o) certas a��es v�o acontecer */

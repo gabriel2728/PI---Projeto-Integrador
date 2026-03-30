@@ -32,7 +32,7 @@ if ($result->num_rows > 0) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Configura��es - SiSGEH</title>
-    <link rel="stylesheet" href="estilo_configuracao.css">
+    <link rel="stylesheet" href="css/estilo_configuracao.css">
     <style>
         .menu-configuracoes {
             display: flex;
