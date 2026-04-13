@@ -402,3 +402,25 @@ button {
 .dado-valor {
     color: #333;
 }
+
+/* Botão sair */
+.botao-sair {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 5vh;
+    width: 30vw;
+    font-family: "Open Sauce Regular";
+    font-size: 1rem;
+    color: #4B4B4B;
+    background-color: #bcdcf0;
+    border: 1px solid #4B4B4B;
+    border-radius: 20px;
+    cursor: pointer;
+    text-decoration: none;
+    margin-bottom: 3vh;
+}
+
+.botao-sair:hover {
+    background-color: #a9d4ec;
+}

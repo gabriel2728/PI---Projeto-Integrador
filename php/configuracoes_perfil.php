@@ -265,7 +265,10 @@ if ($result->num_rows > 0) {
             <a href="#" onclick="abrirFormularioSenha()"> 🔑 Trocar Senha </a>
             <a href="#" onclick="abrirFormularioEmail()"> 📧 Trocar E-mail </a>
             <a href="#"> ❌ Excluir conta </a>
-            <a href="#"> 📥 Sair da conta </a>
+            <!-- Botão sair estilizado -->
+            <form method="post" action="logout.php" style="display: inline;">
+                <button type="submit" class="botao-sair">📥 Sair da conta</button>
+            </form>
 
             <!-- Dados do usuário -->
             <div class="dados-usuario">
