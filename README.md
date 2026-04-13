@@ -179,6 +179,55 @@ c:\xampp\htdocs\siteatual\
 4. Push para a branch (`git push origin feature/AmazingFeature`)
 5. Abra um Pull Request
 
+## 🔐 Sistema de Recuperação de Senha Seguro
+
+### Como Funciona
+
+1. **Solicitação**: Usuário informa e-mail
+2. **Token Seguro**: Sistema gera token único e temporário (64 caracteres hex)
+3. **Link por E-mail**: Link seguro enviado (em produção) ou exibido (desenvolvimento)
+4. **Redefinição**: Usuário clica no link e define nova senha
+5. **Expiração**: Tokens expiram em 1 hora e são únicos por uso
+
+### Segurança Implementada
+
+- ✅ **Tokens únicos** gerados com `random_bytes(32)` (256 bits de entropia)
+- ✅ **Expiração automática** (1 hora do momento da criação)
+- ✅ **Uso único** (token invalidado após primeira utilização)
+- ✅ **Verificação de propriedade** (só dono do e-mail pode usar o token)
+- ✅ **Limpeza automática** de tokens expirados/usados
+- ✅ **Proteção contra timing attacks** (mensagens genéricas)
+
+### Arquivos Relacionados
+
+- `recuperar_senha.php` - Página de solicitação de recuperação
+- `redefinir_senha.php` - Página de redefinição via token
+- `php/config_email.php` - Configurações de e-mail
+- `php/limpar_tokens_expirados.php` - Script de limpeza
+- `sistemaHidrico.sql` - Tabela `RecuperacaoSenha`
+
+### Para Produção
+
+1. Configure SMTP em `php/config_email.php`:
+   ```php
+   define('SMTP_HOST', 'smtp.gmail.com');
+   define('SMTP_PORT', 587);
+   define('SMTP_USER', 'seuemail@gmail.com');
+   define('SMTP_PASS', 'senha_app_gmail');
+   define('SITE_URL', 'https://seudominio.com');
+   ```
+
+2. Descomente código de envio por e-mail em `recuperar_senha.php`
+
+3. Configure limpeza periódica (cron job):
+   ```bash
+   php limpar_tokens_expirados.php
+   ```
+
+### Desenvolvimento
+
+Durante desenvolvimento, o link de redefinição aparece na tela para facilitar testes. Em produção, é enviado por e-mail seguro.
+
 ## 📝 Licença
 
 Este projeto está sob a licença MIT. Veja o arquivo `LICENSE` para mais detalhes.

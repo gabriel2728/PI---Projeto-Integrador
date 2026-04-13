@@ -88,7 +88,7 @@ if (isset($_POST['entrar'])) {
                 <input type="submit" name="entrar" value="Entrar" style="align-self: center;">
             </form>
 
-               <a href="../recuperar_senha.html" class="esqueci_senha">Esqueci minha senha</a>
+               <a href="../recuperar_senha.php" class="esqueci_senha">Esqueci minha senha</a>
         </div>
 
 </body>
