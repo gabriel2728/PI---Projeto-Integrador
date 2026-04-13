@@ -89,7 +89,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['mensagem_erro'] = 'Tipo de alteração inválido.';
     }
 
-    header('Location: configuracoes.php');
+    header('Location: configuracoes_perfil.php');
     exit();
 }
 ?>
