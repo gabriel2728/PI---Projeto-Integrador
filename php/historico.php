@@ -58,6 +58,20 @@ $stmt->close();
             <p>Clique em “Simulação” para ver os detalhes ou em “Exportar” para baixar.</p>
         </div>
 
+        <?php if (isset($_SESSION['mensagem_sucesso'])): ?>
+            <div class="status-mensagem sucesso">
+                <?= htmlspecialchars($_SESSION['mensagem_sucesso']) ?>
+                <?php unset($_SESSION['mensagem_sucesso']); ?>
+            </div>
+        <?php endif; ?>
+
+        <?php if (isset($_SESSION['mensagem_erro'])): ?>
+            <div class="status-mensagem erro">
+                <?= htmlspecialchars($_SESSION['mensagem_erro']) ?>
+                <?php unset($_SESSION['mensagem_erro']); ?>
+            </div>
+        <?php endif; ?>
+
         <table id="tabelaHistorico">
             <thead>
                 <tr>
@@ -65,6 +79,7 @@ $stmt->close();
                     <th>Hora</th>
                     <th>Simulação</th>
                     <th>Exportar</th>
+                    <th>Excluir</th>
                 </tr>
             </thead>
             <tbody>
@@ -76,9 +91,10 @@ $stmt->close();
                     <td><?= $dataHora->format('H:i') ?></td>
                     <td><button class="btnDetalhes" data-id="<?= $sim['id_simulacao'] ?>">Simulação</button></td>
                     <td><button onclick="exportSimulacao(<?= $sim['id_simulacao'] ?>)">Exportar</button></td>
+                    <td><button class="btnExcluir" onclick="excluirSimulacao(<?= $sim['id_simulacao'] ?>)">Excluir</button></td>
                 </tr>
                 <tr class="detalhes" id="detalhes-<?= $sim['id_simulacao'] ?>" style="display:none;">
-                    <td colspan="4">
+                    <td colspan="5">
                         <table class="tabelaExpandida">
                             <tr><td>Vazão Mássica</td><td><?= $sim['vazao'] ?> m³/s</td></tr>
                             <tr><td>Altura da Queda</td><td><?= $sim['altura'] ?> m</td></tr>
@@ -171,6 +187,26 @@ document.getElementById("exportXLSX").addEventListener("click", function() {
         modal.style.display = "none";
     }
 });
+
+function excluirSimulacao(id) {
+    if (!confirm('Tem certeza de que deseja excluir esta simulação? Esta ação não pode ser desfeita.')) {
+        return;
+    }
+
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = 'deletar_simulacao.php';
+    form.style.display = 'none';
+
+    const input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = 'id_simulacao';
+    input.value = id;
+    form.appendChild(input);
+
+    document.body.appendChild(form);
+    form.submit();
+}
 
 function realizarExportacao(formato, id) {
     // Para simulações salvas, vamos usar GET direto
