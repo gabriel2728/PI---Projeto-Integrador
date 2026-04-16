@@ -18,7 +18,7 @@ $primeiroNome = explode(" ", $nomeUsuario)[0]; // Pega só o primeiro nome
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Início - SiSGEH</title>
-    <link rel="stylesheet" href="css/estilo_inicio.css"> 
+    <link rel="stylesheet" href="../css/estilo_inicio.css"> 
 </head>
 <body>
 
@@ -59,7 +59,7 @@ $primeiroNome = explode(" ", $nomeUsuario)[0]; // Pega só o primeiro nome
 </div>
 
 <footer>
-    <p>&copy Todos os direitos reservados. <a href="politica.html">Políticas de privacidade.</a></p>
+    <p>&copy Todos os direitos reservados. <a href="../politica.html">Políticas de privacidade.</a></p>
 </footer>
 
 </body>

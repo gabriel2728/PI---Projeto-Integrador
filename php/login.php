@@ -66,7 +66,7 @@ if (isset($_POST['entrar'])) {
             <h1> Seja Bem-Vindo! </h1>
 	        <p> Novo por aqui? </p>
             <br>
-	        <a href="cadastro.html" > Criar conta </a>
+	        <a href="../cadastro.html" > Criar conta </a>
         </div>
 
         <img src="../logo.png" class="logo">

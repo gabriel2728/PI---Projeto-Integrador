@@ -32,7 +32,7 @@ if ($result->num_rows > 0) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Configura��es - SiSGEH</title>
-    <link rel="stylesheet" href="css/estilo_configuracao.css">
+    <link rel="stylesheet" href="../css/estilo_configuracao.css">
     <style>
         .menu-configuracoes {
             display: flex;
@@ -114,22 +114,22 @@ if ($result->num_rows > 0) {
 
     <div class="layoutConfiguracao">
         <div class="configuracao">
-            <h1>Configuracoes</h1>
+            <h1>Configurações</h1>
 
             <div class="menu-configuracoes">
                 <a href="configuracoes_perfil.php" class="opcao-config">
-                    👤 Configuracoes de Perfil
+                    👤 Configurações de Perfil
                 </a>
 
                 <a href="configuracoes_sistema.php" class="opcao-config">
-                    ⚙️ Configuracoes do Sistema
+                    ⚙️ Configurações do Sistema
                 </a>
             </div>
         </div>
     </div>
 
     <footer>
-        <p>&copy; Todos os direitos reservados. <a href="politica.html">Pol�ticas de privacidade.</a></p>
+        <p>&copy; Todos os direitos reservados. <a href="../politica.html">Pol�ticas de privacidade.</a></p>
     </footer>
 </body>
 </html>
