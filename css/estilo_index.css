@@ -24,49 +24,6 @@ body {
     background-position: center;
 }
 
-header {
-    background-color: #bcdcf0;
-    color: #4b4b4b;
-    font-family: "Alta", sans-serif;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    padding: 0.9rem 1rem;
-}
-
-.sisgeh {
-    margin: 0;
-    font-size: clamp(1.4rem, 2.8vw, 2.1rem);
-}
-
-header a {
-    color: #4b4b4b;
-    text-decoration: none;
-    font-size: clamp(1rem, 1.7vw, 1.2rem);
-}
-
-.caixa_de_texto {
-    width: min(260px, 42vw);
-    height: 42px;
-    border: 2px solid #4b4b4b;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: white;
-    border-radius: 999px;
-    padding: 0 0.7rem;
-}
-
-.caixa_de_texto input {
-    width: 100%;
-    border: none;
-    background: none;
-    outline: none;
-    text-align: center;
-    font-size: 0.95rem;
-}
-
 .opcoes-principal {
     flex: 1;
     display: flex;
@@ -125,17 +82,6 @@ footer a {
 
 /* Celular */
 @media (max-width: 640px) {
-    header {
-        flex-wrap: wrap;
-        justify-content: center;
-        text-align: center;
-    }
-
-    .caixa_de_texto {
-        width: min(300px, 90vw);
-        order: 3;
-    }
-
     .opcoes-principal {
         flex-direction: column;
     }

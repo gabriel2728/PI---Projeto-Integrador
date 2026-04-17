@@ -21,20 +21,6 @@
 
 /* Deixando a tela responsiva, se a tela do dispositivo tiver a altura entre 1200 e 660 pixels (Que � o padr�o) certas a��es v�o acontecer */
 @media (max-height: 1200px) and (min-height: 660px) {
-    header {
-        font-size: 5vh;
-        height: 14vh; 
-        }
-
-    header input {
-        font-size: 2vh;
-        width: 15vw;
-    }
-
-    .config, .home {
-        height: 7vh;
-    }
-
     .layoutConfiguracao {
         height: 80vh;
     }
@@ -50,20 +36,6 @@
 }
 
 @media (max-height: 659px) {
-    header{
-        font-size: 7vh;
-        height: 10vh;
-        }
-
-    header input {
-        font-size: 2.5vh;
-        width: 18vw;
-    }
-
-    .config, .home {
-        height: 6vh;
-    }
-
     .layoutConfiguracao {
         height: 79vh;
     }
@@ -80,20 +52,6 @@
 }
 
 @media (max-width: 820px) {
-
-    header {
-        font-size: 2vh;
-    }
-
-    header input {
-        font-size: 1vh;
-        width: 18vw;
-    }
-
-    .config, .home {
-        height: 4vh;
-    }
-
     .layoutConfiguracao {
         height: 80vh;
         width: 30vw;
@@ -109,45 +67,6 @@
     }
 
 }
-
- /* Estilização do header */
-header {   
-    background-color: #bcdcf0;    
-    font-family: "Alta"; /* Fonte "Alta" no começo do código sendo usada */
-    color: #4B4B4B;
-    display: flex; 
-    justify-content: space-between;
-    padding: 0 4vw;
-    align-items: center; /* Uso de display flex para deixar a área do header centrilazada automáticamente e com espaçamento entre os items*/
-}
-
-header a {	
-    margin-left: 15vw; /* Deixando um espaçamento entre os items 'sobre' e o icone de 'configura��o. Detalhe: Ambos t�m a propriedade 'a' */
-    color: #4B4B4B;
-    }
-
-.caixa_de_texto {
-    height: 5vh;
-    width: 17vw;
-    border: 2px solid #4b4b4b;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: white;
-    border-radius: 25px;
-}
-
-.link_home, .link_config {
-    text-decoration: none;
-}
-
-.caixa_de_texto input {
-    border: none;
-    background: none;
-    outline: none;
-    text-align: center;
-}
-
 
 body {  
     height: 100vh;

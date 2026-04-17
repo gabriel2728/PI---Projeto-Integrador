@@ -28,60 +28,6 @@ body {
     background-position: center;
 }
 
-header {
-    background-color: #bcdcf0;
-    color: #4b4b4b;
-    font-family: "Alta", sans-serif;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    padding: 0.9rem 1rem;
-}
-
-.sisgeh {
-    margin: 0;
-    font-size: clamp(1.35rem, 2.8vw, 2rem);
-}
-
-.links {
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-}
-
-header a {
-    color: #4b4b4b;
-    text-decoration: none;
-    font-size: clamp(1rem, 1.6vw, 1.15rem);
-}
-
-.home {
-    width: clamp(28px, 2.4vw, 36px);
-    height: auto;
-}
-
-.caixa_de_texto {
-    width: min(260px, 42vw);
-    height: 42px;
-    border: 2px solid #4b4b4b;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #fff;
-    border-radius: 999px;
-    padding: 0 0.7rem;
-}
-
-.caixa_de_texto input {
-    width: 100%;
-    border: none;
-    background: none;
-    outline: none;
-    text-align: center;
-    font-size: 0.95rem;
-}
-
 .layoutCriar {
     flex: 1;
     width: 100%;
@@ -167,17 +113,6 @@ footer a {
 }
 
 @media (max-width: 640px) {
-    header {
-        flex-wrap: wrap;
-        justify-content: center;
-        text-align: center;
-    }
-
-    .caixa_de_texto {
-        width: min(300px, 90vw);
-        order: 3;
-    }
-
     .criar {
         border-radius: 22px;
         padding: 1.2rem 1rem;

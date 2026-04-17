@@ -15,20 +15,6 @@
 
 /* Deixando a tela responsiva, se a tela do dispositivo tiver a altura entre 1200 e 660 pixels (Que é o padrão) certas ações vão acontecer */
 @media (max-height: 1200px) and (min-height: 660px) {
-    header {
-        font-size: 7vh;
-        height: 14vh; 
-        }
-
-    header input {
-        font-size: 2vh;
-        width: 15vw;
-    }
-
-    .config, .home {
-        height: 7vh;
-    }
-
     .layoutEntrar {
         height: 74vh;
         width: 55vw;
@@ -58,20 +44,6 @@
 
 /* Deixando a tela responsiva, se a tela do dispositivo tiver a altura até 659 pixels para baixo certas ações vão acontecer */
 @media (max-height: 659px) {
-    header{
-        font-size: 7vh;
-        height: 10vh;
-    }
-
-    header input {
-        font-size: 2.4vh;
-        width: 18vw;
-    }
-
-    .config, .home {
-        height: 6vh;
-    }
-
      .layoutEntrar {
         height: auto;
 	    width: 52vw;
@@ -99,20 +71,6 @@
 
 /* Deixando a tela responsiva, se a tela do dispositivo tiver a largura de até 750 pixels para baixo certas ações vão acontecer */
 @media (max-width: 820px) {
-
-    header {
-        font-size: 2vh;
-    }
-
-    header input {
-        font-size: 1vh;
-        width: 18vw;
-    }
-
-    .config, .home {
-        height: 4vh;
-    }
-
     .layoutEntrar {
         flex-direction: column;
         font-size: 2vh;
@@ -140,51 +98,6 @@
     }
 
 }
-
- /* Estilização do header */
-header {   
-    background-color: #bcdcf0;    
-    font-family: "Alta"; /* Fonte "Alta" no começo do código sendo usada */
-    color: #4B4B4B;
-    display: flex; 
-    justify-content: space-between;
-    padding: 0 4vw;
-    align-items: center; /* Uso de display flex para deixar a área do header centrilazada automáticamente e com espaçamento entre os items*/
-}
-
-header a {	
-    margin-left: 2vw; /* Deixando um espaçamento entre os items 'sobre' e o icone de 'configuração. Detalhe: Ambos têm a propriedade 'a' */
-    color: #4B4B4B;
-    }
-
-.sobre {
-    margin-left: 5.5vw;
-}
-
-.link_home, .link_config {
-    text-decoration: none;
-}
-
-/* Estilização da barra de pesquisa */
-.caixa_de_texto {
-    height: 5vh;
-    width: 17vw;
-    border: 2px solid #4b4b4b;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: white;
-    border-radius: 25px;
-}
-
-/* Removendo qualquer tipo de configuração padrão de estilo do input e centralizando o texto */
-.caixa_de_texto input {
-    border: none;
-    background: none;
-    outline: none;
-    text-align: center;
-}
-
 
 body {  
     height: 100vh;
