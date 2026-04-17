@@ -27,10 +27,10 @@ $primeiroNome = explode(" ", $nomeUsuario)[0];
     <h2 class="sisgeh"> SiSGEH </h2>
     <div class="links">
       <a href="inicio.php" class="link_home">
-        <img src="../icon_home.png" alt="Voltar a Home" class="home">
+        <img src="../home.png" alt="Voltar a Home" class="home">
       </a>
       <a href="configuracoes.php" class="link_config">
-        <img src="../icon_config.png" alt="Configurações" class="config">
+        <img src="../config.png" alt="Configurações" class="config">
       </a>
     </div>
   </header>

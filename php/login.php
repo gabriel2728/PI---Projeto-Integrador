@@ -57,7 +57,7 @@ if (isset($_POST['entrar'])) {
 
             <a href="../sobre.html" class="sobre"> Sobre </a>
             <a href="../index.html" class="link_home">
-                 <img src="../icon_home.png" alt="Voltar a Home" class="home"> 
+                 <img src="../home.png" alt="Voltar a Home" class="home"> 
             </a>
         </div>
     </header>

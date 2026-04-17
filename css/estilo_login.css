@@ -189,7 +189,7 @@ header a {
 body {  
     height: 100vh;
     width: auto;     /* Ajuste  do tamanho da tela do body */
-    background-image: url("fundo_estatico.png");
+    background-image: url("../images/fundo_estatico.jpg");
     background-size: cover;
     background-repeat: no-repeat; /* Adicionando gif como plano de fundo e ajustando-o para prencher a tela toda de forma que o gif não repita */
     margin: 0;

@@ -32,7 +32,7 @@ $primeiroNome = explode(" ", $nomeUsuario)[0]; // Pega só o primeiro nome
     <div class="links">
           <a href="../sobr_e.html" class="sobre"> Sobre </a>
           <a href="configuracoes.php" class="link_config">
-             <img src="../icon_config.png" alt="Configurações" class="config">
+             <img src="../config.png" alt="Configurações" class="config">
          </a>
     </div>
 </header>

@@ -31,7 +31,7 @@ if ($result->num_rows > 0) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Configura��es - SiSGEH</title>
+    <title>Configurações - SiSGEH</title>
     <link rel="stylesheet" href="../css/estilo_configuracao.css">
     <style>
         .menu-configuracoes {
@@ -107,7 +107,7 @@ if ($result->num_rows > 0) {
 
         <div class="links">
              <a href="inicio.php" class="link_home">
-                 <img src="../icon_home.png" alt="Voltar a Home" class="home">
+                 <img src="../home.png" alt="Voltar a Home" class="home">
             </a>
         </div>
     </header>

@@ -235,7 +235,7 @@ if ($result->num_rows > 0) {
 
         <div class="links">
              <a href="inicio.php" class="link_home">
-                 <img src="../icon_home.png" alt="Voltar a Home" class="home">
+                 <img src="../home.png" alt="Voltar a Home" class="home">
             </a>
         </div>
     </header>

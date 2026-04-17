@@ -93,7 +93,7 @@
 body {  
     margin: 0;
     font-family: "Open Sauce Light", Arial, sans-serif;
-    background-image: url("fundo_estatico.png");
+    background-image: url("../images/fundo_estatico.jpg");
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
