@@ -1,0 +1,93 @@
+
+ @media (max-height: 1200px) and (min-height: 660px) {
+    header {
+        font-size: 5vh;
+        height: 14vh; 
+        }
+
+    header input {
+        font-size: 2vh;
+        width: 15vw;
+    }
+
+    .config, .home {
+        height: 7vh;
+    }
+ }
+ 
+ @media (max-height: 659px) {
+    header{
+        font-size: 5vh;
+        height: 10vh;
+        }
+
+    header input {
+        font-size: 2.5vh;
+        width: 18vw;
+    }
+
+    .config, .home {
+        height: 5vh;
+    }
+ }
+
+@media (max-width: 820px) {
+
+    header {
+        font-size: 2vh;
+    }
+
+    header input {
+        font-size: 1vh;
+        width: 18vw;
+    }
+
+    .config, .home {
+        height: 4vh;
+    }
+}
+
+
+ /* Estiliza��o do header */
+header {   
+    background-color: #bcdcf0;    
+    font-family: "Alta"; /* Fonte "Alta" no come�o do c�digo sendo usada */
+    color: #4B4B4B;
+    display: flex; 
+    justify-content: space-between;
+    padding: 0 4vw;
+    align-items: center; /* Uso de display flex para deixar a �rea do header centrilazada autom�ticamente e com espa�amento entre os items*/
+}
+
+
+header a {	
+    margin-left: 2vw; /* Deixando um espa?amento entre os items 'sobre' e o icone de 'configura??o. Detalhe: Ambos t?m a propriedade 'a' */
+    color: #4B4B4B;
+    }
+
+nav {
+	width: 17vw;
+}
+
+header li {
+	display: inline-block;
+	list-style-type: none;
+}
+
+.caixa_de_texto {
+    height: 5vh;
+    width: 17vw;
+    border: 2px solid #4b4b4b;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    border-radius: 25px;
+}
+
+.caixa_de_texto input {
+    border: none;
+    background: none;
+    outline: none;
+    text-align: center;
+}

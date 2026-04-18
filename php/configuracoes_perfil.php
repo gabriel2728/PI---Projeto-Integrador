@@ -32,6 +32,7 @@ if ($result->num_rows > 0) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Configurações de Perfil - SiSGEH</title>
+    <link rel="stylesheet" href="../css/header.css"> 
     <link rel="stylesheet" href="../css/estilo_configuracao_perfil.css">
     <script>
         // Função para abrir o formulário de trocar nome
