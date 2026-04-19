@@ -16,28 +16,37 @@
         </div>
         <h2 class="sisgeh">SiSGEH</h2>
 
-        <div class="links">
-            <a href="sobre.html" class="sobre">Sobre</a>
-            <a href="index.html" class="link_home">
-                <img src="home.png" alt="Voltar a Home" class="home">
-            </a>
-        </div>
+        <nav class="links">
+            <ul>
+                <li>
+                    <a href="sobre.html" class="sobre">Sobre</a>
+                </li>
+
+                <li>
+                    <a href="index.html" class="link_home">
+                        <img src="images/home.png" alt="Voltar a Home" class="home">
+                    </a>
+                </li>
+            </ul>
+        </nav>
     </header>
 
-    <div class="layoutCriar">
-        <div class="criar">
-            <h1>Criar Conta</h1>
-            <form action="php/cadastro.php" method="POST">
-                <input type="text" name="nomeUsuario" placeholder="Nome de Usuário" maxlength="35" required>
-                <input type="tel" name="telefoneUsuario" placeholder="Telefone" maxlength="11" inputmode="numeric" required>
-                <input type="email" name="emailUsuario" placeholder="E-mail" maxlength="50" required>
-                <input type="password" name="senha" placeholder="Senha" minlength="8" maxlength="20" required>
-                <input type="password" name="confirmar_senha" placeholder="Confirmar Senha" minlength="8" maxlength="20" required>
-                <input type="submit" value="Enviar">
-            </form>
-        </div>
-    </div>
 
+    <main>
+        <div class="layout">
+            <section class="criar">
+                <h1>Criar Conta</h1>
+                <form action="php/cadastro.php" method="POST">
+                    <input type="text" name="nomeUsuario" placeholder="Nome de Usuário" maxlength="35" required>
+                    <input type="tel" name="telefoneUsuario" placeholder="Telefone" maxlength="11" inputmode="numeric" required>
+                    <input type="email" name="emailUsuario" placeholder="E-mail" maxlength="50" required>
+                    <input type="password" name="senha" placeholder="Senha" minlength="8" maxlength="20" required>
+                    <input type="password" name="confirmar_senha" placeholder="Confirmar Senha" minlength="8" maxlength="20" required>
+                    <input type="submit" value="Enviar">
+                </form>
+            </section>
+        </div>
+    </main>
     <footer>
         <p>&copy; Todos os direitos reservados. <a href="politica.html">Políticas de privacidade.</a></p>
     </footer>

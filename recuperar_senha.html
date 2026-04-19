@@ -10,39 +10,49 @@
 </head>
 <body>
 
-<header>
-    <div class="caixa_de_texto">
-        <input type="text" class="search-text" placeholder="Pesquisar...">
-    </div>
-    <h2 class="sisgeh"> SiSGEH </h2>
-    <div class="links">
-      <a href="sobre.html" class="sobre"> Sobre </a>
-      <a href="php/inicio.php" class="link_home">
-        <img src="home.png" alt="Voltar a Home" class="home">
-      </a>
-    </div>
-</header>
-
- <img src="logo.png" class="logo">
-
-<div class="layoutRecuperar_Senha">
-    <div class="recuperar_senha">
-        <div class="mensagem">
-            <h1>Recuperar senha</h1>
-            <p>Informe o e-mail associado à sua conta. Enviaremos uma senha temporária por e-mail.</p>
+    <header>
+        <div class="caixa_de_texto">
+            <input type="text" class="search-text" placeholder="Pesquisar...">
         </div>
+        <h2 class="sisgeh"> SiSGEH </h2>
+        <nav class="links">
+            <ul>
+                <li>
+                    <a href="sobre.html" class="sobre"> Sobre </a>
+                </li>
 
-       <form action="" method="POST">
-                <label for="">DIGITE SEU E-MAIL:</label>
-                <input type="email" name="" placeholder="seu@exemplo.com" maxlength="35" required>
-                <input type="submit" value="Enviar">
-        </form>
-    </div>
-</div>
+                <li>
+                    <a href="php/inicio.php" class="link_home">
+                        <img src="images/home.png" alt="Voltar a Home" class="home">
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </header>
 
-<footer>
-    <p>&copy; Todos os direitos reservados. <a href="politica.html">Políticas de privacidade.</a></p>
-</footer>
+    <main>
+        <figure>
+            <img src="images/logo.png" class="logo SiSGEH">
+        </figure>
+
+        <div class="layout">
+            <section class="recuperar_senha">
+                <div class="mensagem">
+                    <h1>Recuperar senha</h1>
+                    <p>Informe o e-mail associado à sua conta. Enviaremos uma senha temporária por e-mail.</p>
+                </div>
+
+                <form action="" method="POST">
+                        <label for="">DIGITE SEU E-MAIL:</label>
+                        <input type="email" name="" placeholder="seu@exemplo.com" maxlength="35" required>
+                        <input type="submit" value="Enviar">
+                </form>
+            </section>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; Todos os direitos reservados. <a href="politica.html">Políticas de privacidade.</a></p>
+    </footer>
 
 </body>
 </html>
