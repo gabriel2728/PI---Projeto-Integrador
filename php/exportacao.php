@@ -122,7 +122,7 @@ function exportarSimulacaoSalva($dados, $formato) {
 // ===== EXPORTAÇÃO PDF =====
 
 function exportarPDFNovo($dados, $timestamp) {
-    require('fpdf186/fpdf.php');
+    require('fpdf.php');
     
     $pdf = new FPDF();
     $pdf->AddPage();
@@ -173,7 +173,7 @@ function exportarPDFNovo($dados, $timestamp) {
 }
 
 function exportarPDFSalvo($dados) {
-    require('fpdf186/fpdf.php');
+    require('fpdf.php');
     
     $pdf = new FPDF();
     $pdf->AddPage();

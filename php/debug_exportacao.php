@@ -23,7 +23,8 @@ if (file_exists('exportacao.php')) {
 
 // 2. Verificar sintaxe PHP
 echo "\n2️⃣  Verificando sintaxe PHP...\n";
-$output = shell_exec('php -l exportacao.php 2>&1');
+$phpPath = 'C:\\xampp\\php\\php.exe';
+$output = shell_exec('"' . $phpPath . '" -l exportacao.php 2>&1');
 if (strpos($output, 'No syntax errors') !== false) {
     echo "   ✅ Sem erros de sintaxe\n";
 } else {
