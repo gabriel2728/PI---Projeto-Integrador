@@ -1,0 +1,17 @@
+.env
+.env.local
+.DS_Store
+*.log
+node_modules/
+vendor/
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.htaccess.local
+config_local.php
+/uploads/*
+!/uploads/.gitkeep
+/tmp/*
+!/tmp/.gitkeep
