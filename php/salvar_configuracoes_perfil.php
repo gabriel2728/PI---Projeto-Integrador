@@ -10,37 +10,97 @@ if (!isset($_SESSION['id_usuario'])) {
 
 $id_usuario = $_SESSION['id_usuario'];
 
+// Função para sanitizar entrada (remover tags HTML, escapar caracteres especiais)
+function sanitizeInput($input) {
+    return htmlspecialchars(strip_tags(trim($input)), ENT_QUOTES, 'UTF-8');
+}
+
+// Função para validar nome (apenas letras, espaços, hífens e apóstrofos)
+function validarNome($nome) {
+    return preg_match('/^[a-zA-ZÀ-ÿ\s\-\']{2,50}$/u', $nome);
+}
+
+// Função para validar senha (mínimo 8 caracteres, pelo menos uma letra maiúscula, minúscula e número)
+function validarSenha($senha) {
+    return preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d@$!%*?&]{8,}$/', $senha);
+}
+
+// Função para validar email com regex mais rigoroso
+function validarEmail($email) {
+    return filter_var($email, FILTER_VALIDATE_EMAIL) &&
+           preg_match('/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/', $email);
+}
+
+// Função para log de tentativas suspeitas
+function logTentativaSuspeita($acao, $dados) {
+    $log = date('Y-m-d H:i:s') . " - Usuário ID: $id_usuario - Ação suspeita: $acao - Dados: " . json_encode($dados) . "\n";
+    file_put_contents('logs/seguranca.log', $log, FILE_APPEND | LOCK_EX);
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $tipo = $_POST['tipo'] ?? '';
 
+    // Rate limiting básico (máximo 5 alterações por hora)
+    $rate_limit_key = "rate_limit_{$id_usuario}";
+    if (!isset($_SESSION[$rate_limit_key])) {
+        $_SESSION[$rate_limit_key] = ['count' => 0, 'time' => time()];
+    }
+
+    $rate_data = $_SESSION[$rate_limit_key];
+    if (time() - $rate_data['time'] > 3600) { // Reset após 1 hora
+        $rate_data = ['count' => 0, 'time' => time()];
+    }
+
+    if ($rate_data['count'] >= 5) {
+        $_SESSION['mensagem_erro'] = 'Muitas alterações realizadas recentemente. Tente novamente em uma hora.';
+        header('Location: configuracoes_perfil.php');
+        exit();
+    }
+
+    $rate_data['count']++;
+    $_SESSION[$rate_limit_key] = $rate_data;
+
     switch ($tipo) {
         case 'nome':
-            $novo_nome = trim($_POST['nome'] ?? '');
+            $novo_nome = sanitizeInput($_POST['nome'] ?? '');
+
             if (empty($novo_nome)) {
                 $_SESSION['mensagem_erro'] = 'Nome não pode estar vazio.';
+                logTentativaSuspeita('nome_vazio', ['nome' => $novo_nome]);
+            } elseif (!validarNome($novo_nome)) {
+                $_SESSION['mensagem_erro'] = 'Nome deve conter apenas letras, espaços, hífens e apóstrofos (2-50 caracteres).';
+                logTentativaSuspeita('nome_invalido', ['nome' => $novo_nome]);
+            } elseif (strlen($novo_nome) < 2 || strlen($novo_nome) > 50) {
+                $_SESSION['mensagem_erro'] = 'Nome deve ter entre 2 e 50 caracteres.';
             } else {
                 $sql = "UPDATE Usuario SET nomeUsuario = ? WHERE id_usuario = ?";
                 $stmt = $conn->prepare($sql);
                 $stmt->bind_param("si", $novo_nome, $id_usuario);
                 if ($stmt->execute()) {
                     $_SESSION['mensagem_sucesso'] = 'Nome alterado com sucesso!';
-                    $_SESSION['nome_usuario'] = $novo_nome; // Atualizar sessão
+                    $_SESSION['nomeUsuario'] = $novo_nome; // Atualizar sessão
                 } else {
-                    $_SESSION['mensagem_erro'] = 'Erro ao alterar nome: ' . $conn->error;
+                    $_SESSION['mensagem_erro'] = 'Erro ao alterar nome. Tente novamente.';
+                    error_log("Erro SQL nome: " . $conn->error);
                 }
             }
             break;
 
         case 'email':
-            $novo_email = trim($_POST['email'] ?? '');
-            $confirmar_email = trim($_POST['confirmar_email'] ?? '');
+            $novo_email = sanitizeInput($_POST['email'] ?? '');
+            $confirmar_email = sanitizeInput($_POST['confirmar_email'] ?? '');
 
             if (empty($novo_email) || empty($confirmar_email)) {
                 $_SESSION['mensagem_erro'] = 'Preencha ambos os campos de e-mail.';
+                logTentativaSuspeita('email_vazio', ['email1' => $novo_email, 'email2' => $confirmar_email]);
             } elseif ($novo_email !== $confirmar_email) {
                 $_SESSION['mensagem_erro'] = 'Os e-mails não coincidem.';
-            } elseif (!filter_var($novo_email, FILTER_VALIDATE_EMAIL)) {
-                $_SESSION['mensagem_erro'] = 'E-mail inválido.';
+                logTentativaSuspeita('email_nao_coincide', ['email1' => $novo_email, 'email2' => $confirmar_email]);
+            } elseif (!validarEmail($novo_email)) {
+                $_SESSION['mensagem_erro'] = 'E-mail inválido. Use um formato válido (exemplo@dominio.com).';
+                logTentativaSuspeita('email_invalido', ['email' => $novo_email]);
+            } elseif (strlen($novo_email) > 100) {
+                $_SESSION['mensagem_erro'] = 'E-mail muito longo (máximo 100 caracteres).';
             } else {
                 // Verificar se e-mail já existe
                 $sql_check = "SELECT id_usuario FROM Usuario WHERE emailUsuario = ? AND id_usuario != ?";
@@ -48,7 +108,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $stmt_check->bind_param("si", $novo_email, $id_usuario);
                 $stmt_check->execute();
                 if ($stmt_check->get_result()->num_rows > 0) {
-                    $_SESSION['mensagem_erro'] = 'Este e-mail já está em uso.';
+                    $_SESSION['mensagem_erro'] = 'Este e-mail já está em uso por outra conta.';
+                    logTentativaSuspeita('email_duplicado', ['email' => $novo_email]);
                 } else {
                     $sql = "UPDATE Usuario SET emailUsuario = ? WHERE id_usuario = ?";
                     $stmt = $conn->prepare($sql);
@@ -56,7 +117,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     if ($stmt->execute()) {
                         $_SESSION['mensagem_sucesso'] = 'E-mail alterado com sucesso!';
                     } else {
-                        $_SESSION['mensagem_erro'] = 'Erro ao alterar e-mail: ' . $conn->error;
+                        $_SESSION['mensagem_erro'] = 'Erro ao alterar e-mail. Tente novamente.';
+                        error_log("Erro SQL email: " . $conn->error);
                     }
                 }
             }
@@ -68,10 +130,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             if (empty($nova_senha) || empty($confirmar_senha)) {
                 $_SESSION['mensagem_erro'] = 'Preencha ambos os campos de senha.';
+                logTentativaSuspeita('senha_vazia', ['senha1_len' => strlen($nova_senha), 'senha2_len' => strlen($confirmar_senha)]);
             } elseif ($nova_senha !== $confirmar_senha) {
                 $_SESSION['mensagem_erro'] = 'As senhas não coincidem.';
-            } elseif (strlen($nova_senha) < 6) {
-                $_SESSION['mensagem_erro'] = 'A senha deve ter pelo menos 6 caracteres.';
+                logTentativaSuspeita('senha_nao_coincide', ['senha1_len' => strlen($nova_senha), 'senha2_len' => strlen($confirmar_senha)]);
+            } elseif (!validarSenha($nova_senha)) {
+                $_SESSION['mensagem_erro'] = 'A senha deve ter pelo menos 8 caracteres, incluindo uma letra maiúscula, uma minúscula e um número.';
+                logTentativaSuspeita('senha_fraca', ['senha_len' => strlen($nova_senha)]);
+            } elseif (strlen($nova_senha) > 255) {
+                $_SESSION['mensagem_erro'] = 'Senha muito longa (máximo 255 caracteres).';
             } else {
                 $senha_hash = password_hash($nova_senha, PASSWORD_DEFAULT);
                 $sql = "UPDATE Usuario SET senha = ? WHERE id_usuario = ?";
@@ -80,15 +147,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if ($stmt->execute()) {
                     $_SESSION['mensagem_sucesso'] = 'Senha alterada com sucesso!';
                 } else {
-                    $_SESSION['mensagem_erro'] = 'Erro ao alterar senha: ' . $conn->error;
+                    $_SESSION['mensagem_erro'] = 'Erro ao alterar senha. Tente novamente.';
+                    error_log("Erro SQL senha: " . $conn->error);
                 }
             }
             break;
 
         default:
             $_SESSION['mensagem_erro'] = 'Tipo de alteração inválido.';
+            logTentativaSuspeita('tipo_invalido', ['tipo' => $tipo]);
     }
 
+    header('Location: configuracoes_perfil.php');
+    exit();
+} else {
+    // Método HTTP inválido
+    logTentativaSuspeita('metodo_invalido', ['method' => $_SERVER['REQUEST_METHOD']]);
     header('Location: configuracoes_perfil.php');
     exit();
 }

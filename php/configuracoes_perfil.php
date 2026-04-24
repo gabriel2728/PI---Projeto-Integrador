@@ -57,10 +57,27 @@ if ($result->num_rows > 0) {
         // Função para salvar o nome
         function salvarNome() {
             const novoNome = document.getElementById('novoNome').value.trim();
+
+            // Validações no lado cliente
             if (novoNome === '') {
                 alert('Por favor, digite um nome válido.');
                 return;
             }
+
+            if (novoNome.length < 2 || novoNome.length > 50) {
+                alert('Nome deve ter entre 2 e 50 caracteres.');
+                return;
+            }
+
+            // Regex para validar nome (apenas letras, espaços, hífens e apóstrofos)
+            const regexNome = /^[a-zA-ZÀ-ÿ\s\-\']+$/;
+            if (!regexNome.test(novoNome)) {
+                alert('Nome deve conter apenas letras, espaços, hífens e apóstrofos.');
+                return;
+            }
+
+            // Sanitizar entrada (remover caracteres potencialmente perigosos)
+            const nomeSanitizado = novoNome.replace(/[<>\"']/g, '');
 
             // Criar formulário e enviar
             const form = document.createElement('form');
@@ -77,7 +94,7 @@ if ($result->num_rows > 0) {
             const nomeInput = document.createElement('input');
             nomeInput.type = 'hidden';
             nomeInput.name = 'nome';
-            nomeInput.value = novoNome;
+            nomeInput.value = nomeSanitizado;
             form.appendChild(nomeInput);
 
             document.body.appendChild(form);
@@ -113,6 +130,7 @@ if ($result->num_rows > 0) {
             const senha1 = document.getElementById('novaSenha').value;
             const senha2 = document.getElementById('confirmarSenha').value;
 
+            // Validações no lado cliente
             if (senha1 === '' || senha2 === '') {
                 alert('Preencha os dois campos de senha.');
                 return;
@@ -120,6 +138,29 @@ if ($result->num_rows > 0) {
 
             if (senha1 !== senha2) {
                 alert('As senhas não coincidem.');
+                return;
+            }
+
+            if (senha1.length < 8) {
+                alert('A senha deve ter pelo menos 8 caracteres.');
+                return;
+            }
+
+            if (senha1.length > 255) {
+                alert('A senha deve ter no máximo 255 caracteres.');
+                return;
+            }
+
+            // Regex para validar senha forte (pelo menos uma maiúscula, minúscula e número)
+            const regexSenha = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d@$!%*?&]+$/;
+            if (!regexSenha.test(senha1)) {
+                alert('A senha deve conter pelo menos uma letra maiúscula, uma minúscula e um número.');
+                return;
+            }
+
+            // Verificar se a senha contém caracteres suspeitos
+            if (/<|>|'|"|;/.test(senha1)) {
+                alert('A senha contém caracteres inválidos.');
                 return;
             }
 
@@ -181,6 +222,7 @@ if ($result->num_rows > 0) {
             const email1 = document.getElementById('novoEmail').value.trim();
             const email2 = document.getElementById('confirmarEmail').value.trim();
 
+            // Validações no lado cliente
             if (email1 === '' || email2 === '') {
                 alert('Preencha os dois campos de e-mail.');
                 return;
@@ -191,10 +233,21 @@ if ($result->num_rows > 0) {
                 return;
             }
 
-            // Validação simples de formato de e-mail
+            if (email1.length > 100) {
+                alert('E-mail muito longo (máximo 100 caracteres).');
+                return;
+            }
+
+            // Regex para validar formato de e-mail
             const regexEmail = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
             if (!regexEmail.test(email1)) {
                 alert('Digite um e-mail válido.');
+                return;
+            }
+
+            // Verificar se contém caracteres suspeitos
+            if (/<|>|'|"|;/.test(email1)) {
+                alert('E-mail contém caracteres inválidos.');
                 return;
             }
 
