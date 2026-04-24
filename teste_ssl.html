@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Teste HTTPS Simples</title>
+</head>
+<body>
+    <h1>HTTPS Test</h1>
+    <p>Protocol: <?php echo isset($_SERVER['HTTPS']) ? 'HTTPS' : 'HTTP'; ?></p>
+    <p>Server: <?php echo $_SERVER['SERVER_SOFTWARE']; ?></p>
+</body>
+</html>
