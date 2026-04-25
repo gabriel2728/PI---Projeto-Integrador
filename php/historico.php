@@ -5,9 +5,13 @@ if (!isset($_SESSION['id_usuario'])) {
     exit;
 }
 include('conexao.php');
+include('seguranca.php');
 
 $id_usuario = $_SESSION['id_usuario'];
 $nomeUsuario = $_SESSION['nomeUsuario'];
+
+// Gera token CSRF
+$csrf_token = gerarTokenCSRF();
 
 // Pega histórico do usuário
 $stmt = $conn->prepare("
@@ -54,6 +58,9 @@ $stmt->close();
 
 <div class="layoutHistorico">
     <div class="historico">
+        <!-- Token CSRF para proteção de formulários -->
+        <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf_token) ?>">
+        
         <div class="mensagem">
             <h1>Bem-vindo ao seu histórico!</h1>
             <p>Clique em “Simulação” para ver os detalhes ou em “Exportar” para baixar.</p>
@@ -199,11 +206,18 @@ function excluirSimulacao(id) {
     form.action = 'deletar_simulacao.php';
     form.style.display = 'none';
 
-    const input = document.createElement('input');
-    input.type = 'hidden';
-    input.name = 'id_simulacao';
-    input.value = id;
-    form.appendChild(input);
+    const inputId = document.createElement('input');
+    inputId.type = 'hidden';
+    inputId.name = 'id_simulacao';
+    inputId.value = id;
+    form.appendChild(inputId);
+    
+    // Adicionar CSRF token
+    const csrfInput = document.createElement('input');
+    csrfInput.type = 'hidden';
+    csrfInput.name = 'csrf_token';
+    csrfInput.value = document.querySelector('input[name="csrf_token"]')?.value || '';
+    form.appendChild(csrfInput);
 
     document.body.appendChild(form);
     form.submit();

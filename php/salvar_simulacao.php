@@ -3,6 +3,7 @@
 ob_start();
 session_start();
 include('conexao.php');
+include('seguranca.php');
 header('Content-Type: application/json');
 
 try {
@@ -19,14 +20,52 @@ try {
         throw new Exception("Dados inválidos ou não enviados");
     }
 
-    // 3️⃣ Extrai os valores
-    $vazao = $data['vazao'];
-    $altura = $data['altura'];
-    $potTurbina = $data['potTurbina'];
-    $qtdTurbinas = $data['qtdTurbinas'];
-    $potGerador = $data['potGerador'];
-    $eficiencia = $data['eficiencia'] ?? 1; // Se não enviado, assume 1
-    $horas = $data['horas'] ?? 0;           // Se não enviado, assume 0
+    // 3️⃣ Extrai e VALIDA os valores
+    $vazao = $data['vazao'] ?? null;
+    $altura = $data['altura'] ?? null;
+    $potTurbina = $data['potTurbina'] ?? null;
+    $qtdTurbinas = $data['qtdTurbinas'] ?? null;
+    $potGerador = $data['potGerador'] ?? null;
+    $eficiencia = $data['eficiencia'] ?? 1;
+    $horas = $data['horas'] ?? 0;
+    
+    // Validar que todos os campos obrigatórios estão presentes
+    if ($vazao === null || $altura === null || $potTurbina === null || $qtdTurbinas === null || $potGerador === null) {
+        throw new Exception("Campos obrigatórios faltando");
+    }
+    
+    // Validar tipos de dados numéricos
+    if (!validarNumero($vazao) || !validarNumero($altura) || !validarNumero($potTurbina) || !validarNumero($potGerador)) {
+        throw new Exception("Parâmetros numéricos inválidos");
+    }
+    
+    if (!validarNumero($qtdTurbinas, 'int') || $qtdTurbinas <= 0 || $qtdTurbinas > 100) {
+        throw new Exception("Quantidade de turbinas inválida");
+    }
+    
+    // Validar intervalos realistas
+    if ($vazao < 0 || $vazao > 10000 || $altura < 0 || $altura > 1000 || $potTurbina < 0 || $potTurbina > 1000 || $potGerador < 0 || $potGerador > 1000) {
+        throw new Exception("Valores fora do intervalo realista");
+    }
+    
+    if ($eficiencia < 0 || $eficiencia > 1 || $horas < 0 || $horas > 24) {
+        throw new Exception("Eficiência ou horas inválidas");
+    }
+    
+    // Rate limiting: máximo 20 simulações por hora por usuário
+    if (!rateLimitCheck("salvar_simulacao_{$id_usuario}", 20, 3600)) {
+        logTentativaSuspeita('rate_limit_simulacao_excedido', ['id_usuario' => $id_usuario]);
+        throw new Exception("Limite de simulações por hora excedido");
+    }
+    
+    // Converter para float/int
+    $vazao = floatval($vazao);
+    $altura = floatval($altura);
+    $potTurbina = floatval($potTurbina);
+    $qtdTurbinas = intval($qtdTurbinas);
+    $potGerador = floatval($potGerador);
+    $eficiencia = floatval($eficiencia);
+    $horas = floatval($horas);
 
     // 4️⃣ Calcula geração de energia
     $rho = 1000;  // kg/m³

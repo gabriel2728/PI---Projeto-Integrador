@@ -1,53 +1,14 @@
 <?php
-// Inclui o arquivo de conexão
+// Inclui bibliotecas de segurança
+include('seguranca.php');
 include('conexao.php');
 
-// Funções de validação e sanitização
-function sanitizeInput($input) {
-    return htmlspecialchars(strip_tags(trim($input)), ENT_QUOTES, 'UTF-8');
-}
-
-function validarNome($nome) {
-    return preg_match('/^[a-zA-ZÀ-ÿ\s\-\']{2,50}$/u', $nome);
-}
-
-function validarEmail($email) {
-    return filter_var($email, FILTER_VALIDATE_EMAIL) &&
-           preg_match('/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/', $email) &&
-           strlen($email) <= 100;
-}
-
-function validarTelefone($telefone) {
-    // Aceita formatos: (11)99999-9999, 11 99999-9999, 11999999999, etc
-    $telefone_limpo = preg_replace('/[^0-9]/', '', $telefone);
-    return preg_match('/^\d{10,11}$/', $telefone_limpo);
-}
-
-function validarSenha($senha) {
-    // Mínimo 8 caracteres, letra maiúscula, minúscula e número
-    return preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d@$!%*?&]{8,}$/', $senha) &&
-           strlen($senha) <= 255;
-}
-
-function logTentativaSuspeita($acao, $dados) {
-    $log = date('Y-m-d H:i:s') . " - Ação suspeita em cadastro: $acao - Dados: " . json_encode($dados) . "\n";
-    @file_put_contents(__DIR__ . '/logs/seguranca.log', $log, FILE_APPEND | LOCK_EX);
-}
-
-// Rate limiting para cadastro
-$rate_limit_key = "cadastro_attempt_" . $_SERVER['REMOTE_ADDR'];
-if (!isset($_SESSION[$rate_limit_key])) {
-    $_SESSION[$rate_limit_key] = ['count' => 0, 'time' => time()];
-}
-
-$rate_data = $_SESSION[$rate_limit_key];
-if (time() - $rate_data['time'] > 3600) { // Reset após 1 hora
-    $rate_data = ['count' => 0, 'time' => time()];
-}
-
-if ($rate_data['count'] >= 10) { // Máximo 10 tentativas por hora
+// Verifica rate limiting para cadastro
+if (!rateLimitCheck('cadastro', 10, 3600)) { // 10 tentativas por hora
     http_response_code(429);
     echo "<script>alert('Muitas tentativas de cadastro. Tente novamente mais tarde.'); window.history.back();</script>";
+    exit;
+}
     exit;
 }
 
@@ -56,7 +17,13 @@ $_SESSION[$rate_limit_key] = $rate_data;
 
 // Verifica se o formulário foi enviado
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    session_start();
+    // Verificar CSRF token
+    $csrf_token_post = sanitizeInput($_POST['csrf_token'] ?? '');
+    if (!verificarTokenCSRF($csrf_token_post)) {
+        logTentativaSuspeita('csrf_fail_cadastro', ['ip' => $_SERVER['REMOTE_ADDR']]);
+        echo "<script>alert('Token de segurança inválido. Tente novamente.'); window.history.back();</script>";
+        exit;
+    }
 
     // Sanitização de entrada
     $nome = sanitizeInput($_POST['nomeUsuario'] ?? '');

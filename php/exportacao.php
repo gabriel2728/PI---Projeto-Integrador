@@ -6,11 +6,20 @@ ini_set('display_errors', 0);
 
 session_start();
 include('conexao.php');
+include('seguranca.php');
+
+// Validar sessão
+if (!isset($_SESSION['id_usuario'])) {
+    ob_end_clean();
+    header('Content-Type: application/json');
+    http_response_code(401);
+    die(json_encode(['success' => false, 'message' => 'Não autenticado']));
+}
 
 // Verifica se recebeu o formato de exportação
-$formato = isset($_GET['formato']) ? $_GET['formato'] : (isset($_POST['formato']) ? $_POST['formato'] : null);
+$formato = isset($_GET['formato']) ? sanitizeInput($_GET['formato']) : (isset($_POST['formato']) ? sanitizeInput($_POST['formato']) : null);
 $id_simulacao = isset($_GET['id']) ? intval($_GET['id']) : (isset($_POST['id']) ? intval($_POST['id']) : null);
-$tipo = isset($_GET['tipo']) ? $_GET['tipo'] : (isset($_POST['tipo']) ? $_POST['tipo'] : 'salvo'); // 'salvo' ou 'novo'
+$tipo = isset($_GET['tipo']) ? sanitizeInput($_GET['tipo']) : (isset($_POST['tipo']) ? sanitizeInput($_POST['tipo']) : 'salvo');
 
 // Validar formato
 if (!in_array($formato, ['pdf', 'csv', 'xlsx'])) {
@@ -18,6 +27,24 @@ if (!in_array($formato, ['pdf', 'csv', 'xlsx'])) {
     header('Content-Type: application/json');
     http_response_code(400);
     die(json_encode(['success' => false, 'message' => 'Formato inválido']));
+}
+
+// Validar tipo
+if (!in_array($tipo, ['novo', 'salvo'])) {
+    logTentativaSuspeita('invalid_export_type', ['tipo' => $tipo, 'id_usuario' => $_SESSION['id_usuario']]);
+    ob_end_clean();
+    header('Content-Type: application/json');
+    http_response_code(400);
+    die(json_encode(['success' => false, 'message' => 'Tipo de exportação inválido']));
+}
+
+// Validar que tipo 'salvo' tem id_simulacao
+if ($tipo === 'salvo' && ($id_simulacao === null || $id_simulacao <= 0)) {
+    logTentativaSuspeita('missing_simulation_id', ['tipo' => $tipo, 'id_usuario' => $_SESSION['id_usuario']]);
+    ob_end_clean();
+    header('Content-Type: application/json');
+    http_response_code(400);
+    die(json_encode(['success' => false, 'message' => 'ID da simulação inválido']));
 }
 
 // Se é uma simulação nova (não salva ainda)
