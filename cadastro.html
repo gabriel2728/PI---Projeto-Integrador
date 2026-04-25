@@ -37,6 +37,7 @@
             <section class="criar">
                 <h1>Criar Conta</h1>
                 <form action="php/cadastro.php" method="POST">
+                    <input type="hidden" name="csrf_token" value="">
                     <input type="text" name="nomeUsuario" placeholder="Nome de Usuário" maxlength="35" required>
                     <input type="tel" name="telefoneUsuario" placeholder="Telefone" maxlength="11" inputmode="numeric" required>
                     <input type="email" name="emailUsuario" placeholder="E-mail" maxlength="50" required>
