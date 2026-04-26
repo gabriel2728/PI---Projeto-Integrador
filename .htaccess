@@ -1,8 +1,7 @@
 # Forçar HTTPS para o projeto SiSGEH
-# ATIVE esta linha quando estiver em produção:
-# RewriteEngine On
-# RewriteCond %{HTTPS} off
-# RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
 # Headers de segurança adicionais
 <IfModule mod_headers.c>
@@ -21,8 +20,8 @@
     # Política de referrer
     Header set Referrer-Policy "strict-origin-when-cross-origin"
 
-    # HSTS (HTTP Strict Transport Security) - DESABILITADO para desenvolvimento local
-    # ATIVE em produção: Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+    # HSTS (HTTP Strict Transport Security)
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
 </IfModule>
 
 # Protege arquivos sensíveis
