@@ -3,8 +3,7 @@ session_start();
 if (!isset($_SESSION['id_usuario'])) {
     header("Location: login.php");
     exit;
-}
-include('conexao.php');
+}include('error_handler.php');include('conexao.php');
 include('seguranca.php');
 
 $id_usuario = $_SESSION['id_usuario'];

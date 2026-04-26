@@ -2,6 +2,7 @@
 // Limpa qualquer echo acidental que quebre o JSON
 ob_start();
 session_start();
+include('error_handler.php');
 include('conexao.php');
 include('seguranca.php');
 header('Content-Type: application/json');

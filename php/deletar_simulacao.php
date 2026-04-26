@@ -4,6 +4,7 @@ if (!isset($_SESSION['id_usuario'])) {
     header('Location: login.php');
     exit();
 }
+include('error_handler.php');
 include 'conexao.php';
 include 'seguranca.php';
 

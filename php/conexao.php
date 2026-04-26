@@ -1,8 +1,12 @@
 <?php
+// Carregar sistema centralizado de tratamento de erros
+require_once(__DIR__ . '/error_handler.php');
+
 // Carregar variáveis de ambiente do arquivo .env
 function loadEnv($filePath) {
     if (!file_exists($filePath)) {
-        die("Erro: arquivo .env não encontrado em " . $filePath);
+        logCustom('ERROR', 'Arquivo .env não encontrado', ['path' => $filePath]);
+        die('Erro de configuração. Contate o administrador.');
     }
     
     $lines = file($filePath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
@@ -42,7 +46,15 @@ $banco = $_ENV['DB_NAME'] ?? 'SistemaHidreletrico';
 $conn = new mysqli($servidor, $usuario, $senha, $banco);
 
 if ($conn->connect_error) {
-    die("Falha na conexão: " . $conn->connect_error);
+    // Log do erro real (com detalhes)
+    logCustom('CRITICAL', 'Falha na conexão com o banco de dados', [
+        'server' => $servidor,
+        'database' => $banco,
+        'error' => $conn->connect_error
+    ]);
+    
+    // Exibir erro genérico para o usuário
+    die('Erro de conexão com o banco de dados. Contate o administrador.');
 }
 
 // Definir charset UTF-8

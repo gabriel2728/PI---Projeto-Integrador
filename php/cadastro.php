@@ -1,5 +1,6 @@
 <?php
 // Inclui bibliotecas de segurança
+include('error_handler.php');
 include('seguranca.php');
 include('conexao.php');
 
