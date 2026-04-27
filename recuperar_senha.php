@@ -1,50 +1,66 @@
 <?php
 session_start();
+include('php/error_handler.php');
+include('php/seguranca.php');
 
 $mensagem_sucesso = '';
 $mensagem_erro = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email = trim($_POST['email'] ?? '');
-
-    if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $mensagem_erro = 'Digite um e-mail válido.';
+    // Rate limiting para recuperação de senha (máximo 3 tentativas por 30 minutos)
+    if (!rateLimitCheck('recuperar_senha', 3, 1800)) {
+        $mensagem_erro = 'Muitas tentativas. Tente novamente em 30 minutos.';
     } else {
-        include 'php/conexao.php';
+        $email = sanitizeInput(trim($_POST['email'] ?? ''));
 
-        $sql = 'SELECT id_usuario, nomeUsuario FROM Usuario WHERE emailUsuario = ?';
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param('s', $email);
-        $stmt->execute();
-        $resultado = $stmt->get_result();
-
-        if ($resultado->num_rows > 0) {
-            $usuario = $resultado->fetch_assoc();
-
-            // Gerar token único e seguro
-            $token = bin2hex(random_bytes(32));
-            $expiracao = date('Y-m-d H:i:s', strtotime('+1 hour')); // Token válido por 1 hora
-
-            // Salvar token no banco
-            $sqlToken = 'INSERT INTO RecuperacaoSenha (id_usuario, token, data_expiracao) VALUES (?, ?, ?)';
-            $stmtToken = $conn->prepare($sqlToken);
-            $stmtToken->bind_param('iss', $usuario['id_usuario'], $token, $expiracao);
-
-            if ($stmtToken->execute()) {
-                // Enviar e-mail de recuperação
-                include 'php/config_email.php';
-                
-                if (enviarEmailRecuperacao($email, $usuario['nomeUsuario'], $token)) {
-                    $mensagem_sucesso = 'Se existe uma conta vinculada a este e-mail, enviamos um link para redefinir sua senha. Verifique sua caixa de entrada e spam.';
-                } else {
-                    $mensagem_erro = 'Erro ao enviar o e-mail. Tente novamente mais tarde.';
-                }
-            } else {
-                $mensagem_erro = 'Erro ao gerar link de recuperação. Tente novamente.';
-            }
+        if (empty($email) || !validarEmail($email)) {
+            $mensagem_erro = 'Digite um e-mail válido.';
         } else {
-            // Mesmo se não existir, mostrar mensagem genérica por segurança
-            $mensagem_sucesso = 'Se existe uma conta vinculada a este e-mail, enviamos um link para redefinir sua senha. Verifique sua caixa de entrada e spam.';
+            include 'php/conexao.php';
+
+            $sql = 'SELECT id_usuario, nomeUsuario FROM Usuario WHERE emailUsuario = ?';
+            $stmt = $conn->prepare($sql);
+            if (!$stmt) {
+                logTentativaSuspeita('erro_sql_recuperar_senha', ['email' => $email]);
+                $mensagem_erro = 'Erro no sistema. Tente novamente.';
+            } else {
+                $stmt->bind_param('s', $email);
+                $stmt->execute();
+                $resultado = $stmt->get_result();
+
+                if ($resultado->num_rows > 0) {
+                    $usuario = $resultado->fetch_assoc();
+
+                    // Gerar token único e seguro
+                    $token = bin2hex(random_bytes(32));
+                    $expiracao = date('Y-m-d H:i:s', strtotime('+1 hour')); // Token válido por 1 hora
+
+                    // Salvar token no banco
+                    $sqlToken = 'INSERT INTO RecuperacaoSenha (id_usuario, token, data_expiracao) VALUES (?, ?, ?)';
+                    $stmtToken = $conn->prepare($sqlToken);
+                    $stmtToken->bind_param('iss', $usuario['id_usuario'], $token, $expiracao);
+
+                    if ($stmtToken->execute()) {
+                        // Enviar e-mail de recuperação
+                        include 'php/config_email.php';
+                        
+                        if (enviarEmailRecuperacao($email, $usuario['nomeUsuario'], $token)) {
+                            $mensagem_sucesso = 'Se existe uma conta vinculada a este e-mail, enviamos um link para redefinir sua senha. Verifique sua caixa de entrada e spam.';
+                            logAuditoria('recuperacao_senha_enviada', ['email' => $email]);
+                        } else {
+                            $mensagem_erro = 'Erro ao enviar o e-mail. Tente novamente mais tarde.';
+                            logTentativaSuspeita('erro_envio_email', ['email' => $email]);
+                        }
+                    } else {
+                        $mensagem_erro = 'Erro ao gerar link de recuperação. Tente novamente.';
+                        logTentativaSuspeita('erro_token_recuperacao', ['email' => $email]);
+                    }
+                } else {
+                    // Mesmo se não existir, mostrar mensagem genérica por segurança
+                    $mensagem_sucesso = 'Se existe uma conta vinculada a este e-mail, enviamos um link para redefinir sua senha. Verifique sua caixa de entrada e spam.';
+                    logTentativaSuspeita('email_nao_encontrado_recuperacao', ['email' => $email]);
+                }
+            }
         }
     }
 }

@@ -1,5 +1,7 @@
 <?php
 session_start();
+include('error_handler.php');
+include('seguranca.php');
 include 'conexao.php';
 
 // Verificar se usuário está logado

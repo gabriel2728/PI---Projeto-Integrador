@@ -1,8 +1,10 @@
 <?php
-// Inclui bibliotecas de segurança
+session_start();
 include('error_handler.php');
 include('seguranca.php');
 include('conexao.php');
+
+iniciarSessaoSegura();
 
 // Verifica rate limiting para cadastro
 if (!rateLimitCheck('cadastro', 10, 3600)) { // 10 tentativas por hora
@@ -10,11 +12,6 @@ if (!rateLimitCheck('cadastro', 10, 3600)) { // 10 tentativas por hora
     echo "<script>alert('Muitas tentativas de cadastro. Tente novamente mais tarde.'); window.history.back();</script>";
     exit;
 }
-    exit;
-}
-
-$rate_data['count']++;
-$_SESSION[$rate_limit_key] = $rate_data;
 
 // Verifica se o formulário foi enviado
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -100,9 +97,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Criptografa a senha
     $senhaCriptografada = password_hash($senha, PASSWORD_DEFAULT);
+    $confirmacaoToken = bin2hex(random_bytes(32));
+    $expiracaoToken = date('Y-m-d H:i:s', strtotime('+1 day'));
 
     // Usa Prepared Statement (SQL Injection Protection)
-    $sql = "INSERT INTO Usuario (nomeUsuario, telefoneUsuario, emailUsuario, senha) VALUES (?, ?, ?, ?)";
+    $sql = "INSERT INTO Usuario (nomeUsuario, telefoneUsuario, emailUsuario, senha, emailConfirmado, confirmacaoToken, emailConfirmacaoExpiracao) VALUES (?, ?, ?, ?, 0, ?, ?)";
     $stmt = $conn->prepare($sql);
     
     if (!$stmt) {
@@ -111,14 +110,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit;
     }
 
-    $stmt->bind_param("ssss", $nome, $telefone, $email, $senhaCriptografada);
+    $stmt->bind_param("ssssss", $nome, $telefone, $email, $senhaCriptografada, $confirmacaoToken, $expiracaoToken);
     
     if ($stmt->execute()) {
         $id_usuario = $stmt->insert_id;
-        $_SESSION['id_usuario'] = $id_usuario;
-        $_SESSION['nomeUsuario'] = $nome;
+        include 'config_email.php';
 
-        echo "<script>alert('Usuário cadastrado com sucesso!'); window.location.href='inicio.php';</script>";
+        if (enviarEmailConfirmacao($email, $nome, $confirmacaoToken)) {
+            echo "<script>alert('Cadastro realizado! Verifique seu e-mail e confirme sua conta antes de entrar.'); window.location.href='../index.html';</script>";
+        } else {
+            logTentativaSuspeita('erro_envio_confirmacao', ['email' => $email]);
+            echo "<script>alert('Cadastro realizado, mas não foi possível enviar o e-mail de confirmação. Contate o administrador.'); window.location.href='../index.html';</script>";
+        }
         exit;
     } else {
         logTentativaSuspeita('erro_execute', ['email' => $email, 'error' => $conn->error]);

@@ -1,8 +1,10 @@
 <?php
 session_start();
+include('error_handler.php');
+include('seguranca.php');
 include 'conexao.php';
 
-// Verificar se usu�rio est� logado
+// Verificar se usuário está logado
 if (!isset($_SESSION['id_usuario'])) {
     header('Location: login.php');
     exit();

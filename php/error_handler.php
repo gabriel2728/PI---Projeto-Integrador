@@ -21,7 +21,7 @@ ini_set('log_errors', 1);
 ini_set('error_log', __DIR__ . '/logs/php_errors.log');
 
 // Handler customizado para erros
-set_error_handler(function($errno, $errstr, $errfile, $errline) {
+set_error_handler(function($errno, $errstr, $errfile, $errline) use ($isDevelopment) {
     $timestamp = date('Y-m-d H:i:s');
     $ip = $_SERVER['REMOTE_ADDR'] ?? 'CLI';
     $method = $_SERVER['REQUEST_METHOD'] ?? 'CLI';
@@ -61,7 +61,7 @@ set_error_handler(function($errno, $errstr, $errfile, $errline) {
 });
 
 // Handler customizado para exceções
-set_exception_handler(function($exception) {
+set_exception_handler(function($exception) use ($isDevelopment) {
     $timestamp = date('Y-m-d H:i:s');
     $ip = $_SERVER['REMOTE_ADDR'] ?? 'CLI';
     

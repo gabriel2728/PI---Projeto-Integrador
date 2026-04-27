@@ -1,5 +1,7 @@
 <?php
 session_start();
+include('php/error_handler.php');
+include('php/seguranca.php');
 
 $mensagem_sucesso = '';
 $mensagem_erro = '';
@@ -34,51 +36,67 @@ if (isset($_GET['token'])) {
         }
     }
 } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $token = trim($_POST['token'] ?? '');
-    $senha1 = $_POST['senha'] ?? '';
-    $senha2 = $_POST['confirmar_senha'] ?? '';
-
-    if (empty($token) || empty($senha1) || empty($senha2)) {
-        $mensagem_erro = 'Preencha todos os campos.';
-    } elseif ($senha1 !== $senha2) {
-        $mensagem_erro = 'As senhas não coincidem.';
-    } elseif (strlen($senha1) < 6) {
-        $mensagem_erro = 'A senha deve ter pelo menos 6 caracteres.';
+    // Rate limiting para redefinição de senha (máximo 5 tentativas por 15 minutos)
+    if (!rateLimitCheck('redefinir_senha', 5, 900)) {
+        $mensagem_erro = 'Muitas tentativas. Tente novamente em 15 minutos.';
     } else {
-        include 'php/conexao.php';
+        $token = sanitizeInput(trim($_POST['token'] ?? ''));
+        $senha1 = sanitizeInput($_POST['senha'] ?? '');
+        $senha2 = sanitizeInput($_POST['confirmar_senha'] ?? '');
 
-        // Verificar token novamente
-        $sql = 'SELECT id_usuario FROM RecuperacaoSenha
-                WHERE token = ? AND usado = FALSE AND data_expiracao > NOW()';
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param('s', $token);
-        $stmt->execute();
-        $resultado = $stmt->get_result();
-
-        if ($resultado->num_rows > 0) {
-            $dados = $resultado->fetch_assoc();
-            $id_usuario_token = $dados['id_usuario'];
-
-            // Atualizar senha
-            $senha_hash = password_hash($senha1, PASSWORD_DEFAULT);
-            $sqlUpdate = 'UPDATE Usuario SET senha = ? WHERE id_usuario = ?';
-            $stmtUpdate = $conn->prepare($sqlUpdate);
-            $stmtUpdate->bind_param('si', $senha_hash, $id_usuario_token);
-
-            if ($stmtUpdate->execute()) {
-                // Marcar token como usado
-                $sqlToken = 'UPDATE RecuperacaoSenha SET usado = TRUE WHERE token = ?';
-                $stmtToken = $conn->prepare($sqlToken);
-                $stmtToken->bind_param('s', $token);
-                $stmtToken->execute();
-
-                $mensagem_sucesso = '✅ Senha redefinida com sucesso!<br><br>';
-                $mensagem_sucesso .= '<a href="php/login.php" style="color: #007bff; text-decoration: none;">🔐 Fazer login com a nova senha</a>';
-            } else {
-                $mensagem_erro = 'Erro ao atualizar senha. Tente novamente.';
-            }
+        if (empty($token) || empty($senha1) || empty($senha2)) {
+            $mensagem_erro = 'Preencha todos os campos.';
+            logTentativaSuspeita('campo_vazio_redefinir_senha', ['ip' => $_SERVER['REMOTE_ADDR']]);
+        } elseif ($senha1 !== $senha2) {
+            $mensagem_erro = 'As senhas não coincidem.';
+            logTentativaSuspeita('senhas_nao_coincidem_redefinir', ['ip' => $_SERVER['REMOTE_ADDR']]);
+        } elseif (!validarSenha($senha1)) {
+            $mensagem_erro = 'A senha deve ter no mínimo 8 caracteres, com letra maiúscula, minúscula e número.';
+            logTentativaSuspeita('senha_invalida_redefinir', ['ip' => $_SERVER['REMOTE_ADDR']]);
         } else {
-            $mensagem_erro = 'Token inválido ou expirado.';
+            include 'php/conexao.php';
+
+            // Verificar token novamente
+            $sql = 'SELECT id_usuario FROM RecuperacaoSenha
+                    WHERE token = ? AND usado = FALSE AND data_expiracao > NOW()';
+            $stmt = $conn->prepare($sql);
+            if (!$stmt) {
+                logTentativaSuspeita('erro_sql_redefinir_senha', ['ip' => $_SERVER['REMOTE_ADDR']]);
+                $mensagem_erro = 'Erro no sistema. Tente novamente.';
+            } else {
+                $stmt->bind_param('s', $token);
+                $stmt->execute();
+                $resultado = $stmt->get_result();
+
+                if ($resultado->num_rows > 0) {
+                    $dados = $resultado->fetch_assoc();
+                    $id_usuario_token = $dados['id_usuario'];
+
+                    // Atualizar senha
+                    $senha_hash = password_hash($senha1, PASSWORD_DEFAULT);
+                    $sqlUpdate = 'UPDATE Usuario SET senha = ? WHERE id_usuario = ?';
+                    $stmtUpdate = $conn->prepare($sqlUpdate);
+                    $stmtUpdate->bind_param('si', $senha_hash, $id_usuario_token);
+
+                    if ($stmtUpdate->execute()) {
+                        // Marcar token como usado
+                        $sqlToken = 'UPDATE RecuperacaoSenha SET usado = TRUE WHERE token = ?';
+                        $stmtToken = $conn->prepare($sqlToken);
+                        $stmtToken->bind_param('s', $token);
+                        $stmtToken->execute();
+
+                        $mensagem_sucesso = '✅ Senha redefinida com sucesso!<br><br>';
+                        $mensagem_sucesso .= '<a href="php/login.php" style="color: #007bff; text-decoration: none;">🔐 Fazer login com a nova senha</a>';
+                        logAuditoria('senha_redefinida_sucesso', ['id_usuario' => $id_usuario_token]);
+                    } else {
+                        $mensagem_erro = 'Erro ao atualizar senha. Tente novamente.';
+                        logTentativaSuspeita('erro_update_senha', ['id_usuario' => $id_usuario_token]);
+                    }
+                } else {
+                    $mensagem_erro = 'Token inválido ou expirado.';
+                    logTentativaSuspeita('token_invalido_redefinir', ['ip' => $_SERVER['REMOTE_ADDR']]);
+                }
+            }
         }
     }
 }

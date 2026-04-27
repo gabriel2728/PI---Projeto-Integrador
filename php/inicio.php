@@ -1,5 +1,7 @@
 ﻿<?php
 session_start();
+include('error_handler.php');
+include('seguranca.php');
 
 // Se não estiver logado, redireciona para login
 if (!isset($_SESSION['id_usuario'])) {

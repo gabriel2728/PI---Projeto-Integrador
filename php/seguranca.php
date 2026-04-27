@@ -273,6 +273,44 @@ function fazerLogout() {
     exit;
 }
 
+/**
+ * Inicializa sessão segura e aplica timeout.
+ */
+function iniciarSessaoSegura($timeout = 1800) {
+    if (session_status() === PHP_SESSION_NONE) {
+        session_set_cookie_params([
+            'lifetime' => 0,
+            'path' => '/',
+            'secure' => isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off',
+            'httponly' => true,
+            'samesite' => 'Lax'
+        ]);
+        session_start();
+    }
+
+    if (!isset($_SESSION['session_iniciada'])) {
+        session_regenerate_id(true);
+        $_SESSION['session_iniciada'] = true;
+    }
+
+    if (isset($_SESSION['ultimo_acesso']) && (time() - $_SESSION['ultimo_acesso'] > $timeout)) {
+        logTentativaSuspeita('session_timeout', ['ip' => $_SERVER['REMOTE_ADDR'] ?? 'desconhecido']);
+        $_SESSION = [];
+        session_destroy();
+        return false;
+    }
+
+    $_SESSION['ultimo_acesso'] = time();
+    return true;
+}
+
+/**
+ * Verifica se a sessão ainda é válida.
+ */
+function verificarSessaoAtiva($timeout = 1800) {
+    return isset($_SESSION['id_usuario']) && isset($_SESSION['ultimo_acesso']) && (time() - $_SESSION['ultimo_acesso'] <= $timeout);
+}
+
 // ============ CRIPTOGRAFIA ============
 
 /**

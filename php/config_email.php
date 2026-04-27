@@ -32,6 +32,24 @@ function enviarEmailRecuperacao($destinatario, $nomeUsuario, $token) {
     );
 }
 
+function enviarEmailConfirmacao($destinatario, $nomeUsuario, $token) {
+    $linkConfirmacao = SITE_URL . "/confirmar_email.php?token=" . $token;
+    $assunto = 'Confirmação de e-mail - SiSGEH';
+    $mensagem = "Olá {$nomeUsuario},\r\n\r\n";
+    $mensagem .= "Obrigado por se cadastrar no SiSGEH. Clique no link abaixo para confirmar seu e-mail:\r\n\r\n";
+    $mensagem .= "{$linkConfirmacao}\r\n\r\n";
+    $mensagem .= "Esse link é válido por 24 horas. Caso não tenha feito o cadastro, ignore este e-mail.\r\n\r\n";
+    $mensagem .= "Atenciosamente,\r\nEquipe SiSGEH\r\n";
+
+    return enviarEmailSMTP(
+        $destinatario,
+        $assunto,
+        $mensagem,
+        SMTP_FROM,
+        SMTP_FROM_NAME
+    );
+}
+
 function enviarEmailSMTP($para, $assunto, $mensagem, $remetente, $remetenteNome) {
     $smtpHost = SMTP_HOST;
     $smtpPort = SMTP_PORT;

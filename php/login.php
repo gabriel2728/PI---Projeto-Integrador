@@ -23,13 +23,48 @@ if (isset($_POST['entrar'])) {
         exit;
     }
 
+    // Sanitização de entrada
+    $email = sanitizeInput($_POST['email'] ?? '');
+    $senha = sanitizeInput($_POST['senha'] ?? '');
+
+    // Validação básica
+    if (empty($email) || empty($senha)) {
+        echo "<script>alert('Preencha todos os campos!'); window.history.back();</script>";
+        exit;
+    }
+
+    if (!validarEmail($email)) {
+        echo "<script>alert('E-mail inválido!'); window.history.back();</script>";
+        exit;
+    }
+
+    // Buscar usuário no banco
+    $sql = "SELECT id_usuario, nomeUsuario, senha, emailConfirmado FROM Usuario WHERE emailUsuario = ?";
+    $stmt = $conn->prepare($sql);
+    if (!$stmt) {
+        logTentativaSuspeita('erro_sql_login', ['email' => $email]);
+        echo "<script>alert('Erro no sistema. Tente novamente.'); window.history.back();</script>";
+        exit;
+    }
+
+    $stmt->bind_param('s', $email);
+    $stmt->execute();
+    $resultado = $stmt->get_result();
+
     if ($resultado->num_rows > 0) {
         $usuario = $resultado->fetch_assoc();
+
+        if (!$usuario['emailConfirmado']) {
+            rateLimitIncrement('login');
+            echo "<script>alert('Confirme seu e-mail antes de entrar. Verifique sua caixa de entrada.'); window.history.back();</script>";
+            exit;
+        }
 
         // Verifica senha criptografada
         if (password_verify($senha, $usuario['senha'])) {
             // Reseta rate limiting em login bem-sucedido
-            unset($_SESSION[$rate_limit_key]);
+            rateLimitReset('login');
+            session_regenerate_id(true);
 
             $_SESSION['id_usuario'] = $usuario['id_usuario'];
             $_SESSION['nomeUsuario'] = $usuario['nomeUsuario'];

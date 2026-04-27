@@ -1,5 +1,7 @@
 <?php
 session_start();
+include('error_handler.php');
+include('seguranca.php');
 include 'conexao.php';
 
 // Verificar se usuário está logado
@@ -10,55 +12,27 @@ if (!isset($_SESSION['id_usuario'])) {
 
 $id_usuario = $_SESSION['id_usuario'];
 
-// Função para sanitizar entrada (remover tags HTML, escapar caracteres especiais)
-function sanitizeInput($input) {
-    return htmlspecialchars(strip_tags(trim($input)), ENT_QUOTES, 'UTF-8');
-}
-
-// Função para validar nome (apenas letras, espaços, hífens e apóstrofos)
-function validarNome($nome) {
-    return preg_match('/^[a-zA-ZÀ-ÿ\s\-\']{2,50}$/u', $nome);
-}
-
-// Função para validar senha (mínimo 8 caracteres, pelo menos uma letra maiúscula, minúscula e número)
-function validarSenha($senha) {
-    return preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d@$!%*?&]{8,}$/', $senha);
-}
-
-// Função para validar email com regex mais rigoroso
-function validarEmail($email) {
-    return filter_var($email, FILTER_VALIDATE_EMAIL) &&
-           preg_match('/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/', $email);
-}
-
-// Função para log de tentativas suspeitas
-function logTentativaSuspeita($acao, $dados) {
-    $log = date('Y-m-d H:i:s') . " - Usuário ID: $id_usuario - Ação suspeita: $acao - Dados: " . json_encode($dados) . "\n";
-    file_put_contents('logs/seguranca.log', $log, FILE_APPEND | LOCK_EX);
-}
+// Gerar CSRF token se não existir
+$csrf_token = gerarTokenCSRF();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $tipo = $_POST['tipo'] ?? '';
-
-    // Rate limiting básico (máximo 5 alterações por hora)
-    $rate_limit_key = "rate_limit_{$id_usuario}";
-    if (!isset($_SESSION[$rate_limit_key])) {
-        $_SESSION[$rate_limit_key] = ['count' => 0, 'time' => time()];
+    // Verificar CSRF token
+    $csrf_token_post = sanitizeInput($_POST['csrf_token'] ?? '');
+    if (!verificarTokenCSRF($csrf_token_post)) {
+        logTentativaSuspeita('csrf_fail_config_perfil', ['ip' => $_SERVER['REMOTE_ADDR']]);
+        $_SESSION['mensagem_erro'] = 'Token de segurança inválido. Tente novamente.';
+        header('Location: configuracoes_perfil.php');
+        exit;
     }
 
-    $rate_data = $_SESSION[$rate_limit_key];
-    if (time() - $rate_data['time'] > 3600) { // Reset após 1 hora
-        $rate_data = ['count' => 0, 'time' => time()];
-    }
-
-    if ($rate_data['count'] >= 5) {
+    // Rate limiting para alterações de perfil (máximo 5 alterações por hora)
+    if (!rateLimitCheck('config_perfil', 5, 3600)) {
         $_SESSION['mensagem_erro'] = 'Muitas alterações realizadas recentemente. Tente novamente em uma hora.';
         header('Location: configuracoes_perfil.php');
-        exit();
+        exit;
     }
 
-    $rate_data['count']++;
-    $_SESSION[$rate_limit_key] = $rate_data;
+    $tipo = sanitizeInput($_POST['tipo'] ?? '');
 
     switch ($tipo) {
         case 'nome':
