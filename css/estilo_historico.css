@@ -188,3 +188,70 @@ footer, footer a {
     .caixa_de_texto { width: 50%; }
     .icone-header img { width: 25px; height: 25px; }
 }
+
+/* Estilos da Paginação */
+.paginacao {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    margin: 20px 0;
+}
+
+.btn-pagina {
+    display: inline-block;
+    padding: 8px 12px;
+    margin: 0 2px;
+    text-decoration: none;
+    color: #007bff;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.btn-pagina:hover {
+    background-color: #e9ecef;
+    color: #0056b3;
+    text-decoration: none;
+}
+
+.btn-pagina.atual {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+    cursor: default;
+}
+
+.paginacao-dots {
+    padding: 8px 4px;
+    color: #6c757d;
+    font-size: 14px;
+}
+
+.info-paginacao {
+    margin-top: 10px;
+    text-align: center;
+    color: #6c757d;
+    font-size: 13px;
+    font-style: italic;
+}
+
+/* Responsivo para paginação */
+@media (max-width: 768px) {
+    .paginacao {
+        flex-wrap: wrap;
+        gap: 3px;
+    }
+
+    .btn-pagina {
+        padding: 6px 10px;
+        font-size: 12px;
+    }
+
+    .info-paginacao {
+        font-size: 12px;
+    }
+}

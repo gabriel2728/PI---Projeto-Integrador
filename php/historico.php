@@ -12,7 +12,22 @@ $nomeUsuario = $_SESSION['nomeUsuario'];
 // Gera token CSRF
 $csrf_token = gerarTokenCSRF();
 
-// Pega histórico do usuário
+// Configuração da paginação
+$itens_por_pagina = 10;
+$pagina_atual = isset($_GET['pagina']) ? max(1, intval($_GET['pagina'])) : 1;
+$offset = ($pagina_atual - 1) * $itens_por_pagina;
+
+// Conta total de simulações para paginação
+$stmt_count = $conn->prepare("SELECT COUNT(*) as total FROM Simulacoes WHERE id_usuario = ?");
+$stmt_count->bind_param("i", $id_usuario);
+$stmt_count->execute();
+$result_count = $stmt_count->get_result();
+$total_simulacoes = $result_count->fetch_assoc()['total'];
+$stmt_count->close();
+
+$total_paginas = ceil($total_simulacoes / $itens_por_pagina);
+
+// Pega histórico do usuário com paginação
 $stmt = $conn->prepare("
     SELECT s.id_simulacao, s.data_simulacao, s.vazao, s.altura, s.potTurbina, s.qtdTurbinas, s.potGerador, s.eficiencia, s.horas,
            r.geracao_principal, r.geracao_diaria, r.geracao_mensal, r.geracao_anual
@@ -20,8 +35,9 @@ $stmt = $conn->prepare("
     LEFT JOIN ResultadoSimulacao r ON r.id_simulacao = s.id_simulacao
     WHERE s.id_usuario = ?
     ORDER BY s.data_simulacao DESC
+    LIMIT ? OFFSET ?
 ");
-$stmt->bind_param("i", $id_usuario);
+$stmt->bind_param("iii", $id_usuario, $itens_por_pagina, $offset);
 $stmt->execute();
 $result = $stmt->get_result();
 $simulacoes = $result->fetch_all(MYSQLI_ASSOC);
@@ -120,6 +136,50 @@ $stmt->close();
                 <?php endforeach; ?>
             </tbody>
         </table>
+
+        <!-- Controles de Paginação -->
+        <?php if ($total_paginas > 1): ?>
+        <div class="paginacao" style="margin-top: 20px; text-align: center;">
+            <?php if ($pagina_atual > 1): ?>
+                <a href="?pagina=<?= $pagina_atual - 1 ?>" class="btn-pagina">« Anterior</a>
+            <?php endif; ?>
+
+            <?php
+            $inicio = max(1, $pagina_atual - 2);
+            $fim = min($total_paginas, $pagina_atual + 2);
+
+            if ($inicio > 1): ?>
+                <a href="?pagina=1" class="btn-pagina">1</a>
+                <?php if ($inicio > 2): ?>
+                    <span class="paginacao-dots">...</span>
+                <?php endif; ?>
+            <?php endif; ?>
+
+            <?php for ($i = $inicio; $i <= $fim; $i++): ?>
+                <?php if ($i == $pagina_atual): ?>
+                    <span class="btn-pagina atual"><?= $i ?></span>
+                <?php else: ?>
+                    <a href="?pagina=<?= $i ?>" class="btn-pagina"><?= $i ?></a>
+                <?php endif; ?>
+            <?php endfor; ?>
+
+            <?php if ($fim < $total_paginas): ?>
+                <?php if ($fim < $total_paginas - 1): ?>
+                    <span class="paginacao-dots">...</span>
+                <?php endif; ?>
+                <a href="?pagina=<?= $total_paginas ?>" class="btn-pagina"><?= $total_paginas ?></a>
+            <?php endif; ?>
+
+            <?php if ($pagina_atual < $total_paginas): ?>
+                <a href="?pagina=<?= $pagina_atual + 1 ?>" class="btn-pagina">Próximo »</a>
+            <?php endif; ?>
+        </div>
+        <?php endif; ?>
+
+        <div class="info-paginacao" style="margin-top: 10px; text-align: center; color: #666; font-size: 14px;">
+            Mostrando <?= count($simulacoes) ?> de <?= $total_simulacoes ?> simulações
+            (Página <?= $pagina_atual ?> de <?= $total_paginas ?>)
+        </div>
     </div>
 </div>
 
