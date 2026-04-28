@@ -1,0 +1,59 @@
+header {   
+    width: auto;
+    background-color: #bcdcf0;    
+    font-family: "Alta"; 
+    color: #4B4B4B;
+
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+	
+    padding: 0.2rem 1rem;
+    max-height: 86px;
+    font-size: clamp(1rem, 1.5vw, 2rem)
+}
+
+header a {
+    padding: 0 clamp(1rem, 1.5vw, 2rem);	
+    color: #4B4B4B;
+    }
+
+header h1{
+	justify-self: center;
+	font-size: clamp(1rem, 2.5vw, 3rem)
+}
+
+header nav {
+	justify-self: end;
+}
+
+header li {
+	display: inline-block;
+	list-style-type: none;
+}
+
+.config, .home {
+        width: 1.4rem;
+	height: auto;
+}
+
+.caixa_de_texto {
+    width: clamp(70px, 15vw, 300px);
+    border: 2px solid #4b4b4b;
+
+    display: flex;
+    justifY-content: center;    
+    align-items: center;
+
+    background-color: white;
+    border-radius: 25px;
+    padding: 0.3rem;
+}
+
+.caixa_de_texto input {
+    border: none;
+    background: none;
+    outline: none;
+
+    text-align: center;
+}
