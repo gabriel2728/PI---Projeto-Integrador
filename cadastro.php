@@ -79,9 +79,17 @@ document.querySelector("form").addEventListener("submit", function(event) {
         return;
     }
 
-    // Verifica tamanho da senha
-    if (senha.length < 8) {
-        alert("A senha deve ter pelo menos 8 caracteres.");
+    const regexNome = /^[A-Za-zÀ-ÿ\s.'-]{2,50}$/;
+    if (!regexNome.test(nome)) {
+        alert("O nome deve conter apenas letras, espaços, pontos, hífens e apóstrofos.");
+        event.preventDefault();
+        return;
+    }
+
+    // Verifica força da senha
+    const regexSenha = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/;
+    if (!regexSenha.test(senha)) {
+        alert("A senha precisa ter pelo menos 8 caracteres, com letra maiúscula, minúscula e número.");
         event.preventDefault();
         return;
     }

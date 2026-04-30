@@ -29,7 +29,7 @@ function sanitizeTextarea($input) {
  * Valida nome (apenas letras, espaços, hífens e apóstrofos)
  */
 function validarNome($nome) {
-    return preg_match('/^[a-zA-ZÀ-ÿ\s\-\']{2,50}$/u', $nome);
+    return preg_match('/^[\p{L}\s.\-\']{2,50}$/u', $nome);
 }
 
 /**
