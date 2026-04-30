@@ -77,7 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Verifica se email já existe
-    $sql_check = "SELECT id_usuario FROM Usuario WHERE emailUsuario = ?";
+    $sql_check = "SELECT id_usuario, nomeUsuario, emailConfirmado FROM Usuario WHERE emailUsuario = ?";
     $stmt_check = $conn->prepare($sql_check);
     if (!$stmt_check) {
         logTentativaSuspeita('erro_sql_check', ['email' => $email]);
@@ -87,10 +87,46 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $stmt_check->bind_param("s", $email);
     $stmt_check->execute();
-    if ($stmt_check->get_result()->num_rows > 0) {
-        echo "<script>alert('Este e-mail já está cadastrado. Use outro e-mail ou faça login.'); window.history.back();</script>";
-        logTentativaSuspeita('email_duplicado', ['email' => $email]);
+    $resultado_check = $stmt_check->get_result();
+    if ($resultado_check->num_rows > 0) {
+        $usuario_existente = $resultado_check->fetch_assoc();
         $stmt_check->close();
+
+        if ((int)$usuario_existente['emailConfirmado'] === 0) {
+            $novoToken = bin2hex(random_bytes(32));
+            $novaExpiracao = date('Y-m-d H:i:s', strtotime('+1 day'));
+            $senhaCriptografada = password_hash($senha, PASSWORD_DEFAULT);
+            $sql_update_token = "UPDATE Usuario SET nomeUsuario = ?, telefoneUsuario = ?, senha = ?, confirmacaoToken = ?, emailConfirmacaoExpiracao = ? WHERE id_usuario = ?";
+            $stmt_update_token = $conn->prepare($sql_update_token);
+
+            if (!$stmt_update_token) {
+                logTentativaSuspeita('erro_sql_update_token_confirmacao', ['email' => $email]);
+                echo "<script>alert('Erro no sistema. Tente novamente.'); window.history.back();</script>";
+                exit;
+            }
+
+            $stmt_update_token->bind_param("sssssi", $nome, $telefone, $senhaCriptografada, $novoToken, $novaExpiracao, $usuario_existente['id_usuario']);
+
+            if ($stmt_update_token->execute()) {
+                include 'config_email.php';
+
+                if (enviarEmailConfirmacao($email, $nome, $novoToken)) {
+                    echo "<script>alert('Este e-mail ja tinha um cadastro pendente. Enviamos um novo link de confirmacao.'); window.location.href='../index.html';</script>";
+                } else {
+                    logTentativaSuspeita('erro_reenvio_confirmacao', ['email' => $email]);
+                    echo "<script>alert('Cadastro pendente atualizado, mas nao foi possivel reenviar o e-mail de confirmacao.'); window.location.href='../index.html';</script>";
+                }
+            } else {
+                logTentativaSuspeita('erro_execute_update_token_confirmacao', ['email' => $email]);
+                echo "<script>alert('Erro ao atualizar cadastro pendente. Tente novamente.'); window.history.back();</script>";
+            }
+
+            $stmt_update_token->close();
+            exit;
+        }
+
+        echo "<script>alert('Este e-mail ja esta cadastrado. Use outro e-mail ou faca login.'); window.history.back();</script>";
+        logTentativaSuspeita('email_duplicado', ['email' => $email]);
         exit;
     }
     $stmt_check->close();
