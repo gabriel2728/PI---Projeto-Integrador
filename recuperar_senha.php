@@ -77,19 +77,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
 
 <header>
-    <div class="caixa_de_texto">
-        <input type="text" class="search-text" placeholder="Pesquisar...">
-    </div>
-    <h2 class="sisgeh"> SiSGEH </h2>
-    <div class="links">
-      <a href="sobre.html" class="sobre"> Sobre </a>
-      <a href="index.html" class="link_home">
-        <img src="icon_home.png" alt="Voltar a Home" class="home">
-      </a>
-    </div>
+    <nav class="links" aria-label="Navegação principal">
+        <a href="sobre.html" class="sobre">Sobre</a>
+        <a href="index.html" class="link_home">
+            <img src="images/home.png" alt="Voltar para a Home" class="home">
+        </a>
+    </nav>
+
+    <h1 class="sisgeh">SiSGEH</h1>
+
+    <div class="header-spacer"></div>
 </header>
 
- <img src="logo.png" class="logo">
+ <img src="images/logo.png" alt="Logo SiSGEH" class="logo">
 
 <div class="layoutRecuperar_Senha">
     <div class="recuperar_senha">
@@ -110,8 +110,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <input type="email" id="email" name="email" placeholder="seu@exemplo.com" maxlength="35" required>
                 <input type="submit" value="Enviar">
         </form>
-        <p class="info">Após clicar no link enviado, você poderá definir uma nova senha segura.<br>
-        <small><em>Nota: Para produção, configure um servidor SMTP em config_email.php</em></small></p>
+        <p class="info">Após clicar no link enviado, você poderá definir uma nova senha segura.</p>
     </div>
 </div>
 

@@ -3,56 +3,46 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Histórico de Simulações</title>
-<link rel="stylesheet" href="css/components/header.css"> 
-<link rel="stylesheet" type="text/css" href="css/style002.css"> 
-
+<title>Recuperar senha - SiSGEH</title>
+<link rel="stylesheet" type="text/css" href="css/estilo_recuperar_senha.css">
 </head>
 <body>
 
-    <header>
-        <div class="caixa_de_texto">
-            <input type="text" class="search-text" placeholder="Pesquisar...">
-        </div>
-        <h1 class="sisgeh"> SiSGEH </h1>
-        <nav class="links">
-            <ul>
-                <li>
-                    <a href="sobre.html" class="sobre"> Sobre </a>
-                </li>
+<header>
+    <nav class="links" aria-label="Navegação principal">
+        <a href="sobre.html" class="sobre">Sobre</a>
+        <a href="index.html" class="link_home">
+            <img src="images/home.png" alt="Voltar para a Home" class="home">
+        </a>
+    </nav>
 
-                <li>
-                    <a href="index.html" class="link_home">
-                        <img src="images/home.png" alt="Voltar a Home" class="home">
-                    </a>
-                </li>
-            </ul>
-        </nav>
-    </header>
+    <h1 class="sisgeh">SiSGEH</h1>
 
-    <main>
-        <figure>
-            <img src="images/logo.png" class="logo SiSGEH">
-        </figure>
+    <div class="header-spacer"></div>
+</header>
 
-        <div class="layout">
-            <section class="recuperar_senha">
-                <div class="mensagem">
-                    <h1>Recuperar senha</h1>
-                    <p>Informe o e-mail associado à sua conta. Enviaremos uma senha temporária por e-mail.</p>
-                </div>
+<main>
+    <img src="images/logo.png" alt="Logo SiSGEH" class="logo">
 
-                <form action="" method="POST">
-                        <label for="">DIGITE SEU E-MAIL:</label>
-                        <input type="email" name="" placeholder="seu@exemplo.com" maxlength="35" required>
-                        <input type="submit" value="Enviar">
-                </form>
-            </section>
-        </div>
-    </main>
-    <footer>
-        <p>&copy; Todos os direitos reservados. <a href="politica.html">Políticas de privacidade.</a></p>
-    </footer>
+    <div class="layoutRecuperar_Senha">
+        <section class="recuperar_senha">
+            <div class="mensagem">
+                <h1>Recuperar senha</h1>
+                <p>Informe o e-mail associado à sua conta. Enviaremos uma senha temporária por e-mail.</p>
+            </div>
+
+            <form action="recuperar_senha.php" method="POST">
+                <label for="email">DIGITE SEU E-MAIL:</label>
+                <input type="email" id="email" name="email" placeholder="seu@exemplo.com" maxlength="35" required>
+                <input type="submit" value="Enviar">
+            </form>
+        </section>
+    </div>
+</main>
+
+<footer>
+    <p>&copy; Todos os direitos reservados. <a href="politica.html">Políticas de privacidade.</a></p>
+</footer>
 
 </body>
 </html>
