@@ -9,9 +9,9 @@ $csrf_token = gerarTokenCSRF();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro | SiSGEH</title>
-    <link rel="stylesheet" type="text/css" href="css/header.css"> 
+    <link rel="stylesheet" type="text/css" href="css/components/header.css"> 
     <link rel="stylesheet" type="text/css" href="css/style.css"> 
-    
+   <link rel="stylesheet" type="text/css" href="css/components/botoes.css">  
 </head>
 <body>
 
@@ -39,7 +39,7 @@ $csrf_token = gerarTokenCSRF();
 
     <main>
         <div class="layout">
-            <section class="criar">
+            <section class="section">
                 <h1>Criar Conta</h1>
                 <form action="php/cadastro.php" method="POST">
                     <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf_token) ?>">
@@ -48,7 +48,7 @@ $csrf_token = gerarTokenCSRF();
                     <input type="email" name="emailUsuario" placeholder="E-mail" maxlength="50" required>
                     <input type="password" name="senha" placeholder="Senha" minlength="8" maxlength="20" required>
                     <input type="password" name="confirmar_senha" placeholder="Confirmar Senha" minlength="8" maxlength="20" required>
-                    <input type="submit" value="Enviar">
+                    <input type="submit" class="botao-cinza" value="Enviar">
                 </form>
             </section>
         </div>
