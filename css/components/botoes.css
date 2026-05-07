@@ -1,0 +1,55 @@
+section form {
+	max-width: 100%;
+}
+
+.botao-generico {
+	text-decoration: none;
+	color: #4B4B4B;
+	font-family: "Open Sauce Regular";
+	font-size: clamp(1rem, 1.5vw, 2rem);
+	text-align: center;
+
+	width: 60%;
+	padding: 0.8rem 0;
+	margin: 0.8rem;
+    	
+    border: 1px solid #4b4b4b;
+    border-radius: 20px; 
+    background-color: #bcdcf0; 
+	cursor: pointer; 
+	transition: all 0.3s ease;    	
+}
+
+.botao-generico a {
+	text-decoration: none;
+	color: #4B4B4B;
+}
+
+.botao-generico:hover {
+	background: #9ad6f7;
+	transform: translateY(-2px);
+	box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+
+.botao-cinza {
+	width: 50%;
+	padding: 0.8rem 0;
+	margin: 0.8rem;
+
+	background: #4B4B4B;
+	color: white;
+	border-radius: 20px; 
+	text-decoration: none;
+	text-align: center;
+	font-size: clamp(0.8rem, 1vw, 2rem);
+
+	cursor: pointer; 
+	transition: all 0.3s ease;  
+}
+
+.botao-cinza:hover {
+	background-color: #000000;
+	transform: translateY(-2px);
+	box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}

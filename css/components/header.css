@@ -10,17 +10,16 @@ header {
 	
     padding: 0.2rem 1rem;
     max-height: 86px;
-    font-size: clamp(1rem, 1.5vw, 2rem)
 }
 
 header a {
-    padding: 0 clamp(1rem, 1.5vw, 2rem);	
+    padding: 0 clamp(0.8rem, 1vw, 2rem);	
     color: #4B4B4B;
     }
 
 header h1{
 	justify-self: center;
-	font-size: clamp(1rem, 2.5vw, 3rem)
+	font-size: clamp(1.5rem, 2.5vw, 3rem)
 }
 
 header nav {
@@ -33,7 +32,7 @@ header li {
 }
 
 .config, .home {
-        width: 1.4rem;
+    width: 1.4rem;
 	height: auto;
 }
 
@@ -56,4 +55,5 @@ header li {
     outline: none;
 
     text-align: center;
+    font-size: clamp(0.6rem, 1vw, 1rem)
 }
