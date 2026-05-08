@@ -97,7 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="layout">
             <section class="section">
                     
-                <div class="mensagem">
+                <div class="pequena-mensagem">
                     <h2>Configurações do Sistema</h2>
                 </div>
 
@@ -117,8 +117,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <div class="form-group">
                         <label for="tema">🎨 Tema da Interface:</label>
                         <select name="tema" id="tema">
-                            <option value="claro" <?php echo ($configuracoes['tema'] == 'claro') ? 'selected' : ''; ?>>Claro</option>
-                            <option value="escuro" <?php echo ($configuracoes['tema'] == 'escuro') ? 'selected' : ''; ?>>Escuro</option>
+                            <option value="claro" <?php echo ($configuracoes['tema'] == 'claro') ? 'selected' : ''; ?>Claro</option>
+                            <option value="escuro" <?php echo ($configuracoes['tema'] == 'escuro') ? 'selected' : ''; ?>Escuro</option>
                         </select>
                     </div>
 
@@ -127,22 +127,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <div class="checkbox-group">
                             <div class="checkbox-item">
                                 <input type="checkbox" name="notificacoes_email" id="notificacoes_email"
-                                    <?php echo ($configuracoes['notificacoes_email']) ? 'checked' : ''; ?>>
+                                    <?php echo ($configuracoes['notificacoes_email']) ? 'checked' : ''; ?>
                                 <label for="notificacoes_email">📧 Notificações por e-mail</label>
                             </div>
                             <div class="checkbox-item">
                                 <input type="checkbox" name="notificacoes_sistema" id="notificacoes_sistema"
-                                    <?php echo ($configuracoes['notificacoes_sistema']) ? 'checked' : ''; ?>>
+                                    <?php echo ($configuracoes['notificacoes_sistema']) ? 'checked' : ''; ?>
                                 <label for="notificacoes_sistema">🔔 Notificações do sistema</label>
                             </div>
                             <div class="checkbox-item">
                                 <input type="checkbox" name="notificacoes_simulacao" id="notificacoes_simulacao"
-                                    <?php echo ($configuracoes['notificacoes_simulacao']) ? 'checked' : ''; ?>>
+                                    <?php echo ($configuracoes['notificacoes_simulacao']) ? 'checked' : ''; ?>
                                 <label for="notificacoes_simulacao">📊 Notificações de simulações</label>
                             </div>
                             <div class="checkbox-item">
                                 <input type="checkbox" name="notificacoes_relatorios" id="notificacoes_relatorios"
-                                    <?php echo ($configuracoes['notificacoes_relatorios']) ? 'checked' : ''; ?>>
+                                    <?php echo ($configuracoes['notificacoes_relatorios']) ? 'checked' : ''; ?>
                                 <label for="notificacoes_relatorios">📋 Notificações de relatórios</label>
                             </div>
                         </div>

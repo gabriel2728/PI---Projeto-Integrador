@@ -217,7 +217,7 @@ if ($result->num_rows > 0) {
             `;
 
             // Inserir após o título "Configurações de Perfil"
-            const titulo = areaConfig.querySelector('h1');
+            const titulo = areaConfig.querySelector('h2');
             titulo.insertAdjacentElement('afterend', form);
         }
 
@@ -306,21 +306,21 @@ if ($result->num_rows > 0) {
         <section class="section">
 
 
-            <?php if (isset($_SESSION['mensagem_sucesso'])): ?>
-                <div class="mensagem sucesso">
+            <?php if (isset($_SESSION['mensagemsucesso'])): ?>
+                <div class="mensagem _sucesso">
                     <?php echo $_SESSION['mensagem_sucesso']; unset($_SESSION['mensagem_sucesso']); ?>
                 </div>
             <?php endif; ?>
 
-            <?php if (isset($_SESSION['mensagem_erro'])): ?>
-                <div class="mensagem erro">
+            <?php if (isset($_SESSION['mensagem erro'])): ?>
+                <div class="mensagem_erro">
                     <?php echo $_SESSION['mensagem_erro']; unset($_SESSION['mensagem_erro']); ?>
                 </div>
             <?php endif; ?>
 
-       
+            <div class="pequena-mensagem">
                 <h2>Configurações de Perfil</h2>
-  
+            </div>
 
             <!-- Botões que abrem os formulários -->
             <a href="#" onclick="abrirFormularioNome()" class="botao-generico"> 📛 Trocar Nome </a>

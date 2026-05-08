@@ -68,17 +68,17 @@ main{
 	border-radius: 60px;
 }
 
-.mensagem h1 {
+.pequena-mensagem h1 {
 	font-size: clamp(1.5rem, 2.5vw, 3rem);
    	color: #4b4b4b;
 }
 
-.mensagem h2 {
+.pequena-mensagem h2 {
 	font-size: clamp(1rem, 2vw, 2.5rem);
    	color: #4b4b4b;
 }
 
-.mensagem p {
+.pequena-mensagem p {
     color: #929292;
     font-size: clamp(1rem, 1.5vw, 2.5rem);
 	
@@ -104,7 +104,7 @@ form {
 	font-family: "Open Sauce Light";
 }
 
-form input {
+form input:not([type="checkbox"]) {
 	width: 100%;
 	max-width: 400px;
 	padding: 0.3rem 0;
@@ -120,7 +120,7 @@ form input {
     text-align: center;    
 }
 
-input [type=checkbox] {
+input [type="checkbox"] {
 	width: auto;
 }
 

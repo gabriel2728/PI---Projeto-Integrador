@@ -89,11 +89,11 @@ if ($result->num_rows > 0) {
             </ul>
         </nav>
     </header>
-    
+
     <main>
         <div class="layout">
             <section class="section">
-                <div class="mensagem">
+                <div class="pequena-mensagem">
                     <h2>Configurações</h2>
                 </div>
 
