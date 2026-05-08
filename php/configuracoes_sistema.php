@@ -97,7 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="layout">
             <section class="section">
                     
-                <div class="pequena-mensagem">
+                <div class="mensagem-pequena">
                     <h2>Configurações do Sistema</h2>
                 </div>
 

@@ -21,7 +21,8 @@ $primeiroNome = explode(" ", $nomeUsuario)[0]; // Pega só o primeiro nome
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Início - SiSGEH</title>
     <link rel="stylesheet" href="../css/components/header.css"> 
-    <link rel="stylesheet" href="../css/estilo_inicio.css"> 
+    <link rel="stylesheet" href="../css/style.css"> 
+    <link rel="stylesheet" href="../css/components/botoes.css">
 </head>
 <body>
 
@@ -30,37 +31,43 @@ $primeiroNome = explode(" ", $nomeUsuario)[0]; // Pega só o primeiro nome
         <input type="text" class="search-text" placeholder="Pesquisar...">
     </div>
 
-    <h2 class="sisgeh"> SiSGEH </h2>
+    <h1 class="sisgeh"> SiSGEH </h1>
 
-    <div class="links">
-          <a href="../sobr_e.html" class="sobre"> Sobre </a>
-          <a href="configuracoes.php" class="link_config">
-             <img src="../config.png" alt="Configurações" class="config">
-         </a>
-    </div>
+    <nav class="links">
+        <ul>
+            <li>
+                <a href="../sobr_e.html" class="sobre"> Sobre </a>
+
+                <a href="configuracoes.php" class="link_config">
+                    <img src="../images/gear.png" alt="Configurações" class="config">
+                </a>
+            </li>
+        </ul>
+    </nav>
 </header>
 
-<div class="layoutInicio">
+    <main>
+        <div class="layout">
 
-    <div class="inicio">
+            <section class="section">
 
-        <div class="mensagem">
-            <h2>Bem-vindo, <?php echo $primeiroNome; ?>!</h2>
-            <p>Abaixo estão algumas opções que você pode selecionar:</p>
+                <div class="mensagem-pequena">
+                    <h2>Bem-vindo, <?php echo $primeiroNome; ?>!</h2>
+                    <p>Abaixo estão algumas opções que você pode selecionar:</p>
+                </div>
+
+                <a href="simulacao.php" class="botao-generico"> ⚡ Simulação</a>
+                <a href="historico.php" class="botao-generico"> 🧾 Histórico</a>
+                <a href="analise_preditiva.php" class="botao-generico"> 🔮 Análise Preditiva</a>
+
+                <!-- Botão sair estilizado -->
+                <form method="post" action="logout.php">
+                    <button type="submit" class="botao-cinza">📤 Sair</button>
+                </form>
+
+            </section>
         </div>
-
-        <a href="simulacao.php"> ⚡ Simulação</a>
-        <a href="historico.php"> 🧾 Histórico</a>
-        <a href="analise_preditiva.php"> 🔮 Análise Preditiva</a>
-
-        <!-- Botão sair estilizado -->
-        <form method="post" action="logout.php">
-            <button type="submit" class="botao-sair">📤 Sair</button>
-        </form>
-
-    </div>
-
-</div>
+</main>
 
 <footer>
     <p>&copy Todos os direitos reservados. <a href="../politica.html">Políticas de privacidade.</a></p>

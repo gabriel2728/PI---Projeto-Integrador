@@ -93,7 +93,7 @@ if ($result->num_rows > 0) {
     <main>
         <div class="layout">
             <section class="section">
-                <div class="pequena-mensagem">
+                <div class="mensagem-pequena">
                     <h2>Configurações</h2>
                 </div>
 

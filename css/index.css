@@ -1,0 +1,65 @@
+﻿/* Fonte "Alta" adcionada e indicando abaixo o tipo de formato de arquivo da fonte que é "Opentype" */
+@font-face {
+    font-family: "Alta";
+    src: url("../fonts/alta-regular.otf") format("opentype");
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body {  
+		display: flex;
+		flex-direction: column;
+
+    	min-height: 100vh;
+    	width: auto;
+
+    	background-image: url("../images/fundo_animado.gif");
+    	background-size: cover;
+    	background-repeat: no-repeat; 
+		background-attachment: fixed; /* mant�m o fundo fixo mesmo ao rolar a p�gina */
+
+    	margin: 0;
+}
+
+main{
+	flex: 1;
+}
+
+
+.opcoes-principal {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: clamp(1rem, 4vw, 3rem);
+    padding: 4rem 0rem;
+    font-family: "Open Sauce Light", sans-serif;
+    flex-wrap: wrap;
+}
+
+.logo {
+    width: min(400px, 22vw);
+    height: auto;
+}
+
+footer p, footer a {
+	font-size: clamp(0.8rem, 1.2vw, 2rem);
+    text-align: center;
+    color: #EEEEEE;
+    font-family: "Open Sauce Light";
+}
+
+
+
+/* Celular */
+@media (max-width: 1058px) {
+    .opcoes-principal {
+        flex-direction: column;
+    }
+
+    .logo {
+        width: min(240px, 65vw);
+    }
+
+}

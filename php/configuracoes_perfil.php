@@ -319,7 +319,7 @@ if ($result->num_rows > 0) {
                     </div>
                 <?php endif; ?>
 
-                <div class="pequena-mensagem">
+                <div class="mensagem-pequena">
                     <h2>Configurações de Perfil</h2>
                 </div>
 

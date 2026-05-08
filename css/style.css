@@ -48,7 +48,7 @@ main{
 	flex-direction: column;
 }
 
-.section {
+.section, .configuracao {
     width: 100%;
     max-width: 800px;
 	padding: clamp(0.8rem, 10vw, 3rem);
@@ -68,17 +68,17 @@ main{
 	border-radius: 60px;
 }
 
-.pequena-mensagem h1 {
+.mensagem-pequena h1 {
 	font-size: clamp(1.5rem, 2.5vw, 3rem);
    	color: #4b4b4b;
 }
 
-.pequena-mensagem h2 {
+.mensagem-pequena h2 {
 	font-size: clamp(1rem, 2vw, 2.5rem);
    	color: #4b4b4b;
 }
 
-.pequena-mensagem p {
+.mensagem-pequena p {
     color: #929292;
     font-size: clamp(1rem, 1.5vw, 2.5rem);
 	
