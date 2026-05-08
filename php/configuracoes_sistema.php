@@ -72,80 +72,89 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Configurações do Sistema - SiSGEH</title>
     <link rel="stylesheet" href="../css/components/header.css">  
-    <link rel="stylesheet" href="../css/estilo_configuracao_sistema.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/components/botoes.css">
 </head>
 <body>
     <header>
         <div class="caixa_de_texto">
             <input type="text" class="search-text" placeholder="Pesquisar...">
         </div>
-        <h2 class="sisgeh"> SiSGEH </h2>
-        <div class="links">
-            <a href="inicio.php" class="link_home">
-                <img src="../home.png" alt="Voltar a Home" class="home">
-            </a>
-        </div>
+
+        <h1 class="sisgeh"> SiSGEH </h1>
+
+        <nav class="links">
+            <ul>
+                <li>
+                    <a href="inicio.php" class="link_home">
+                        <img src="../images/home.png" alt="Voltar a Home" class="home">
+                    </a>
+                </li>
+        </nav>
     </header>
 
-    <div class="layoutConfiguracao">
-        <div class="configuracao">
-            <div style="text-align: center; margin-bottom: 20px;">
-                <a href="configuracoes.php" style="display: inline-block; padding: 10px 20px; margin: 0 10px; background: #6c757d; color: white; text-decoration: none; border-radius: 4px;">← Voltar</a>
-            </div>
-
-            <h1>Configurações do Sistema</h1>
-
-            <?php if (isset($_SESSION['mensagem_sucesso'])): ?>
-                <div class="mensagem sucesso">
-                    <?php echo $_SESSION['mensagem_sucesso']; unset($_SESSION['mensagem_sucesso']); ?>
-                </div>
-            <?php endif; ?>
-
-            <?php if (isset($_SESSION['mensagem_erro'])): ?>
-                <div class="mensagem erro">
-                    <?php echo $_SESSION['mensagem_erro']; unset($_SESSION['mensagem_erro']); ?>
-                </div>
-            <?php endif; ?>
-
-            <form method="POST">
-                <div class="form-group">
-                    <label for="tema">🎨 Tema da Interface:</label>
-                    <select name="tema" id="tema">
-                        <option value="claro" <?php echo ($configuracoes['tema'] == 'claro') ? 'selected' : ''; ?>>Claro</option>
-                        <option value="escuro" <?php echo ($configuracoes['tema'] == 'escuro') ? 'selected' : ''; ?>>Escuro</option>
-                    </select>
+    <main>
+        <div class="layout">
+            <section class="section">
+                    
+                <div class="mensagem">
+                    <h2>Configurações do Sistema</h2>
                 </div>
 
-                <div class="form-group">
-                    <label>Notificações:</label>
-                    <div class="checkbox-group">
-                        <div class="checkbox-item">
-                            <input type="checkbox" name="notificacoes_email" id="notificacoes_email"
-                                   <?php echo ($configuracoes['notificacoes_email']) ? 'checked' : ''; ?>>
-                            <label for="notificacoes_email">📧 Notificações por e-mail</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" name="notificacoes_sistema" id="notificacoes_sistema"
-                                   <?php echo ($configuracoes['notificacoes_sistema']) ? 'checked' : ''; ?>>
-                            <label for="notificacoes_sistema">🔔 Notificações do sistema</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" name="notificacoes_simulacao" id="notificacoes_simulacao"
-                                   <?php echo ($configuracoes['notificacoes_simulacao']) ? 'checked' : ''; ?>>
-                            <label for="notificacoes_simulacao">📊 Notificações de simulações</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" name="notificacoes_relatorios" id="notificacoes_relatorios"
-                                   <?php echo ($configuracoes['notificacoes_relatorios']) ? 'checked' : ''; ?>>
-                            <label for="notificacoes_relatorios">📋 Notificações de relatórios</label>
+                <?php if (isset($_SESSION['mensagem_sucesso'])): ?>
+                    <div class="mensagem sucesso">
+                        <?php echo $_SESSION['mensagem_sucesso']; unset($_SESSION['mensagem_sucesso']); ?>
+                    </div>
+                <?php endif; ?>
+
+                <?php if (isset($_SESSION['mensagem_erro'])): ?>
+                    <div class="mensagem erro">
+                        <?php echo $_SESSION['mensagem_erro']; unset($_SESSION['mensagem_erro']); ?>
+                    </div>
+                <?php endif; ?>
+
+                <form method="POST">
+                    <div class="form-group">
+                        <label for="tema">🎨 Tema da Interface:</label>
+                        <select name="tema" id="tema">
+                            <option value="claro" <?php echo ($configuracoes['tema'] == 'claro') ? 'selected' : ''; ?>>Claro</option>
+                            <option value="escuro" <?php echo ($configuracoes['tema'] == 'escuro') ? 'selected' : ''; ?>>Escuro</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Notificações:</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="notificacoes_email" id="notificacoes_email"
+                                    <?php echo ($configuracoes['notificacoes_email']) ? 'checked' : ''; ?>>
+                                <label for="notificacoes_email">📧 Notificações por e-mail</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="notificacoes_sistema" id="notificacoes_sistema"
+                                    <?php echo ($configuracoes['notificacoes_sistema']) ? 'checked' : ''; ?>>
+                                <label for="notificacoes_sistema">🔔 Notificações do sistema</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="notificacoes_simulacao" id="notificacoes_simulacao"
+                                    <?php echo ($configuracoes['notificacoes_simulacao']) ? 'checked' : ''; ?>>
+                                <label for="notificacoes_simulacao">📊 Notificações de simulações</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="notificacoes_relatorios" id="notificacoes_relatorios"
+                                    <?php echo ($configuracoes['notificacoes_relatorios']) ? 'checked' : ''; ?>>
+                                <label for="notificacoes_relatorios">📋 Notificações de relatórios</label>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <button type="submit" class="btn-salvar">💾 Salvar Configurações</button>
-            </form>
+                    <button type="submit" class="botao-generico">💾 Salvar Configurações</button>
+                </form>
+
+                <a href="configuracoes.php" class="botao-cinza">← Voltar</a>
+            </section>
         </div>
-    </div>
+    </main>
 
     <footer>
         <p> &copy Todos os direitos reservados. <a href="politica.html"> Políticas de privacidade. </a> </p>

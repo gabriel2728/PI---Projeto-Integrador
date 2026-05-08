@@ -65,7 +65,7 @@ main{
 	font-size: clamp(1rem, 1.5vw, 2.5rem);
 	font-family: "Open Sauce Light";
 	text-align: center;
-	border-radius: 80px;
+	border-radius: 60px;
 }
 
 .mensagem h1 {
@@ -125,7 +125,7 @@ input [type=checkbox] {
 }
 
 footer p, footer a {
-	font-size: clamp(0.8rem, 1vw, 2rem);
+	font-size: clamp(0.8rem, 1.2vw, 2rem);
     text-align: center;
     color: #4b4b4b;
     font-family: "Open Sauce Light";

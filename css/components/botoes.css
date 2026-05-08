@@ -2,6 +2,10 @@ section form {
 	max-width: 100%;
 }
 
+button.botao-cinza, button.botao-generico {
+	border: none;       /* Remove a borda padrão */   
+}
+
 .botao-generico {
 	text-decoration: none;
 	color: #4B4B4B;
@@ -31,6 +35,29 @@ section form {
 	box-shadow: 0 6px 12px rgba(0,0,0,0.15);
 }
 
+.botao-azul {
+	text-decoration: none;
+	color: white;
+	font-family: "Open Sauce Regular";
+	font-size: clamp(1rem, 1.5vw, 2rem);
+	text-align: center;
+
+	width: 50%;
+	padding: 0.8rem 0;
+	margin: 0.8rem;
+    	
+    border: 0.6px solid #EEEEEE;
+    border-radius: 20px; 
+    background-color: #0b0bf0; 
+	cursor: pointer; 
+	transition: all 0.3s ease;    	
+}
+
+.botao-azul:hover {
+	background: #010199;
+	transform: translateY(-2px);
+	box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
 
 .botao-cinza {
 	width: 50%;

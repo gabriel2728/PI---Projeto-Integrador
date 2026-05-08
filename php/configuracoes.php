@@ -35,38 +35,9 @@ if ($result->num_rows > 0) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Configurações - SiSGEH</title>
     <link rel="stylesheet" href="../css/components/header.css"> 
-    <link rel="stylesheet" href="../css/estilo_configuracao.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css//components/botoes.css">
     <style>
-        .menu-configuracoes {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 60vh;
-            gap: 30px;
-        }
-
-        .opcao-config {
-            display: block;
-            width: 300px;
-            padding: 25px;
-            background: #007bff;
-            color: white;
-            text-decoration: none;
-            border-radius: 12px;
-            text-align: center;
-            font-size: 18px;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-
-        .opcao-config:hover {
-            background: #0056b3;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-        }
-
         .dados-usuario {
             background: #f8f9fa;
             border-radius: 8px;
@@ -106,33 +77,40 @@ if ($result->num_rows > 0) {
         <div class="caixa_de_texto">
             <input type="text" class="search-text" placeholder="Pesquisar...">
         </div>
-        <h2 class="sisgeh"> SiSGEH </h2>
+        <h1 class="sisgeh"> SiSGEH </h1>
 
-        <div class="links">
-             <a href="inicio.php" class="link_home">
-                 <img src="../home.png" alt="Voltar a Home" class="home">
-            </a>
-        </div>
+        <nav class="links">
+            <ul>
+                <li>
+                    <a href="inicio.php" class="link_home">
+                        <img src="../images/home.png" alt="Voltar a Home" class="home">
+                    </a>
+                </li>    
+            </ul>
+        </nav>
     </header>
+    
+    <main>
+        <div class="layout">
+            <section class="section">
+                <div class="mensagem">
+                    <h2>Configurações</h2>
+                </div>
 
-    <div class="layoutConfiguracao">
-        <div class="configuracao">
-            <h1>Configurações</h1>
 
-            <div class="menu-configuracoes">
-                <a href="configuracoes_perfil.php" class="opcao-config">
-                    👤 Configurações de Perfil
-                </a>
+                    <a href="configuracoes_perfil.php" class="botao-generico">
+                        👤 Configurações de Perfil
+                    </a>
 
-                <a href="configuracoes_sistema.php" class="opcao-config">
-                    ⚙️ Configurações do Sistema
-                </a>
+                    <a href="configuracoes_sistema.php" class="botao-generico">
+                        ⚙️ Configurações do Sistema
+                    </a>
             </div>
         </div>
-    </div>
+    </main>
 
     <footer>
-        <p>&copy; Todos os direitos reservados. <a href="../politica.html">Pol�ticas de privacidade.</a></p>
+        <p>&copy; Todos os direitos reservados. <a href="../politica.html">Políticas de privacidade.</a></p>
     </footer>
 </body>
 </html>

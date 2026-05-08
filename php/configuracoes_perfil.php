@@ -35,7 +35,9 @@ if ($result->num_rows > 0) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Configurações de Perfil - SiSGEH</title>
     <link rel="stylesheet" href="../css/components/header.css"> 
-    <link rel="stylesheet" href="../css/estilo_configuracao_perfil.css">
+    <link rel="stylesheet" href="../css/estilo_configuracao_perfil.css"> 
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/components/botoes.css">
     <script>
         // Função para abrir o formulário de trocar nome
         function abrirFormularioNome() {
@@ -209,7 +211,7 @@ if ($result->num_rows > 0) {
                 		<input type="email" id="confirmarEmail" placeholder="Confirme o novo e-mail" required>
 			</div>
 			<div id="layoutBotaoEmail">
-                		<button type="button" onclick="salvarEmail()">Confirmar</button>
+                		<button type="button" onclick="salvarEmail()" class="botao-cinza">Confirmar</button>
 			</div>
 		</div>
             `;
@@ -287,20 +289,22 @@ if ($result->num_rows > 0) {
         <div class="caixa_de_texto">
             <input type="text" class="search-text" placeholder="Pesquisar...">
         </div>
-        <h2 class="sisgeh"> SiSGEH </h2>
+        <h1 class="sisgeh"> SiSGEH </h1>
 
-        <div class="links">
-             <a href="inicio.php" class="link_home">
-                 <img src="../home.png" alt="Voltar a Home" class="home">
-            </a>
-        </div>
+        <nav class="links">
+            <ul>
+                <li>
+                    <a href="inicio.php" class="link_home">
+                        <img src="../images/home.png" alt="Voltar a Home" class="home">
+                    </a>
+                </li>
+            </ul>
+        </nav>
     </header>
 
-    <div class="layoutConfiguracao">
-        <div class="configuracao">
-            <div style="text-align: center; margin-bottom: 20px;">
-                <a href="configuracoes.php" style="display: inline-block; padding: 10px 20px; margin: 0 10px; background: #6c757d; color: white; text-decoration: none; border-radius: 4px;">← Voltar</a>
-            </div>
+    <div class="layout">
+        <section class="section">
+
 
             <?php if (isset($_SESSION['mensagem_sucesso'])): ?>
                 <div class="mensagem sucesso">
@@ -314,16 +318,18 @@ if ($result->num_rows > 0) {
                 </div>
             <?php endif; ?>
 
-            <h1>Configurações de Perfil</h1>
+       
+                <h2>Configurações de Perfil</h2>
+  
 
             <!-- Botões que abrem os formulários -->
-            <a href="#" onclick="abrirFormularioNome()"> 📛 Trocar Nome </a>
-            <a href="#" onclick="abrirFormularioSenha()"> 🔑 Trocar Senha </a>
-            <a href="#" onclick="abrirFormularioEmail()"> 📧 Trocar E-mail </a>
-            <a href="#"> ❌ Excluir conta </a>
+            <a href="#" onclick="abrirFormularioNome()" class="botao-generico"> 📛 Trocar Nome </a>
+            <a href="#" onclick="abrirFormularioSenha()" class="botao-generico"> 🔑 Trocar Senha </a>
+            <a href="#" onclick="abrirFormularioEmail()" class="botao-generico"> 📧 Trocar E-mail </a>
+            <a href="#" class="botao-generico"> ❌ Excluir conta </a>
             <!-- Botão sair estilizado -->
-            <form method="post" action="logout.php" style="display: inline;">
-                <button type="submit" class="botao-sair">📥 Sair da conta</button>
+            <form method="post" action="logout.php">
+                <button type="submit" class="botao-cinza">📥 Sair da conta</button>
             </form>
 
             <!-- Dados do usuário -->
@@ -342,7 +348,8 @@ if ($result->num_rows > 0) {
                     <span class="dado-valor"><?php echo htmlspecialchars($usuario['telefoneUsuario']); ?></span>
                 </div>
             </div>
-        </div>
+            <a href="configuracoes.php" class="botao-cinza">← Voltar</a>
+        </section>
     </div>
 
     <footer>
