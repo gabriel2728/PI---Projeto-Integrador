@@ -1,0 +1,202 @@
+﻿@font-face {
+    font-family: "Alta";
+    src: url("../fonts/alta-regular.otf") format("opentype");
+}
+
+@font-face {
+    font-family: "Open Sans Regular";
+    src: url("../fonts/open-sans.bold.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Open Sauce Light";
+    src: url("../fonts/open-sauce.sans-light.ttf") format("truetype");
+}
+
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body {  
+		display: flex;
+		flex-direction: column;
+
+    		min-height: 100vh;
+    		width: auto;
+
+    		background-image: url("../images/fundo_estatico.jpg");
+    		background-size: cover;
+    		background-repeat: no-repeat; 
+		background-attachment: fixed; /* mant�m o fundo fixo mesmo ao rolar a p�gina */
+
+    		margin: 0;
+}
+
+main{
+		flex: 1;
+}
+
+
+/* Barra Lateral*/
+
+aside {
+    	flex: 1;
+    	width: 100%;
+    	max-width: 400px;
+    	height: auto;
+    
+    	background-color: #bcdcf0;
+	background-repeat: no-repeat;
+	background-size: cover;
+    	padding: 2rem;
+
+    	color: white;
+	text-align: center;
+    	font-family: "Open Sauce Light";
+}
+
+.lateral { 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+
+.lateral a {
+    	text-decoration: none;
+	color: white;
+    	border: 2px solid white;
+	border-radius: 20px;
+    	padding: 1rem 2rem; 
+}
+
+.lateral a:hover {
+    	background-color: white;
+    	color:#bcdcf0;
+}
+
+
+/* Barra Lateral*/
+
+
+
+/*section e layout*/
+.layout { 
+
+		display: flex;
+    		flex-direction: row; /* agora fica lado a lado */
+		justify-content: space-beetwen;
+    		width: 100%;
+    		min-height: 100vh;
+}
+
+.esqueci_senha {
+    	color: #4b4b4b;
+    	font-size: 3vh;
+}
+
+section {
+        flex: 1;
+    	width: auto;
+	max-width: 100%;
+	height: auto;
+
+    	display: flex;
+    	flex-direction: column;
+    	justify-content: center;
+    	align-items: center;
+    	
+	padding: 2rem;
+	font-size: clamp(1rem, 1.2vw, 3rem);
+    	font-family: "Open Sauce Light";
+    	text-align: center;
+    	border-radius: 80px;
+}
+/*section e layout*/
+
+
+
+/*mensagem*/
+.pequena-mensagem h2 {
+	font-size: clamp(1.5rem, 2.5vw, 3rem);
+   color: #4b4b4b;
+    font-family: "Open Sauce Light";
+}
+
+.pequena-mensagem p {
+    	color: #b4b1b1;
+    	font-size: clamp(1rem, 1.5vw, 2.5rem);
+	
+	margin: 0 1rem;
+    	padding-bottom: 2rem;
+        font-family: "Open Sauce Light";
+}
+
+
+
+
+/* Formulario */
+label {
+    font-family: "Open Sans Regular";
+}
+
+form input {
+        width: 100%;
+        padding: 0.3rem 0;
+        margin-bottom: 2rem;
+
+        border: none;
+        text-decoration: none;
+        background-color: #bcdcf0;
+        border-radius:20px;
+
+        color: #4B4B4B;
+        font-size: clamp(1rem, 1.5vw, 2.5rem);
+        text-align: center;    
+}
+
+form {
+	width: auto;
+    	display: flex;
+    	justify-content: center;
+    	align-items: flex-start;
+    	flex-direction: column;
+}
+
+input[type="submit"] {
+    background-color: #4b4b4b;
+    color: white;
+    width: 15vw;
+	height: 8vh;
+    margin-top: 1vh;
+    align-items: center;
+}
+
+
+input[type="submit"]:hover {
+    background-color: #000000;
+}
+/* Formulario */
+
+
+
+
+/*logo*/
+figure {
+	margin: 0;
+	flex: 1;
+	width: 100%;
+    	max-width: 20vw;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.logo{
+    width: 100%;
+    max-width: 200vw;
+ }
+/*logo*/

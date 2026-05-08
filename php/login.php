@@ -99,7 +99,7 @@ if (isset($_POST['entrar'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="../css/components/header.css"> 
-    <link rel="stylesheet" href="../css/estilo_login.css">
+    <link rel="stylesheet" href="../css/login.css">
 </head>
 <body>
 
@@ -107,46 +107,60 @@ if (isset($_POST['entrar'])) {
         <div class="caixa_de_texto">
             <input type="text" class="search-text" placeholder="Pesquisar...">
         </div>
-        <h2 class="sisgeh"> SiSGEH </h2>
+        <h1 class="sisgeh"> SiSGEH </h1>
 
-        <div class="links">
+        <nav class="links">
+            <ul>
+                <li>
+                    <a href="../sobre.html" class="sobre"> Sobre </a>
 
-            <a href="../sobre.html" class="sobre"> Sobre </a>
-            <a href="../index.html" class="link_home">
-                 <img src="../home.png" alt="Voltar a Home" class="home"> 
-            </a>
+                    <a href="../index.html" class="link_home">
+                        <img src="../images/home.png" alt="Voltar a Home" class="home"> 
+                    </a>
+                </li>
+            </ul>
         </div>
     </header>
 
-        <div class="lateral">
-            <h1> Seja Bem-Vindo! </h1>
-	        <p> Novo por aqui? </p>
-            <br>
-	        <a href="../cadastro.php" > Criar conta </a>
-        </div>
-
-        <img src="../logo.png" class="logo">
-        <div class="layoutEntrar">
+       
+    <main>
+        <div class="layout">
+            <figure>
+                <img src="../images/logo.png" class="logo">
+            </figure>
         
-            <h1>Área do Usuário</h1>
-		    <p>Identifique-se</p>
+            <section class="section">
+                <div class="pequena-mensagem">
+                    <h2>Área do Usuário</h2>
+                    <p>Identifique-se</p>
+                </div>
 
-            <form action="login.php" method="POST">
-                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf_token) ?>">
-                <label for="email">E-MAIL</label>
-                <input type="email" name="email" placeholder="E-mail" maxlength="50" required>
+                <form action="login.php" method="POST">
+                    <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf_token) ?>">
+                    <label for="email">E-MAIL</label>
+                    <input type="email" name="email" placeholder="E-mail" maxlength="50" required>
 
-                <br>
+                    <br>
 
-                <label for="senha">SENHA</label>
-                <input type="password" name="senha" placeholder="Senha" minlength="8" maxlength="20" required>
-                <br>
+                    <label for="senha">SENHA</label>
+                    <input type="password" name="senha" placeholder="Senha" minlength="8" maxlength="20" required>
+                    <br>
 
-                <input type="submit" name="entrar" value="Entrar" style="align-self: center;">
-            </form>
+                    <input type="submit" name="entrar" value="Entrar" style="align-self: center;">
+                </form>
 
-               <a href="../recuperar_senha.php" class="esqueci_senha">Esqueci minha senha</a>
+                <a href="../recuperar_senha.php" class="esqueci_senha">Esqueci minha senha</a>
+
+            </section>
+
+            <aside>
+                <div class="lateral">
+                    <h2> Seja Bem-Vindo! </h2>
+	                <p> Novo por aqui? </p>
+                    <br>
+	                <a href="../cadastro.php" > Criar conta </a>
+                </div>
+            </aside>
         </div>
-
 </body>
 </html>

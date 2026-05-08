@@ -54,7 +54,7 @@ if ($result->num_rows > 0) {
 		</div>`;
 
             // Inserir após o título "Configurações de Perfil"
-            const titulo = areaConfig.querySelector('h1');
+            const titulo = areaConfig.querySelector('h2');
             titulo.insertAdjacentElement('afterend', form);
         }
 
@@ -125,7 +125,7 @@ if ($result->num_rows > 0) {
 		</div>`;
 
             // Inserir após o título "Configurações de Perfil"
-            const titulo = areaConfig.querySelector('h1');
+            const titulo = areaConfig.querySelector('h2');
             titulo.insertAdjacentElement('afterend', form);
         }
 
@@ -302,55 +302,57 @@ if ($result->num_rows > 0) {
         </nav>
     </header>
 
-    <div class="layout">
-        <section class="section">
+    <main>
+        <div class="layout">
+            <section class="configuracao">
 
 
-            <?php if (isset($_SESSION['mensagemsucesso'])): ?>
-                <div class="mensagem _sucesso">
-                    <?php echo $_SESSION['mensagem_sucesso']; unset($_SESSION['mensagem_sucesso']); ?>
+                <?php if (isset($_SESSION['mensagemsucesso'])): ?>
+                    <div class="mensagem _sucesso">
+                        <?php echo $_SESSION['mensagem_sucesso']; unset($_SESSION['mensagem_sucesso']); ?>
+                    </div>
+                <?php endif; ?>
+
+                <?php if (isset($_SESSION['mensagem erro'])): ?>
+                    <div class="mensagem_erro">
+                        <?php echo $_SESSION['mensagem_erro']; unset($_SESSION['mensagem_erro']); ?>
+                    </div>
+                <?php endif; ?>
+
+                <div class="pequena-mensagem">
+                    <h2>Configurações de Perfil</h2>
                 </div>
-            <?php endif; ?>
 
-            <?php if (isset($_SESSION['mensagem erro'])): ?>
-                <div class="mensagem_erro">
-                    <?php echo $_SESSION['mensagem_erro']; unset($_SESSION['mensagem_erro']); ?>
-                </div>
-            <?php endif; ?>
+                <!-- Botões que abrem os formulários -->
+                <a href="#" onclick="abrirFormularioNome()" class="botao-generico"> 📛 Trocar Nome </a>
+                <a href="#" onclick="abrirFormularioSenha()" class="botao-generico"> 🔑 Trocar Senha </a>
+                <a href="#" onclick="abrirFormularioEmail()" class="botao-generico"> 📧 Trocar E-mail </a>
+                <a href="#" class="botao-generico"> ❌ Excluir conta </a>
+                <!-- Botão sair estilizado -->
+                <form method="post" action="logout.php">
+                    <button type="submit" class="botao-cinza">📥 Sair da conta</button>
+                </form>
 
-            <div class="pequena-mensagem">
-                <h2>Configurações de Perfil</h2>
-            </div>
-
-            <!-- Botões que abrem os formulários -->
-            <a href="#" onclick="abrirFormularioNome()" class="botao-generico"> 📛 Trocar Nome </a>
-            <a href="#" onclick="abrirFormularioSenha()" class="botao-generico"> 🔑 Trocar Senha </a>
-            <a href="#" onclick="abrirFormularioEmail()" class="botao-generico"> 📧 Trocar E-mail </a>
-            <a href="#" class="botao-generico"> ❌ Excluir conta </a>
-            <!-- Botão sair estilizado -->
-            <form method="post" action="logout.php">
-                <button type="submit" class="botao-cinza">📥 Sair da conta</button>
-            </form>
-
-            <!-- Dados do usuário -->
-            <div class="dados-usuario">
-                <h3>Seus Dados Atuais</h3>
-                <div class="dado-item">
-                    <span class="dado-label">Nome:</span>
-                    <span class="dado-valor"><?php echo htmlspecialchars($usuario['nomeUsuario']); ?></span>
+                <!-- Dados do usuário -->
+                <div class="dados-usuario">
+                    <h3>Seus Dados Atuais</h3>
+                    <div class="dado-item">
+                        <span class="dado-label">Nome:</span>
+                        <span class="dado-valor"><?php echo htmlspecialchars($usuario['nomeUsuario']); ?></span>
+                    </div>
+                    <div class="dado-item">
+                        <span class="dado-label">E-mail:</span>
+                        <span class="dado-valor"><?php echo htmlspecialchars($usuario['emailUsuario']); ?></span>
+                    </div>
+                    <div class="dado-item">
+                        <span class="dado-label">Telefone:</span>
+                        <span class="dado-valor"><?php echo htmlspecialchars($usuario['telefoneUsuario']); ?></span>
+                    </div>
                 </div>
-                <div class="dado-item">
-                    <span class="dado-label">E-mail:</span>
-                    <span class="dado-valor"><?php echo htmlspecialchars($usuario['emailUsuario']); ?></span>
-                </div>
-                <div class="dado-item">
-                    <span class="dado-label">Telefone:</span>
-                    <span class="dado-valor"><?php echo htmlspecialchars($usuario['telefoneUsuario']); ?></span>
-                </div>
-            </div>
-            <a href="configuracoes.php" class="botao-cinza">← Voltar</a>
-        </section>
-    </div>
+                <a href="configuracoes.php" class="botao-cinza">← Voltar</a>
+            </section>
+        </div>
+    </main>    
 
     <footer>
         <p>&copy; Todos os direitos reservados. <a href="politica.html">Políticas de privacidade.</a></p>
