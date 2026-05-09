@@ -19,7 +19,7 @@ $csrf_token = gerarTokenCSRF();
         <div class="caixa_de_texto">
             <input type="text" class="search-text" placeholder="Pesquisar...">
         </div>
-        <h2 class="sisgeh">SiSGEH</h2>
+        <h1 class="sisgeh">SiSGEH</h1>
 
         <nav class="links">
             <ul>

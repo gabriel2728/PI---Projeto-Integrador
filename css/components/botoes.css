@@ -13,7 +13,8 @@ button.botao-cinza, button.botao-generico {
 	font-size: clamp(1rem, 1.5vw, 2rem);
 	text-align: center;
 
-	width: 60%;
+	width: 100%;
+	max-width: 400px;
 	padding: 0.8rem 0;
 	margin: 0.8rem;
     	
@@ -60,7 +61,8 @@ button.botao-cinza, button.botao-generico {
 }
 
 .botao-cinza {
-	width: 50%;
+	width: 100%;
+	max-width: 300px;
 	padding: 0.8rem 0;
 	margin: 0.8rem;
 

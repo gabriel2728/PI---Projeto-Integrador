@@ -108,7 +108,10 @@ if (isset($_GET['token'])) {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Redefinir senha - SiSGEH</title>
-<link rel="stylesheet" type="text/css" href="css/estilo_recuperar_senha.css">
+<link rel="stylesheet" href="css/components/header.css">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" type="text/css" href="css/recuperar_senha.css">
+<link rel="stylesheet" href="css/components/botoes.css">
 </head>
 <body>
 
@@ -116,21 +119,24 @@ if (isset($_GET['token'])) {
     <div class="caixa_de_texto">
         <input type="text" class="search-text" placeholder="Pesquisar...">
     </div>
-    <h2 class="sisgeh"> SiSGEH </h2>
-    <div class="links">
-      <a href="sobre.html" class="sobre"> Sobre </a>
-      <a href="index.html" class="link_home">
-        <img src="icon_home.png" alt="Voltar a Home" class="home">
-      </a>
+    <h1 class="sisgeh"> SiSGEH </h1>
+    <nav class="links">
+        <ul>
+            <li>
+                <a href="sobre.html" class="sobre"> Sobre </a>
+
+                <a href="index.html" class="link_home">
+                    <img src="images/home.png" alt="Voltar a Home" class="home">
+                </a>
+            </li>
+        </ul>
     </div>
 </header>
 
- <img src="logo.png" class="logo">
-
-<div class="layoutRecuperar_Senha">
-    <div class="recuperar_senha">
-        <div class="mensagem">
-            <h1>Redefinir senha</h1>
+<div class="layout">
+    <section class="recuperar_senha">
+        <div class="mensagem-pequena">
+            <h2>Redefinir senha</h2>
             <?php if ($token_valido): ?>
                 <p>Olá, <?php echo htmlspecialchars($nome_usuario); ?>! Defina sua nova senha abaixo.</p>
             <?php else: ?>
@@ -155,14 +161,14 @@ if (isset($_GET['token'])) {
                 <label for="confirmar_senha">CONFIRMAR SENHA</label>
                 <input type="password" id="confirmar_senha" name="confirmar_senha" placeholder="Confirme a nova senha" minlength="6" required>
 
-                <input type="submit" value="Redefinir Senha">
+                <input type="submit" value="Redefinir Senha" class="botao-cinza">
             </form>
         <?php elseif (!$mensagem_sucesso): ?>
             <div class="status-mensagem erro">Link inválido ou expirado. Solicite um novo link de recuperação.</div>
             <br>
-            <a href="recuperar_senha.php" style="color: #007bff; text-decoration: none;">← Solicitar novo link</a>
+            <a href="recuperar_senha.php" class="botao-generico">← Solicitar novo link</a>
         <?php endif; ?>
-    </div>
+    </section>
 </div>
 
 <footer>

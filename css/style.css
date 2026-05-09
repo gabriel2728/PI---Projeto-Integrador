@@ -48,7 +48,7 @@ main{
 	flex-direction: column;
 }
 
-.section, .configuracao {
+.section, .configuracao, .recuperar_senha {
     width: 100%;
     max-width: 800px;
 	padding: clamp(0.8rem, 10vw, 3rem);
@@ -80,7 +80,7 @@ main{
 
 .mensagem-pequena p {
     color: #929292;
-    font-size: clamp(1rem, 1.5vw, 2.5rem);
+    font-size: clamp(1rem, 1.4vw, 2rem);
 	
 	margin: 0 1rem;
     padding-bottom: 2rem;
@@ -104,7 +104,11 @@ form {
 	font-family: "Open Sauce Light";
 }
 
-form input:not([type="checkbox"]) {
+form input[type="tel"],
+form input[type="text"],
+form input[type="email"],
+form input[type="password"],
+form input[type="number"] {
 	width: 100%;
 	max-width: 400px;
 	padding: 0.3rem 0;
@@ -120,7 +124,7 @@ form input:not([type="checkbox"]) {
     text-align: center;    
 }
 
-input [type="checkbox"] {
+input[type="checkbox"] {
 	width: auto;
 }
 

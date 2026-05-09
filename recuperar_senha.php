@@ -72,29 +72,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Recuperar senha - SiSGEH</title>
-<link rel="stylesheet" type="text/css" href="css/estilo_recuperar_senha.css"> 
+<link rel="stylesheet" href="css/components/header.css">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/components/botoes.css">
+<link rel="stylesheet" type="text/css" href="css/recuperar_senha.css"> 
 </head>
 <body>
 
 <header>
-    <nav class="links" aria-label="Navegação principal">
-        <a href="sobre.html" class="sobre">Sobre</a>
-        <a href="index.html" class="link_home">
-            <img src="images/home.png" alt="Voltar para a Home" class="home">
-        </a>
-    </nav>
+    <div class="caixa_de_texto">
+            <input type="text" class="search-text" placeholder="Pesquisar...">
+    </div>
 
     <h1 class="sisgeh">SiSGEH</h1>
 
-    <div class="header-spacer"></div>
+    <nav class="links">
+        <ul>
+            <li>
+                <a href="sobre.html" class="sobre">Sobre</a>
+
+                <a href="index.html" class="link_home">
+                    <img src="images/home.png" alt="Voltar para a Home" class="home">
+                </a>
+            </li>
+        </ul>
+    </nav>
 </header>
 
- <img src="images/logo.png" alt="Logo SiSGEH" class="logo">
-
-<div class="layoutRecuperar_Senha">
-    <div class="recuperar_senha">
-        <div class="mensagem">
-            <h1>Recuperar senha</h1>
+<div class="layout">
+    <section class="recuperar_senha">
+        <div class="mensagem-pequena">
+            <h2>Recuperar senha</h2>
             <p>Informe o e-mail associado à sua conta. Enviaremos um link seguro para redefinir sua senha.</p>
         </div>
 
@@ -105,13 +113,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="status-mensagem erro"><?= htmlspecialchars($mensagem_erro) ?></div>
         <?php endif; ?>
 
-       <form action="recuperar_senha.php" method="POST">
+        <form action="recuperar_senha.php" method="POST">
                 <label for="email">DIGITE SEU E-MAIL:</label>
                 <input type="email" id="email" name="email" placeholder="seu@exemplo.com" maxlength="35" required>
-                <input type="submit" value="Enviar">
+                <input type="submit" value="Enviar" class="botao-generico">
         </form>
-        <p class="info">Após clicar no link enviado, você poderá definir uma nova senha segura.</p>
-    </div>
+
+        <div class="mensagem-pequena">
+            <p class="info">Após clicar no link enviado, você poderá definir uma nova senha segura.</p>
+        </div>
+    </section>
 </div>
 
 <footer>
