@@ -18,7 +18,9 @@ $primeiroNome = explode(" ", $nomeUsuario)[0];
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simulação Hidrelétrica</title>
     <link rel="stylesheet" href="../css/components/header.css"> 
-    <link rel="stylesheet" href="../css/estilo_simulacao.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/components/botoes.css">
+    <link rel="stylesheet" href="../css/components/tabela.css">
 </head>
 <body>
 
@@ -26,65 +28,85 @@ $primeiroNome = explode(" ", $nomeUsuario)[0];
     <div class="caixa_de_texto">
       <input type="text" class="search-text" placeholder="Pesquisar...">
     </div>
-    <h2 class="sisgeh"> SiSGEH </h2>
-    <div class="links">
-      <a href="inicio.php" class="link_home">
-        <img src="../home.png" alt="Voltar a Home" class="home">
-      </a>
-      <a href="configuracoes.php" class="link_config">
-        <img src="../config.png" alt="Configurações" class="config">
-      </a>
-    </div>
+
+    <h1 class="sisgeh"> SiSGEH </h1>
+
+    <nav class="links">
+        <ul>
+            <li>
+                <a href="inicio.php" class="link_home">
+                    <img src="../images/home.png" alt="Voltar a Home" class="home">
+                </a>
+
+                <a href="configuracoes.php" class="link_config">
+                    <img src="../images/gear.png" alt="Configurações" class="config">
+                </a>
+            </li>
+        </ul>
+    </nav>
   </header>
 
-  <div class="layoutSimular">
-    <div class="simular">
-      <h1>Simule aqui!</h1>
-      <p>Insira os parâmetros para a simulação de energia.</p>
+    <div class="layout">
+        <section class="simular">
+            <div class="mensagem-pequena">
+                <h2>Simule aqui!</h2>
+                <p>Insira os parâmetros para a simulação de energia.</p>
+            </div>
 
-      <form id="formSimulacao" method="get">
-        <input type="number" step="any" id="vazao" placeholder="Vazão Mássica (m³/s)" required>
-        <input type="number" step="any" id="altura" placeholder="Altura da queda d'água (m)" required>
-        <input type="number" step="any" id="potTurbina" placeholder="Potência das turbinas (MW)" required>
-        <input type="number" step="1" id="qtdTurbinas" placeholder="Quantidade de turbinas" required>
-        <input type="number" step="any" id="potGerador" placeholder="Potência do gerador (MW)" required>
+            <form id="formSimulacao" method="get">
+                <input type="number" step="any" id="vazao" placeholder="Vazão Mássica (m³/s)" required>
+                <input type="number" step="any" id="altura" placeholder="Altura da queda d'água (m)" required>
+                <input type="number" step="any" id="potTurbina" placeholder="Potência das turbinas (MW)" required>
+                <input type="number" step="1" id="qtdTurbinas" placeholder="Quantidade de turbinas" required>
+                <input type="number" step="any" id="potGerador" placeholder="Potência do gerador (MW)" required>
+                <br>
+                <div class="mensagem-pequena">
+                    <p>Parâmetros opcionais para geração de energia (dia/mês/ano)</p>
+                </div>
+                <input type="number" step="any" id="eficiencia" placeholder="Eficiência do sistema (%)">
+                <input type="number" step="any" id="horas" placeholder="Duração da operação diária (h/dia)">
+                <br>
+                <input type="submit" id="simular" value="Simular" class="botao-cinza">
+            </form>
 
-        <br>
-        <p>Parâmetros opcionais para geração de energia (dia/mês/ano)</p>
-        <input type="number" step="any" id="eficiencia" placeholder="Eficiência do sistema (%)">
-        <input type="number" step="any" id="horas" placeholder="Duração da operação diária (h/dia)">
-        <br>
-        <input type="submit" id="simular" value="Simular">
-      </form>
+            <!-- Tabela de Resultados -->
+            <div id="resultados" style="display:none; margin-top:30px;">
+                <div class="mensagem-pequena">
+                    <h2>Resultados da Simulação</h2>
+                </div>
+                <table id="tabelaResultados">
+                    <tbody id="corpoTabela"></tbody>
+                </table>
 
-      <!-- Tabela de Resultados -->
-      <div id="resultados" style="display:none; margin-top:30px;">
-        <h3>Resultados da Simulação</h3>
-        <table id="tabelaResultados">
-          <tbody id="corpoTabela"></tbody>
-        </table>
+                    <button type="button" id="salvar" class="botao-generico">Salvar no histórico</button>
+                    <button type="button" id="exportar" class="botao-generico">Exportar</button>
 
-        <div style="margin-top: 20px;">
-          <button type="button" id="salvar">Salvar no histórico</button>
-          <button type="button" id="exportar">Exportar</button>
-          <div id="mensagemSucesso">✅ Simulação salva com sucesso no histórico!</div>
-        </div>
-      </div>
+                <div id="mensagemSucesso">✅ Simulação salva com sucesso no histórico!</div>
+            </div>
+            
+        
+    
+
+            <!-- Modal de Exportação -->
+            <div id="modalExportacao" class="modal" style="display:none; position:fixed; z-index:1000; left:0; top:0; width:100%; height:100%; background-color:rgba(0,0,0,0.4);">
+                <div class="modal-content" style="background-color:#fefefe; margin:15% auto; padding:20px; border:1px solid #888; width:400px; border-radius:8px; box-shadow:0 4px 8px rgba(0,0,0,0.2);">
+                    <span class="close" id="closeModal" style="color:#aaa; float:right; font-size:28px; font-weight:bold; cursor:pointer;">&times;</span>
+
+                    <div class="mensagem-pequena">
+                        <h2 style="text-align:center; color:#333;">Escolha o formato de exportação</h2>
+                    </div>
+
+                    <div style="display:flex; gap:10px; margin-top:20px; justify-content:center;">
+                        <button type="button" id="exportPDF" style="padding:12px 24px; background-color:#ff6b6b; color:white; border:none; border-radius:5px; cursor:pointer; font-size:16px;">📄 PDF</button>
+                        <button type="button" id="exportCSV" style="padding:12px 24px; background-color:#4ecdc4; color:white; border:none; border-radius:5px; cursor:pointer; font-size:16px;">📊 CSV</button>
+                        <button type="button" id="exportXLSX" style="padding:12px 24px; background-color:#45b7d1; color:white; border:none; border-radius:5px; cursor:pointer; font-size:16px;">📈 XLSX</button>
+                    </div>
+                </div>
+            </div>
+
+        </section>
     </div>
-  </div>
-
-  <!-- Modal de Exportação -->
-  <div id="modalExportacao" class="modal" style="display:none; position:fixed; z-index:1000; left:0; top:0; width:100%; height:100%; background-color:rgba(0,0,0,0.4);">
-    <div class="modal-content" style="background-color:#fefefe; margin:15% auto; padding:20px; border:1px solid #888; width:400px; border-radius:8px; box-shadow:0 4px 8px rgba(0,0,0,0.2);">
-      <span class="close" id="closeModal" style="color:#aaa; float:right; font-size:28px; font-weight:bold; cursor:pointer;">&times;</span>
-      <h2 style="text-align:center; color:#333;">Escolha o formato de exportação</h2>
-      <div style="display:flex; gap:10px; margin-top:20px; justify-content:center;">
-        <button type="button" id="exportPDF" style="padding:12px 24px; background-color:#ff6b6b; color:white; border:none; border-radius:5px; cursor:pointer; font-size:16px;">📄 PDF</button>
-        <button type="button" id="exportCSV" style="padding:12px 24px; background-color:#4ecdc4; color:white; border:none; border-radius:5px; cursor:pointer; font-size:16px;">📊 CSV</button>
-        <button type="button" id="exportXLSX" style="padding:12px 24px; background-color:#45b7d1; color:white; border:none; border-radius:5px; cursor:pointer; font-size:16px;">📈 XLSX</button>
-      </div>
-    </div>
-  </div>
+</main>
 
   <footer>
     <p>&copy; Todos os direitos reservados. <a href="politica.html">Políticas de privacidade.</a></p>

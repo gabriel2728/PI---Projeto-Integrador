@@ -14,16 +14,27 @@
 }
 
 
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
 body {  
-    min-height: 100vh;
-    width: auto;
+	display: flex;
+	flex-direction: column;
 
-    background-image: url("../images/fundo_estatico.jpg");
-    background-size: cover;
-    background-repeat: no-repeat; /* Adicionando gif como plano de fundo e ajustando-o para prencher a tela toda de forma que o gif n�o repita */
-    background-attachment: fixed; /* mant�m o fundo fixo mesmo ao rolar a p�gina */
+    	min-height: 100vh;
+    	width: auto;
 
-    margin: 0;    
+    	background-image: url("../images/fundo_estatico.jpg");
+    	background-size: cover;
+    	background-repeat: no-repeat; 
+		background-attachment: fixed; /* mant�m o fundo fixo mesmo ao rolar a p�gina */
+
+    	margin: 0;
+}
+
+main{
+	flex: 1;
 }
 
 .layout { 
@@ -40,38 +51,60 @@ body {
 }
 
 
-.section {
-    max-width: 64vw;
-    margin: 2rem 0;
-    padding: 0 2rem;
-
-    background-color: rgba(255, 255, 255, 0.85);
-    border-radius: 20px;
+section {
+    width: 100%;
+    max-width: 800px;
+	padding: clamp(0.2rem, 10vw, 3rem);
+	margin: 2rem 0;
+	
+    background-color: white;
     box-shadow: 8px 10px 5px 3px rgb(160,160,180, 0.6);
 
-    color: #000000;
-    text-align: center;
-    line-height: 1.6;
-    font-family: "Open Sauce Light";
-    font-size: clamp(0.9rem, 1vw, 1.5rem);
-}
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+
+	font-size: clamp(1rem, 1vw, 2.5rem);
+	font-family: "Open Sauce Light";
+	text-align: center;
+	border-radius: 60px;}
 
 a {
     color: #4b4b4b;
 }
 
 .logo{
-    width: clamp(2rem, 10vw, 5rem);
-    position: absolute;
+    	width: clamp(2rem, 10vw, 5rem);
+	position: fixed;
+	left: 2px;
  }
 
+.mensagem-pequena h1 {
+	font-size: clamp(1.5rem, 2.5vw, 3rem);
+   	color: #464646;
+}
+
+.mensagem-pequena h2 {
+	font-size: clamp(1rem, 2vw, 2.5rem);
+   	color: #464646;
+}
+
+.mensagem-pequena p {
+    color: #333333;
+    font-size: clamp(1rem, 1.4vw, 2rem);
+	
+	margin: 0 1rem;
+    padding-bottom: 2rem;
+}
+
 footer p, footer a {
-	font-size: clamp(1rem, 1.5vw, 2rem);
+	font-size: clamp(0.8rem, 1.2vw, 2rem);
     text-align: center;
     color: #4b4b4b;
     font-family: "Open Sauce Light";
 }
 
-.SobreSistema:hover, .funcionalidade:hover, .Sustentabilidade:hover, .Projeto:hover {
+.section:hover {
     background-color: #e1ecf2;
 }

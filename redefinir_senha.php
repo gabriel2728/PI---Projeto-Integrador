@@ -132,44 +132,45 @@ if (isset($_GET['token'])) {
         </ul>
     </div>
 </header>
+<main>
+    <div class="layout">
+        <section class="recuperar_senha">
+            <div class="mensagem-pequena">
+                <h2>Redefinir senha</h2>
+                <?php if ($token_valido): ?>
+                    <p>Olá, <?php echo htmlspecialchars($nome_usuario); ?>! Defina sua nova senha abaixo.</p>
+                <?php else: ?>
+                    <p>Insira uma nova senha segura para sua conta.</p>
+                <?php endif; ?>
+            </div>
 
-<div class="layout">
-    <section class="recuperar_senha">
-        <div class="mensagem-pequena">
-            <h2>Redefinir senha</h2>
-            <?php if ($token_valido): ?>
-                <p>Olá, <?php echo htmlspecialchars($nome_usuario); ?>! Defina sua nova senha abaixo.</p>
-            <?php else: ?>
-                <p>Insira uma nova senha segura para sua conta.</p>
+            <?php if ($mensagem_sucesso): ?>
+                <div class="status-mensagem sucesso"><?php echo $mensagem_sucesso; ?></div>
             <?php endif; ?>
-        </div>
+            <?php if ($mensagem_erro): ?>
+                <div class="status-mensagem erro"><?php echo htmlspecialchars($mensagem_erro); ?></div>
+            <?php endif; ?>
 
-        <?php if ($mensagem_sucesso): ?>
-            <div class="status-mensagem sucesso"><?php echo $mensagem_sucesso; ?></div>
-        <?php endif; ?>
-        <?php if ($mensagem_erro): ?>
-            <div class="status-mensagem erro"><?php echo htmlspecialchars($mensagem_erro); ?></div>
-        <?php endif; ?>
+            <?php if ($token_valido && !$mensagem_sucesso): ?>
+                <form action="redefinir_senha.php" method="POST">
+                    <input type="hidden" name="token" value="<?php echo htmlspecialchars($token); ?>">
 
-        <?php if ($token_valido && !$mensagem_sucesso): ?>
-            <form action="redefinir_senha.php" method="POST">
-                <input type="hidden" name="token" value="<?php echo htmlspecialchars($token); ?>">
+                    <label for="senha">NOVA SENHA</label>
+                    <input type="password" id="senha" name="senha" placeholder="Digite a nova senha" minlength="6" required>
 
-                <label for="senha">NOVA SENHA</label>
-                <input type="password" id="senha" name="senha" placeholder="Digite a nova senha" minlength="6" required>
+                    <label for="confirmar_senha">CONFIRMAR SENHA</label>
+                    <input type="password" id="confirmar_senha" name="confirmar_senha" placeholder="Confirme a nova senha" minlength="6" required>
 
-                <label for="confirmar_senha">CONFIRMAR SENHA</label>
-                <input type="password" id="confirmar_senha" name="confirmar_senha" placeholder="Confirme a nova senha" minlength="6" required>
-
-                <input type="submit" value="Redefinir Senha" class="botao-cinza">
-            </form>
-        <?php elseif (!$mensagem_sucesso): ?>
-            <div class="status-mensagem erro">Link inválido ou expirado. Solicite um novo link de recuperação.</div>
-            <br>
-            <a href="recuperar_senha.php" class="botao-generico">← Solicitar novo link</a>
-        <?php endif; ?>
-    </section>
-</div>
+                    <input type="submit" value="Redefinir Senha" class="botao-cinza">
+                </form>
+            <?php elseif (!$mensagem_sucesso): ?>
+                <div class="status-mensagem erro">Link inválido ou expirado. Solicite um novo link de recuperação.</div>
+                <br>
+                <a href="recuperar_senha.php" class="botao-generico">← Solicitar novo link</a>
+            <?php endif; ?>
+        </section>
+    </div>
+</main>
 
 <footer>
     <p>&copy; Todos os direitos reservados. <a href="politica.html">Políticas de privacidade.</a></p>

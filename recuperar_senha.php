@@ -99,31 +99,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </nav>
 </header>
 
-<div class="layout">
-    <section class="recuperar_senha">
-        <div class="mensagem-pequena">
-            <h2>Recuperar senha</h2>
-            <p>Informe o e-mail associado à sua conta. Enviaremos um link seguro para redefinir sua senha.</p>
-        </div>
+<main>
+    <div class="layout">
+        <section class="recuperar_senha">
+            <div class="mensagem-pequena">
+                <h2>Recuperar senha</h2>
+                <p>Informe o e-mail associado à sua conta. Enviaremos um link seguro para redefinir sua senha.</p>
+            </div>
 
-        <?php if ($mensagem_sucesso): ?>
-            <div class="status-mensagem sucesso"><?php echo $mensagem_sucesso; ?></div>
-        <?php endif; ?>
-        <?php if ($mensagem_erro): ?>
-            <div class="status-mensagem erro"><?= htmlspecialchars($mensagem_erro) ?></div>
-        <?php endif; ?>
+            <?php if ($mensagem_sucesso): ?>
+                <div class="status-mensagem sucesso"><?php echo $mensagem_sucesso; ?></div>
+            <?php endif; ?>
+            <?php if ($mensagem_erro): ?>
+                <div class="status-mensagem erro"><?= htmlspecialchars($mensagem_erro) ?></div>
+            <?php endif; ?>
 
-        <form action="recuperar_senha.php" method="POST">
-                <label for="email">DIGITE SEU E-MAIL:</label>
-                <input type="email" id="email" name="email" placeholder="seu@exemplo.com" maxlength="35" required>
-                <input type="submit" value="Enviar" class="botao-generico">
-        </form>
+            <form action="recuperar_senha.php" method="POST">
+                    <label for="email">DIGITE SEU E-MAIL:</label>
+                    <input type="email" id="email" name="email" placeholder="seu@exemplo.com" maxlength="35" required>
+                    <input type="submit" value="Enviar" class="botao-generico">
+            </form>
 
-        <div class="mensagem-pequena">
-            <p class="info">Após clicar no link enviado, você poderá definir uma nova senha segura.</p>
-        </div>
-    </section>
-</div>
+            <div class="mensagem-pequena">
+                <p class="info">Após clicar no link enviado, você poderá definir uma nova senha segura.</p>
+            </div>
+        </section>
+    </div>
+</main>
 
 <footer>
     <p>&copy; Todos os direitos reservados. <a href="politica.html">Políticas de privacidade.</a></p>
