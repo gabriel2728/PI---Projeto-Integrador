@@ -48,7 +48,7 @@ main{
 	flex-direction: column;
 }
 
-.section, .configuracao, .recuperar_senha {
+.section, .configuracao, .recuperar_senha, .historico {
     width: 100%;
     max-width: 800px;
 	padding: clamp(0.8rem, 10vw, 3rem);
@@ -111,7 +111,7 @@ form input[type="password"],
 form input[type="number"] {
 	width: 100%;
 	max-width: 400px;
-	padding: 0.3rem 0;
+	padding: 0.3rem 1rem;
 	margin-bottom: 1rem;
 
 	border: none;

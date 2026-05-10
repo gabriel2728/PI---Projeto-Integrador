@@ -36,6 +36,10 @@ header li {
 	height: auto;
 }
 
+.link_config, .link_home {
+	text-decoration: none;
+}
+
 .caixa_de_texto {
     width: clamp(70px, 15vw, 300px);
     border: 2px solid #4b4b4b;
