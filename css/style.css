@@ -128,6 +128,12 @@ input[type="checkbox"] {
 	width: auto;
 }
 
+.logo{
+    width: clamp(2rem, 10vw, 5rem);
+	position: fixed;
+	left: 2px;
+ }
+
 footer p, footer a {
 	font-size: clamp(0.8rem, 1.2vw, 2rem);
     text-align: center;

@@ -118,93 +118,115 @@ $csrfToken = gerarTokenCSRF();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dados Históricos - SiSGEH</title>
-    <link rel="stylesheet" href="../css/estilo_analise_preditiva.css">
+    <link rel="stylesheet" href="../css/components/header.css">
+    <link rel="stylesheet" href="../css/analise_preditiva.css">
+    <link rel="stylesheet" href="../css/components/botoes.css">
 </head>
 <body>
 <header>
-    <div class="cabecalho">
-        <h1>SiSGEH</h1>
-        <p>Módulo: Dados Históricos para Análise Preditiva</p>
+    <div class="caixa_de_texto">
+      	<input type="text" class="search-text" placeholder="Pesquisar...">
     </div>
+
+    <h1 class="sisgeh"> SiSGEH </h1>
+
+    <nav class="links">
+        <ul>
+            <li>
+                <a href="analise_preditiva.php" class="link_home">
+                    <img src="../images/home.png" alt="Voltar a Home" class="home">
+                </a>
+
+                <a href="configuracoes.php" class="link_config">
+                    <img src="../images/gear.png" alt="Configurações" class="config">
+                </a>
+            </li>
+        </ul>
+    </nav>
 </header>
 <main class="container">
-    <section class="intro">
-        <div>
-            <h2>Gerenciar Dados Históricos</h2>
-            <p>Cadastre e edite registros de chuva e potência usados pelo módulo preditivo.</p>
-        </div>
-        <div>
-            <a class="botao-voltar" href="analise_preditiva.php">← Voltar à Análise Preditiva</a>
-        </div>
-    </section>
+	<div class="layout">
+    		<section class="intro">
+        		<div class="mensagem-pequena">
+            			<h2>Gerenciar Dados Históricos</h2>
+            			<p>Cadastre e edite registros de chuva e potência usados pelo módulo preditivo.</p>
+        		</div>
+        
+            		<a class="botao-cinza" href="analise_preditiva.php">← Voltar à Análise Preditiva</a>   
+    		</section>
 
-    <?php if ($mensagem): ?>
-        <div class="resultado-card" style="background:#ecfdf5; border-color:#86efac; color:#166534; margin-bottom:18px;">
-            <?= htmlspecialchars($mensagem) ?>
-        </div>
-    <?php endif; ?>
-    <?php if ($erro): ?>
-        <div class="alerta erro" style="margin-bottom:18px;">
-            <?= htmlspecialchars($erro) ?>
-        </div>
-    <?php endif; ?>
+    		<?php if ($mensagem): ?>
+        	<div class="resultado-card" style="background:#ecfdf5; border-color:#86efac; color:#166534; margin-bottom:18px;">
+            		<?= htmlspecialchars($mensagem) ?>
+        	</div>
 
-    <section class="painel-entrada">
-        <h3><?= $modoEdicao ? 'Editar registro' : 'Adicionar novo registro' ?></h3>
-        <form method="POST" action="dados_historicos.php">
-            <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrfToken) ?>">
-            <input type="hidden" name="id_dado" value="<?= htmlspecialchars($registro['id_dado']) ?>">
-            <input type="hidden" name="acao" value="salvar">
+    		<?php endif; ?>
+    		<?php if ($erro): ?>
 
-            <label for="data_registro">Data</label>
-            <input type="date" id="data_registro" name="data_registro" required value="<?= htmlspecialchars($registro['data_registro']) ?>">
+        	<div class="alerta erro" style="margin-bottom:18px;">
+            		<?= htmlspecialchars($erro) ?>
+        	</div>
 
-            <label for="pluviosidade_mm">Pluviosidade (mm)</label>
-            <input type="number" step="0.01" id="pluviosidade_mm" name="pluviosidade_mm" required value="<?= htmlspecialchars($registro['pluviosidade_mm']) ?>">
+    		<?php endif; ?>
 
-            <label for="potencia_mw">Potência (MW)</label>
-            <input type="number" step="0.01" id="potencia_mw" name="potencia_mw" required value="<?= htmlspecialchars($registro['potencia_mw']) ?>">
+   		 <section class="painel-entrada">
+        		<h3><?= $modoEdicao ? 'Editar registro' : 'Adicionar novo registro' ?></h3>
+        		<form method="POST" action="dados_historicos.php">
+            			<input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrfToken) ?>">
+            			<input type="hidden" name="id_dado" value="<?= htmlspecialchars($registro['id_dado']) ?>">
+            			<input type="hidden" name="acao" value="salvar">
 
-            <button type="submit"><?= $modoEdicao ? 'Atualizar registro' : 'Adicionar registro' ?></button>
-        </form>
-    </section>
+            			<label for="data_registro">Data</label>
+            			<input type="date" id="data_registro" name="data_registro" required value="<?= htmlspecialchars($registro['data_registro']) ?>">
 
-    <section class="dados-historicos">
-        <h3>Registros Existentes</h3>
-        <table>
-            <thead>
-                <tr>
-                    <th>Data</th>
-                    <th>Pluviosidade (mm)</th>
-                    <th>Potência (MW)</th>
-                    <th>Ações</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php if (empty($registros)): ?>
-                    <tr>
-                        <td colspan="4">Nenhum registro encontrado.</td>
-                    </tr>
-                <?php endif; ?>
-                <?php foreach ($registros as $item): ?>
-                    <tr>
-                        <td><?= htmlspecialchars($item['data_registro']) ?></td>
-                        <td><?= htmlspecialchars(number_format($item['pluviosidade_mm'], 2, ',', '.')) ?></td>
-                        <td><?= htmlspecialchars(number_format($item['potencia_mw'], 2, ',', '.')) ?></td>
-                        <td>
-                            <a class="btn-acao" href="dados_historicos.php?editar=<?= $item['id_dado'] ?>">Editar</a>
-                            <form method="POST" action="dados_historicos.php" style="display:inline-block; margin:0;">
-                                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrfToken) ?>">
-                                <input type="hidden" name="id_dado" value="<?= $item['id_dado'] ?>">
-                                <input type="hidden" name="acao" value="excluir">
-                                <button type="submit" class="btn-acao-excluir" onclick="return confirm('Excluir este registro?');">Excluir</button>
-                            </form>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    </section>
+            			<label for="pluviosidade_mm">Pluviosidade (mm)</label>
+            			<input type="number" step="0.01" id="pluviosidade_mm" name="pluviosidade_mm" required value="<?= htmlspecialchars($registro['pluviosidade_mm']) ?>">
+
+            			<label for="potencia_mw">Potência (MW)</label>
+            			<input type="number" step="0.01" id="potencia_mw" name="potencia_mw" required value="<?= htmlspecialchars($registro['potencia_mw']) ?>">
+
+            			<button type="submit" class="botao-generico"> Gerar <?= $modoEdicao ? 'Atualizar registro' : 'Adicionar registro' ?></button>
+        		</form>
+    		</section>
+
+    		<section class="dados-historicos">
+        		<h3>Registros Existentes</h3>
+        		<table>
+            			<thead>
+                			<tr>
+                    				<th>Data</th>
+                    				<th>Pluviosidade (mm)</th>
+                    				<th>Potência (MW)</th>
+                    				<th>Ações</th>
+                			</tr>
+            			</thead>
+            			<tbody>
+                			<?php if (empty($registros)): ?>
+                    			<tr>
+                        			<td colspan="4">Nenhum registro encontrado.</td>
+                    			</tr>
+                			<?php endif; ?>
+                			<?php foreach ($registros as $item): ?>
+                    			<tr>
+                        			<td><?= htmlspecialchars($item['data_registro']) ?></td>
+                        			<td><?= htmlspecialchars(number_format($item['pluviosidade_mm'], 2, ',', '.')) ?></td>
+                        			<td><?= htmlspecialchars(number_format($item['potencia_mw'], 2, ',', '.')) ?></td>
+                        			<td>
+                            				<form method="POST" action="dados_historicos.php" style="display:inline-block; margin:0;">
+                                				<input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrfToken) ?>">
+                                				<input type="hidden" name="id_dado" value="<?= $item['id_dado'] ?>">
+                                				<input type="hidden" name="acao" value="excluir">
+                                				<button type="submit" class="botao-cinza" onclick="return confirm('Excluir este registro?');">Excluir</button>
+                            				</form>
+							<a class="botao-cinza" href="dados_historicos.php?editar=<?= $item['id_dado'] ?>">Editar</a>
+                        		       </td>
+					</tr>
+                    			
+                			<?php endforeach; ?>
+            			</tbody>
+        		</table>
+    		</section>
+	</div>
 </main>
 </body>
 </html>

@@ -1,0 +1,220 @@
+@font-face {
+    font-family: "Alta";
+    src: url("../fonts/alta-regular.otf") format("opentype");
+}
+
+@font-face {
+    font-family: "Open Sans Regular";
+    src: url("../fonts/open-sans.bold.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Open Sauce Light";
+    src: url("../fonts/open-sauce.sans-light.ttf") format("truetype");
+}
+
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body {  
+	display: flex;
+	flex-direction: column;
+
+    	min-height: 100vh;
+    	width: auto;
+
+    	background-image: url("../images/fundo_estatico.jpg");
+    	background-size: cover;
+    	background-repeat: no-repeat; 
+		background-attachment: fixed; /* mant�m o fundo fixo mesmo ao rolar a p�gina */
+
+    	margin: 0;
+}
+
+main{
+	flex: 1;
+}
+
+.layout { 
+    width: auto;
+    max-width: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    flex-wrap: wrap;
+
+    font-family: "Open Sauce Light";
+}
+
+.intro {
+    width: 100%;
+    max-width: 1000px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0;
+}
+
+.painel-entrada,
+.painel-resultado,
+.grafico-area,
+.dados-historicos {
+    width: 100%;
+    max-width: 1000px;
+	padding: clamp(0.2rem, 2vw, 3rem);
+	margin: 0 0 2.5rem 0;
+	
+    background-color: white;
+    box-shadow: 8px 10px 5px 3px rgb(160,160,180, 0.6);
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+
+	font-size: clamp(1rem, 1vw, 2.5rem);
+	font-family: "Open Sauce Light";
+	text-align: center;
+	border-radius: 40px;
+}
+
+a {
+    color: #4b4b4b;
+}
+
+.mensagem-pequena h1 {
+	font-size: clamp(1.4rem, 2.5vw, 3rem);
+   	color: #464646;
+}
+
+.mensagem-pequena h2 {
+	font-size: clamp(1.2rem, 2.5vw, 3rem);
+   	color: #464646;
+}
+
+.mensagem-pequena h3 {
+	font-size: clamp(1rem, 2vw, 2.5rem);
+   	color: #464646;
+}
+
+.mensagem-pequena p {
+    color: #333333;
+    font-size: clamp(1rem, 1.2vw, 2rem);
+    padding-bottom: 2rem;
+    max-width: 600px;
+    word-wrap: break-word;
+}
+
+label {
+    	color: #4b4b4b;
+    	font-family: "Open Sans Regular";
+	font-size: clamp(1rem, 1.2vw, 2.5rem);
+	padding: 1rem;
+}
+
+form {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+
+	width: 100%;
+	max-width: 450px;
+	font-family: "Open Sauce Light";
+}
+
+
+form input[type="tel"],
+form input[type="text"],
+form input[type="email"],
+form input[type="password"],
+form input[type="number"] {
+	width: 100%;
+	max-width: 700px;
+	padding: 0.8rem 1rem;
+	margin-bottom: 1rem;
+
+	border: none;
+	text-decoration: none;
+	background-color: #bcdcf0;
+	border-radius:20px;
+
+	color: #4B4B4B;
+	font-size: clamp(0.6rem, 1.2vw, 2.5rem);
+    text-align: center;    
+}
+
+
+.resultado-card {
+    width: 100%;
+    max-width: 800px;
+    background-color: #eff6ff;
+    border: 1px solid #bfdbfe;
+    padding: 1rem;
+    margin: 1rem;
+}
+
+
+
+
+.resultado-card,
+.alerta {
+    padding: 18px;
+    border-radius: 12px;
+}
+
+.resultado-card {
+    background-color: #eff6ff;
+    border: 1px solid #bfdbfe;
+}
+
+.alerta.erro {
+    background-color: #ffe4e6;
+    border: 1px solid #fecdd3;
+    color: #991b1b;
+}
+
+.grafico-area {
+    min-height: 380px;
+}
+
+.grafico-area canvas {
+    width: 100% !important;
+    height: 360px !important;
+}
+
+.dados-historicos table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.dados-historicos th,
+.dados-historicos td {
+    padding: 12px 14px;
+    border-bottom: 1px solid #e5e7eb;
+    text-align: left;
+}
+
+.dados-historicos th {
+    background-color: #f9fafb;
+    font-weight: 700;
+}
+
+.nota {
+    margin-top: 0;
+    margin-bottom: 18px;
+    color: #6b7280;
+    font-size: 0.95rem;
+}
+
+footer p, footer a {
+	font-size: clamp(0.8rem, 1.2vw, 2rem);
+    text-align: center;
+    color: #4b4b4b;
+    font-family: "Open Sauce Light";
+}

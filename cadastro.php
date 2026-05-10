@@ -38,6 +38,9 @@ $csrf_token = gerarTokenCSRF();
 
 
     <main>
+        <figure>
+            <img src="images/logo.png" alt="Logo SiSGEH" class="logo">
+        </figure>
         <div class="layout">
             <section class="section">
                 <h1>Criar Conta</h1>

@@ -88,93 +88,114 @@ if ($modeloA !== null && $modeloB !== null) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Análise Preditiva - SiSGEH</title>
-    <link rel="stylesheet" href="../css/estilo_analise_preditiva.css">
+    <link rel="stylesheet" href="../css/components/header.css">
+    <link rel="stylesheet" href="../css/analise_preditiva.css">
+    <link rel="stylesheet" href="../css/components/botoes.css">
 </head>
 <body>
 <header>
-    <div class="cabecalho">
-        <h1>SiSGEH</h1>
-        <p>Módulo: Análise Preditiva da Geração de Energia</p>
+     <div class="caixa_de_texto">
+      <input type="text" class="search-text" placeholder="Pesquisar...">
     </div>
+
+    <h1 class="sisgeh"> SiSGEH </h1>
+
+    <nav class="links">
+        <ul>
+            <li>
+                <a href="inicio.php" class="link_home">
+                    <img src="../images/home.png" alt="Voltar a Home" class="home">
+                </a>
+
+                <a href="configuracoes.php" class="link_config">
+                    <img src="../images/gear.png" alt="Configurações" class="config">
+                </a>
+            </li>
+        </ul>
+    </nav>
 </header>
 
 <main class="container">
-    <section class="intro">
-        <div>
-            <h2>Bem-vindo, <?= htmlspecialchars($nomeUsuario) ?>!</h2>
-            <p>Use dados históricos de pluviosidade para prever a potência estimada em MW.</p>
-        </div>
-        <a class="botao-voltar" href="inicio.php">← Voltar ao Dashboard</a>
-    </section>
+   <div class="layout">
+    	<div class="intro">
+        	<div class="mensagem-pequena">
+            		<h2>Bem-vindo, <?= htmlspecialchars($nomeUsuario) ?>!</h2>
+            			<p>Use dados históricos de pluviosidade para prever a potência estimada em MW.</p>
+        	</div>
+        	<a class="botao-cinza" href="inicio.php">← Voltar ao Dashboard</a>
+    	</div>
 
-    <section class="painel-entrada">
-        <h3>Dados para Análise Preditiva</h3>
-        <form method="POST" action="analise_preditiva.php">
-            <label for="periodo">Período de análise</label>
-            <input type="text" id="periodo" name="periodo" placeholder="Ex: Março/2024" value="<?= htmlspecialchars($periodo) ?>">
+    	<section class="painel-entrada">
+		<div class="mensagem-pequena">
+        		<h3>Dados para Análise Preditiva</h3>
+		</div>
+        	<form method="POST" action="analise_preditiva.php">
+            		<label for="periodo">Período de análise</label>
+            		<input type="text" id="periodo" name="periodo" placeholder="Ex: Março/2024" value="<?= htmlspecialchars($periodo) ?>">
 
-            <label for="pluviosidade_mm">Pluviosidade média esperada (mm)</label>
-            <input type="number" step="0.01" id="pluviosidade_mm" name="pluviosidade_mm" placeholder="180" value="<?= $pluviosidade_mm ?? '' ?>" required>
+            		<label for="pluviosidade_mm">Pluviosidade média esperada (mm)</label>
+            		<input type="number" step="0.01" id="pluviosidade_mm" name="pluviosidade_mm" placeholder="180" value="<?= $pluviosidade_mm ?? '' ?>" required>
 
-            <button type="submit">🔍 Gerar Previsão</button>
-        </form>
-    </section>
+            		<button type="submit" class="botao-generico">🔍 Gerar Previsão</button>
+        	</form>
+    	</section>
 
-    <section class="painel-resultado">
-        <div class="resultado-superior">
-            <div>
-                <h3>Resultado da Previsão</h3>
-            </div>
-            <div>
-                <a class="botao-gerenciar" href="dados_historicos.php">Gerenciar dados históricos</a>
-            </div>
-        </div>
+    	<section class="painel-resultado">
+        	<div class="intro">
+            		<div <div class="mensagem-pequena">
+                		<h3>Resultado da Previsão</h3>
+            		</div>
+            		
+                		<a href="dados_historicos.php" class="botao-azul">Gerenciar dados históricos</a>
+            		
+        	</div>
 
-        <?php if ($mensagemErro): ?>
-            <div class="alerta erro"><?= htmlspecialchars($mensagemErro) ?></div>
-        <?php elseif ($resultado !== null): ?>
-            <div class="resultado-card">
-                <p>Pluviosidade informada: <strong><?= htmlspecialchars(number_format($pluviosidade_mm, 2, ',', '.')) ?> mm</strong></p>
-                <p>Potência estimada: <strong><?= htmlspecialchars(number_format($resultado, 2, ',', '.')) ?> MW</strong></p>
-                <p>Modelo utilizado: <strong>Regressão Linear Simples</strong></p>
-                <p>Equação do modelo: <strong>y = <?= number_format($modeloA, 4, ',', '.') ?>x + <?= number_format($modeloB, 4, ',', '.') ?></strong></p>
-            </div>
-        <?php else: ?>
-            <div class="resultado-card">
-                <p>Informe o valor de pluviosidade e clique em <strong>Gerar Previsão</strong>.</p>
-            </div>
-        <?php endif; ?>
-    </section>
+        	<?php if ($mensagemErro): ?>
+            	<div class="alerta erro"><?= htmlspecialchars($mensagemErro) ?></div>
+        	<?php elseif ($resultado !== null): ?>
+            	<div class="resultado-card">
+                	<p>Pluviosidade informada: <strong><?= htmlspecialchars(number_format($pluviosidade_mm, 2, ',', '.')) ?> mm</strong></p>
+                	<p>Potência estimada: <strong><?= htmlspecialchars(number_format($resultado, 2, ',', '.')) ?> MW</strong></p>
+                	<p>Modelo utilizado: <strong>Regressão Linear Simples</strong></p>
+                	<p>Equação do modelo: <strong>y = <?= number_format($modeloA, 4, ',', '.') ?>x + <?= number_format($modeloB, 4, ',', '.') ?></strong></p>
+            	</div>
+        	<?php else: ?>
+            	<div class="resultado-card">
+                	<p>Informe o valor de pluviosidade e clique em <strong>Gerar Previsão</strong>.</p>
+            	</div>
+        	<?php endif; ?>
+    	</section>
 
-    <section class="grafico-area">
-        <h3>Gráfico: Pluviosidade x Potência Gerada</h3>
-        <canvas id="graficoPreditivo"></canvas>
-    </section>
+    	<section class="grafico-area">
+        	<h3>Gráfico: Pluviosidade x Potência Gerada</h3>
+        	<canvas id="graficoPreditivo"></canvas>
+    	</section>
 
-    <section class="dados-historicos">
-        <h3>Dados Históricos Utilizados</h3>
-        <?php if ($useDatasetDefault): ?>
-            <p class="nota">Tabela <strong>DadosHistoricos</strong> não encontrada. Usando conjunto padrão fictício para demonstração.</p>
-        <?php endif; ?>
-        <table>
-            <thead>
-                <tr>
-                    <th>Data</th>
-                    <th>Pluviosidade (mm)</th>
-                    <th>Potência (MW)</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($dadosHistoricos as $item): ?>
-                    <tr>
-                        <td><?= htmlspecialchars($item['data_registro']) ?></td>
-                        <td><?= htmlspecialchars(number_format($item['pluviosidade_mm'], 2, ',', '.')) ?></td>
-                        <td><?= htmlspecialchars(number_format($item['potencia_mw'], 2, ',', '.')) ?></td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    </section>
+    	<section class="dados-historicos">
+        	<h3>Dados Históricos Utilizados</h3>
+        	<?php if ($useDatasetDefault): ?>
+            	<p class="nota">Tabela <strong>DadosHistoricos</strong> não encontrada. Usando conjunto padrão fictício para demonstração.</p>
+        	<?php endif; ?>
+        	<table>
+            		<thead>
+                		<tr>
+                    			<th>Data</th>
+                    			<th>Pluviosidade (mm)</th>
+                    			<th>Potência (MW)</th>
+                		</tr>
+            		</thead>
+            		<tbody>
+                		<?php foreach ($dadosHistoricos as $item): ?>
+                    		<tr>
+                        		<td><?= htmlspecialchars($item['data_registro']) ?></td>
+                        		<td><?= htmlspecialchars(number_format($item['pluviosidade_mm'], 2, ',', '.')) ?></td>
+                        		<td><?= htmlspecialchars(number_format($item['potencia_mw'], 2, ',', '.')) ?></td>
+                    		</tr>
+                		<?php endforeach; ?>
+            		</tbody>
+        	</table>
+    	</section>
+   </div>
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
