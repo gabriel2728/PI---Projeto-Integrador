@@ -46,8 +46,9 @@ $primeiroNome = explode(" ", $nomeUsuario)[0];
     </nav>
   </header>
 
+<main>
     <div class="layout">
-        <section class="simular">
+        <section class="section">
             <div class="mensagem-pequena">
                 <h2>Simule aqui!</h2>
                 <p>Insira os parâmetros para a simulação de energia.</p>
