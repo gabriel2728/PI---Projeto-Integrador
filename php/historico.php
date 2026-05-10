@@ -51,7 +51,8 @@ $stmt->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Histórico de Simulações</title>
     <link rel="stylesheet" href="../css/components/header.css"> 
-    <link rel="stylesheet" type="text/css" href="../css/estilo_historico.css"> 
+    <link rel="stylesheet" type="text/css" href="../css/style.css">
+    <link rel="stylesheet" href="../css/historico.css"> 
 </head>
 <body>
 
@@ -59,23 +60,31 @@ $stmt->close();
     <div class="caixa_de_texto">
         <input type="text" class="search-text" placeholder="Pesquisar...">
     </div>
-    <h2 class="sisgeh"> SiSGEH </h2>
-    <div class="links">
-      <a href="inicio.php" class="link_home">
-        <img src="../home.png" alt="Voltar a Home" class="home">
-      </a>
-      <a href="configuracoes.php" class="link_config">
-        <img src="../config.png" alt="Configurações" class="config">
-      </a>
-    </div>
+    <h1 class="sisgeh"> SiSGEH </h1>
+    <nav class="links">
+	<ul>
+		<li>
+      			<a href="inicio.php" class="link_home">
+        			<img src="../images/home.png" alt="Voltar a Home" class="home">
+      			</a>
+		</li>
+
+		<li>
+      			<a href="configuracoes.php" class="link_config">
+        			<img src="../images/gear.png" alt="Configurações" class="config">
+    			</a>
+		</li>
+	</ul>
+    </nav>
 </header>
 
-<div class="layoutHistorico">
-    <div class="historico">
+<main>
+<div class="layout">
+    <div class="section">
         <!-- Token CSRF para proteção de formulários -->
         <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf_token) ?>">
         
-        <div class="mensagem">
+        <div class="mensagem-pequena">
             <h1>Bem-vindo ao seu histórico!</h1>
             <p>Clique em “Simulação” para ver os detalhes ou em “Exportar” para baixar.</p>
         </div>
@@ -94,47 +103,51 @@ $stmt->close();
             </div>
         <?php endif; ?>
 
-        <table id="tabelaHistorico">
-            <thead>
-                <tr>
-                    <th>Data</th>
-                    <th>Hora</th>
-                    <th>Simulação</th>
-                    <th>Exportar</th>
-                    <th>Excluir</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach($simulacoes as $sim): 
-                    $dataHora = new DateTime($sim['data_simulacao']);
-                ?>
-                <tr>
-                    <td><?= $dataHora->format('d/m/Y') ?></td>
-                    <td><?= $dataHora->format('H:i') ?></td>
-                    <td><button class="btnDetalhes" data-id="<?= $sim['id_simulacao'] ?>">Simulação</button></td>
-                    <td><button onclick="exportSimulacao(<?= $sim['id_simulacao'] ?>)">Exportar</button></td>
-                    <td><button class="btnExcluir" onclick="excluirSimulacao(<?= $sim['id_simulacao'] ?>)">Excluir</button></td>
-                </tr>
-                <tr class="detalhes" id="detalhes-<?= $sim['id_simulacao'] ?>" style="display:none;">
-                    <td colspan="5">
-                        <table class="tabelaExpandida">
-                            <tr><td>Vazão Mássica</td><td><?= $sim['vazao'] ?> m³/s</td></tr>
-                            <tr><td>Altura da Queda</td><td><?= $sim['altura'] ?> m</td></tr>
-                            <tr><td>Potência Turbina</td><td><?= $sim['potTurbina'] ?> MW</td></tr>
-                            <tr><td>Qtd. Turbinas</td><td><?= $sim['qtdTurbinas'] ?></td></tr>
-                            <tr><td>Potência Gerador</td><td><?= $sim['potGerador'] ?> MW</td></tr>
-                            <tr><td>Eficiência</td><td><?= $sim['eficiencia']*100 ?> %</td></tr>
-                            <tr><td>Horas operação/dia</td><td><?= $sim['horas'] ?></td></tr>
-                            <tr><td><b>Potência média (MW)</b></td><td><?= $sim['geracao_principal'] ?> MW</td></tr>
-                            <tr><td><b>Geração diária (MWh/dia)</b></td><td><?= $sim['geracao_diaria'] ?> MWh</td></tr>
-                            <tr><td><b>Geração mensal (MWh/mês)</b></td><td><?= $sim['geracao_mensal'] ?> MWh</td></tr>
-                            <tr><td><b>Geração anual (MWh/ano)</b></td><td><?= $sim['geracao_anual'] ?> MWh</td></tr>
-                        </table>
-                    </td>
-                </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
+
+        	<table id="tabelaHistorico">
+            		<thead>
+                		<tr>
+                    			<th>Data</th>
+                    			<th>Hora</th>
+                    			<th>Simulação</th>
+                    			<th>Exportar</th>
+                    			<th>Excluir</th>
+                		</tr>
+            		</thead>
+            		<tbody>
+                		<?php foreach($simulacoes as $sim): 
+                    		$dataHora = new DateTime($sim['data_simulacao']);
+                		?>
+                		<tr>
+                    			<td><?= $dataHora->format('d/m/Y') ?></td>
+                    			<td><?= $dataHora->format('H:i') ?></td>
+					<td><button class="btnDetalhes" data-id="<?= $sim['id_simulacao'] ?>">Simulação</button></td>
+                    
+					<td><button onclick="exportSimulacao(<?= $sim['id_simulacao'] ?>)">Exportar</button></td>
+
+                    			<td><button class="btnExcluir" onclick="excluirSimulacao(<?= $sim['id_simulacao'] ?>)">Excluir</button></td>
+                    			
+                		</tr>
+                		<tr class="detalhes" id="detalhes-<?= $sim['id_simulacao'] ?>" style="display:none;">
+                    			<td colspan="5">
+                        			<table class="tabelaExpandida">
+                            				<tr><td>Vazão Mássica</td><td><?= $sim['vazao'] ?> m³/s</td></tr>
+                            				<tr><td>Altura da Queda</td><td><?= $sim['altura'] ?> m</td></tr>
+                            				<tr><td>Potência Turbina</td><td><?= $sim['potTurbina'] ?> MW</td></tr>
+                            				<tr><td>Qtd. Turbinas</td><td><?= $sim['qtdTurbinas'] ?></td></tr>
+                            				<tr><td>Potência Gerador</td><td><?= $sim['potGerador'] ?> MW</td></tr>
+                            				<tr><td>Eficiência</td><td><?= $sim['eficiencia']*100 ?> %</td></tr>
+                            				<tr><td>Horas operação/dia</td><td><?= $sim['horas'] ?></td></tr>
+                            				<tr><td><b>Potência média (MW)</b></td><td><?= $sim['geracao_principal'] ?> MW</td></tr>
+                            				<tr><td><b>Geração diária (MWh/dia)</b></td><td><?= $sim['geracao_diaria'] ?> MWh</td></tr>
+                            				<tr><td><b>Geração mensal (MWh/mês)</b></td><td><?= $sim['geracao_mensal'] ?> MWh</td></tr>
+                            				<tr><td><b>Geração anual (MWh/ano)</b></td><td><?= $sim['geracao_anual'] ?> MWh</td></tr>
+                        			</table>
+                    			</td>
+                		</tr>
+                	<?php endforeach; ?>
+            		</tbody>
+        	</table>
 
         <!-- Controles de Paginação -->
         <?php if ($total_paginas > 1): ?>
@@ -175,7 +188,7 @@ $stmt->close();
         </div>
         <?php endif; ?>
 
-        <div class="info-paginacao" style="margin-top: 10px; text-align: center; color: #666; font-size: 14px;">
+        <div class="info-paginacao" style="margin-top: 10px; text-align: center; color: #666; ">
             Mostrando <?= count($simulacoes) ?> de <?= $total_simulacoes ?> simulações
             (Página <?= $pagina_atual ?> de <?= $total_paginas ?>)
         </div>
@@ -194,6 +207,7 @@ $stmt->close();
       </div>
     </div>
   </div>
+</main>
 
 <footer>
     <p>&copy; Todos os direitos reservados. <a href="politica.html">Políticas de privacidade.</a></p>
