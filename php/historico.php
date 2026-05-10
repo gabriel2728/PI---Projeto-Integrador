@@ -53,6 +53,7 @@ $stmt->close();
     <link rel="stylesheet" href="../css/components/header.css"> 
     <link rel="stylesheet" type="text/css" href="../css/style.css">
     <link rel="stylesheet" href="../css/historico.css"> 
+    <link rel="stylesheet" href="../css/components/botoes.css"> 
 </head>
 <body>
 
@@ -80,7 +81,7 @@ $stmt->close();
 
 <main>
 <div class="layout">
-    <div class="section">
+    <section class="historico">
         <!-- Token CSRF para proteção de formulários -->
         <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf_token) ?>">
         
@@ -103,51 +104,50 @@ $stmt->close();
             </div>
         <?php endif; ?>
 
-
-        	<table id="tabelaHistorico">
-            		<thead>
-                		<tr>
-                    			<th>Data</th>
-                    			<th>Hora</th>
-                    			<th>Simulação</th>
-                    			<th>Exportar</th>
-                    			<th>Excluir</th>
-                		</tr>
-            		</thead>
-            		<tbody>
-                		<?php foreach($simulacoes as $sim): 
-                    		$dataHora = new DateTime($sim['data_simulacao']);
-                		?>
-                		<tr>
-                    			<td><?= $dataHora->format('d/m/Y') ?></td>
-                    			<td><?= $dataHora->format('H:i') ?></td>
-					<td><button class="btnDetalhes" data-id="<?= $sim['id_simulacao'] ?>">Simulação</button></td>
-                    
-					<td><button onclick="exportSimulacao(<?= $sim['id_simulacao'] ?>)">Exportar</button></td>
-
-                    			<td><button class="btnExcluir" onclick="excluirSimulacao(<?= $sim['id_simulacao'] ?>)">Excluir</button></td>
-                    			
-                		</tr>
-                		<tr class="detalhes" id="detalhes-<?= $sim['id_simulacao'] ?>" style="display:none;">
-                    			<td colspan="5">
-                        			<table class="tabelaExpandida">
-                            				<tr><td>Vazão Mássica</td><td><?= $sim['vazao'] ?> m³/s</td></tr>
-                            				<tr><td>Altura da Queda</td><td><?= $sim['altura'] ?> m</td></tr>
-                            				<tr><td>Potência Turbina</td><td><?= $sim['potTurbina'] ?> MW</td></tr>
-                            				<tr><td>Qtd. Turbinas</td><td><?= $sim['qtdTurbinas'] ?></td></tr>
-                            				<tr><td>Potência Gerador</td><td><?= $sim['potGerador'] ?> MW</td></tr>
-                            				<tr><td>Eficiência</td><td><?= $sim['eficiencia']*100 ?> %</td></tr>
-                            				<tr><td>Horas operação/dia</td><td><?= $sim['horas'] ?></td></tr>
-                            				<tr><td><b>Potência média (MW)</b></td><td><?= $sim['geracao_principal'] ?> MW</td></tr>
-                            				<tr><td><b>Geração diária (MWh/dia)</b></td><td><?= $sim['geracao_diaria'] ?> MWh</td></tr>
-                            				<tr><td><b>Geração mensal (MWh/mês)</b></td><td><?= $sim['geracao_mensal'] ?> MWh</td></tr>
-                            				<tr><td><b>Geração anual (MWh/ano)</b></td><td><?= $sim['geracao_anual'] ?> MWh</td></tr>
-                        			</table>
-                    			</td>
-                		</tr>
-                	<?php endforeach; ?>
-            		</tbody>
-        	</table>
+        <div class="tabelaContainer">
+                <table id="tabelaHistorico">
+                        <thead>
+                            <tr>
+                                    <th>Data</th>
+                                    <th>Hora</th>
+                                    <th>Simulação</th>
+                                    <th>Exportar</th>
+                                    <th>Excluir</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach($simulacoes as $sim): 
+                                $dataHora = new DateTime($sim['data_simulacao']);
+                            ?>
+                            <tr>
+                                    <td><?= $dataHora->format('d/m/Y') ?></td>
+                                    <td><?= $dataHora->format('H:i') ?></td>
+                       		    <td><button class="btn-azul" data-id="<?= $sim['id_simulacao'] ?>">Simulação</button></td>
+                        	    <td><button class="btn-azul" onclick="exportSimulacao(<?= $sim['id_simulacao'] ?>)">Exportar</button></td>
+                                    <td><button class="btn-vermelho" onclick="excluirSimulacao(<?= $sim['id_simulacao'] ?>)">Excluir</button></td>
+                                    
+                            </tr>
+                            <tr class="detalhes" id="detalhes-<?= $sim['id_simulacao'] ?>" style="display:none;">
+                                    <td colspan="5">
+                                        <table class="tabelaExpandida">
+                                                <tr><td>Vazão Mássica</td><td><?= $sim['vazao'] ?> m³/s</td></tr>
+                                                <tr><td>Altura da Queda</td><td><?= $sim['altura'] ?> m</td></tr>
+                                                <tr><td>Potência Turbina</td><td><?= $sim['potTurbina'] ?> MW</td></tr>
+                                                <tr><td>Qtd. Turbinas</td><td><?= $sim['qtdTurbinas'] ?></td></tr>
+                                                <tr><td>Potência Gerador</td><td><?= $sim['potGerador'] ?> MW</td></tr>
+                                                <tr><td>Eficiência</td><td><?= $sim['eficiencia']*100 ?> %</td></tr>
+                                                <tr><td>Horas operação/dia</td><td><?= $sim['horas'] ?></td></tr>
+                                                <tr><td><b>Potência média (MW)</b></td><td><?= $sim['geracao_principal'] ?> MW</td></tr>
+                                                <tr><td><b>Geração diária (MWh/dia)</b></td><td><?= $sim['geracao_diaria'] ?> MWh</td></tr>
+                                                <tr><td><b>Geração mensal (MWh/mês)</b></td><td><?= $sim['geracao_mensal'] ?> MWh</td></tr>
+                                                <tr><td><b>Geração anual (MWh/ano)</b></td><td><?= $sim['geracao_anual'] ?> MWh</td></tr>
+                                        </table>
+                                    </td>
+                            </tr>
+                        <?php endforeach; ?>
+                        </tbody>
+                </table>
+        </div>	
 
         <!-- Controles de Paginação -->
         <?php if ($total_paginas > 1): ?>
@@ -192,20 +192,21 @@ $stmt->close();
             Mostrando <?= count($simulacoes) ?> de <?= $total_simulacoes ?> simulações
             (Página <?= $pagina_atual ?> de <?= $total_paginas ?>)
         </div>
-    </div>
+    </section>
 </div>
 
 <!-- Modal de Exportação -->
-<div id="modalExportacao" class="modal" style="display:none; position:fixed; z-index:1000; left:0; top:0; width:100%; height:100%; background-color:rgba(0,0,0,0.4);">
-    <div class="modal-content" style="background-color:#fefefe; margin:15% auto; padding:20px; border:1px solid #888; width:400px; border-radius:8px; box-shadow:0 4px 8px rgba(0,0,0,0.2);">
-      <span class="close" id="closeModal" style="color:#aaa; float:right; font-size:28px; font-weight:bold; cursor:pointer;">&times;</span>
-      <h2 style="text-align:center; color:#333;">Escolha o formato de exportação</h2>
-      <div style="display:flex; gap:10px; margin-top:20px; justify-content:center;">
-        <button type="button" id="exportPDF" style="padding:12px 24px; background-color:#ff6b6b; color:white; border:none; border-radius:5px; cursor:pointer; font-size:16px;">📄 PDF</button>
-        <button type="button" id="exportCSV" style="padding:12px 24px; background-color:#4ecdc4; color:white; border:none; border-radius:5px; cursor:pointer; font-size:16px;">📊 CSV</button>
-        <button type="button" id="exportXLSX" style="padding:12px 24px; background-color:#45b7d1; color:white; border:none; border-radius:5px; cursor:pointer; font-size:16px;">📈 XLSX</button>
-      </div>
-    </div>
+    <div id="modalExportacao" class="modal" style="display:none; position:fixed; z-index:1000; left:0; top:0; width:100%; height:100%; background-color:rgba(0,0,0,0.4);">
+        <div class="modal-content" style="background-color:#fefefe; margin:15% auto; padding:20px; border:1px solid #888; width:400px; border-radius:8px; box-shadow:0 4px 8px rgba(0,0,0,0.2);">
+            <span class="close" id="closeModal" style="color:#aaa; float:right; font-size:28px; font-weight:bold; cursor:pointer;">&times;</span>
+            <h2 style="text-align:center; color:#333;">Escolha o formato de exportação</h2>
+
+            <div style="display:flex; gap:10px; margin-top:20px; justify-content:center;">
+                <button type="button" id="exportPDF" style="padding:12px 24px; background-color:#ff6b6b; color:white; border:none; border-radius:5px; cursor:pointer; font-size:16px;">📄 PDF</button>
+                <button type="button" id="exportCSV" style="padding:12px 24px; background-color:#4ecdc4; color:white; border:none; border-radius:5px; cursor:pointer; font-size:16px;">📊 CSV</button>
+                <button type="button" id="exportXLSX" style="padding:12px 24px; background-color:#45b7d1; color:white; border:none; border-radius:5px; cursor:pointer; font-size:16px;">📈 XLSX</button>
+            </div>
+        </div>
   </div>
 </main>
 
