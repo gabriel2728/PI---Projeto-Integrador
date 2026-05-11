@@ -11,6 +11,7 @@ if (!isset($_SESSION['id_usuario'])) {
 }
 
 $id_usuario = $_SESSION['id_usuario'];
+$csrf_token = gerarTokenCSRF();
 
 // Buscar dados do usuário
 $sql = "SELECT nomeUsuario, emailUsuario, telefoneUsuario FROM Usuario WHERE id_usuario = ?";
@@ -39,6 +40,14 @@ if ($result->num_rows > 0) {
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/components/botoes.css">
     <script>
+        function adicionarTokenCSRF(form) {
+            const csrfInput = document.createElement('input');
+            csrfInput.type = 'hidden';
+            csrfInput.name = 'csrf_token';
+            csrfInput.value = document.querySelector('input[name="csrf_token"]')?.value || '';
+            form.appendChild(csrfInput);
+        }
+
         // Função para abrir o formulário de trocar nome
         function abrirFormularioNome() {
             // Remover formulários existentes
@@ -100,6 +109,8 @@ if ($result->num_rows > 0) {
             nomeInput.name = 'nome';
             nomeInput.value = nomeSanitizado;
             form.appendChild(nomeInput);
+
+            adicionarTokenCSRF(form);
 
             document.body.appendChild(form);
             form.submit();
@@ -192,6 +203,8 @@ if ($result->num_rows > 0) {
             confirmarInput.value = senha2;
             form.appendChild(confirmarInput);
 
+            adicionarTokenCSRF(form);
+
             document.body.appendChild(form);
             form.submit();
         }
@@ -279,6 +292,8 @@ if ($result->num_rows > 0) {
             confirmarInput.value = email2;
             form.appendChild(confirmarInput);
 
+            adicionarTokenCSRF(form);
+
             document.body.appendChild(form);
             form.submit();
         }
@@ -305,17 +320,18 @@ if ($result->num_rows > 0) {
     <main>
         <div class="layout">
             <section class="configuracao">
+                <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token); ?>">
 
 
-                <?php if (isset($_SESSION['mensagemsucesso'])): ?>
-                    <div class="mensagem _sucesso">
-                        <?php echo $_SESSION['mensagem_sucesso']; unset($_SESSION['mensagem_sucesso']); ?>
+                <?php if (isset($_SESSION['mensagem_sucesso'])): ?>
+                    <div class="mensagem sucesso">
+                        <?php echo htmlspecialchars($_SESSION['mensagem_sucesso']); unset($_SESSION['mensagem_sucesso']); ?>
                     </div>
                 <?php endif; ?>
 
-                <?php if (isset($_SESSION['mensagem erro'])): ?>
-                    <div class="mensagem_erro">
-                        <?php echo $_SESSION['mensagem_erro']; unset($_SESSION['mensagem_erro']); ?>
+                <?php if (isset($_SESSION['mensagem_erro'])): ?>
+                    <div class="mensagem erro">
+                        <?php echo htmlspecialchars($_SESSION['mensagem_erro']); unset($_SESSION['mensagem_erro']); ?>
                     </div>
                 <?php endif; ?>
 
@@ -324,9 +340,9 @@ if ($result->num_rows > 0) {
                 </div>
 
                 <!-- Botões que abrem os formulários -->
-                <a href="#" onclick="abrirFormularioNome()" class="botao-generico"> 📛 Trocar Nome </a>
-                <a href="#" onclick="abrirFormularioSenha()" class="botao-generico"> 🔑 Trocar Senha </a>
-                <a href="#" onclick="abrirFormularioEmail()" class="botao-generico"> 📧 Trocar E-mail </a>
+                <a href="#" onclick="abrirFormularioNome(); return false;" class="botao-generico"> 📛 Trocar Nome </a>
+                <a href="#" onclick="abrirFormularioSenha(); return false;" class="botao-generico"> 🔑 Trocar Senha </a>
+                <a href="#" onclick="abrirFormularioEmail(); return false;" class="botao-generico"> 📧 Trocar E-mail </a>
                 <a href="#" class="botao-generico"> ❌ Excluir conta </a>
                 <!-- Botão sair estilizado -->
                 <form method="post" action="logout.php">

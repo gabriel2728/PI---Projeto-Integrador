@@ -18,15 +18,46 @@
     border: 1px solid #f5c6cb;
 }
 
+.historico {
+    width: min(960px, calc(100vw - 2rem));
+    max-width: 960px;
+    padding: clamp(1.4rem, 3vw, 2.8rem);
+    margin: 1.5rem auto;
+    background-color: white;
+    box-shadow: 8px 10px 5px 3px rgb(160,160,180, 0.6);
+    border-radius: 40px;
+}
+
+.historico .mensagem-pequena {
+    width: 100%;
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
+
+.historico .mensagem-pequena h1 {
+    margin: 0 0 0.6rem;
+}
+
+.historico .mensagem-pequena p {
+    margin: 0 auto;
+    padding-bottom: 1.2rem;
+    max-width: 720px;
+    text-align: center;
+}
+
 /* Tabela */
 .tabelaContainer{
 	width: 100%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
+    overflow-x: auto;
+    padding-bottom: 0.4rem;
 }
 
 table {
+    width: 100%;
+    min-width: 760px;
     border-collapse: collapse;
     word-wrap: break-word;
     margin-top: 20px;
@@ -42,6 +73,38 @@ th, td {
 th {
     background-color: #004aad;
     color: white;
+}
+
+.historico .btn-azul,
+.historico .btn-vermelho {
+    width: 112px;
+    min-width: 112px;
+    max-width: 112px;
+    padding: 0.55rem 0.7rem;
+    border: none;
+    border-radius: 15px;
+    font-size: 0.9rem;
+}
+
+.historico .btn-azul {
+    background-color: #004aad;
+}
+
+.historico .btn-azul:hover {
+    background-color: #00266a;
+}
+
+.historico .btn-vermelho {
+    background-color: #cc0c0c;
+}
+
+.historico .btn-vermelho:hover {
+    background-color: #aa0a0a;
+}
+
+.historico .tabelaExpandida {
+    min-width: 0;
+    margin-top: 0;
 }
 
 

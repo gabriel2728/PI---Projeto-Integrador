@@ -119,7 +119,7 @@ $csrfToken = gerarTokenCSRF();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dados Históricos - SiSGEH</title>
     <link rel="stylesheet" href="../css/components/header.css">
-    <link rel="stylesheet" href="../css/analise_preditiva.css">
+    <link rel="stylesheet" href="../css/analise_preditiva.css?v=20260511-acao-tabela">
     <link rel="stylesheet" href="../css/components/botoes.css">
 </head>
 <body>
@@ -212,14 +212,16 @@ $csrfToken = gerarTokenCSRF();
                         			<td><?= htmlspecialchars(number_format($item['pluviosidade_mm'], 2, ',', '.')) ?></td>
                         			<td><?= htmlspecialchars(number_format($item['potencia_mw'], 2, ',', '.')) ?></td>
                         			<td>
-                            				<form method="POST" action="dados_historicos.php" style="display:inline-block; margin:0;">
-                                				<input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrfToken) ?>">
-                                				<input type="hidden" name="id_dado" value="<?= $item['id_dado'] ?>">
-                                				<input type="hidden" name="acao" value="excluir">
-                                				<button type="submit" class="botao-cinza" onclick="return confirm('Excluir este registro?');">Excluir</button>
-                            				</form>
-							<a class="botao-cinza" href="dados_historicos.php?editar=<?= $item['id_dado'] ?>">Editar</a>
-                        		       </td>
+                                        <div class="acoes-tabela">
+                                            <a class="botao-acao botao-acao-editar" href="dados_historicos.php?editar=<?= $item['id_dado'] ?>">Editar</a>
+                                            <form method="POST" action="dados_historicos.php">
+                                                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrfToken) ?>">
+                                                <input type="hidden" name="id_dado" value="<?= $item['id_dado'] ?>">
+                                                <input type="hidden" name="acao" value="excluir">
+                                                <button type="submit" class="botao-acao botao-acao-excluir" onclick="return confirm('Excluir este registro?');">Excluir</button>
+                                            </form>
+                                        </div>
+                                    </td>
 					</tr>
                     			
                 			<?php endforeach; ?>

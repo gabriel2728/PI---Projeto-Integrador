@@ -52,7 +52,7 @@ $stmt->close();
     <title>Histórico de Simulações</title>
     <link rel="stylesheet" href="../css/components/header.css"> 
     <link rel="stylesheet" type="text/css" href="../css/style.css">
-    <link rel="stylesheet" href="../css/historico.css"> 
+    <link rel="stylesheet" href="../css/historico.css?v=20260511-layout">
     <link rel="stylesheet" href="../css/components/botoes.css"> 
 </head>
 <body>
@@ -122,8 +122,8 @@ $stmt->close();
                             <tr>
                                     <td><?= $dataHora->format('d/m/Y') ?></td>
                                     <td><?= $dataHora->format('H:i') ?></td>
-                       		    <td><button class="btn-azul" data-id="<?= $sim['id_simulacao'] ?>">Simulação</button></td>
-                        	    <td><button class="btn-azul" onclick="exportSimulacao(<?= $sim['id_simulacao'] ?>)">Exportar</button></td>
+                                    <td><button class="btn-azul btnDetalhes" data-id="<?= $sim['id_simulacao'] ?>">Simulação</button></td>
+                                    <td><button class="btn-azul" onclick="exportSimulacao(<?= $sim['id_simulacao'] ?>)">Exportar</button></td>
                                     <td><button class="btn-vermelho" onclick="excluirSimulacao(<?= $sim['id_simulacao'] ?>)">Excluir</button></td>
                                     
                             </tr>

@@ -60,6 +60,33 @@ main{
     margin: 0;
 }
 
+.intro-principal {
+    justify-content: center;
+    text-align: center;
+    margin: 1.5rem 0 1rem;
+}
+
+.intro-principal .mensagem-pequena {
+    width: 100%;
+}
+
+.intro-principal h2 {
+    margin: 0 0 0.6rem;
+}
+
+.mensagem-pequena .descricao-analise {
+    max-width: 560px;
+    margin: 0.15rem auto 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: #5f6974;
+    font-family: "Open Sauce Light", sans-serif;
+    font-size: clamp(0.95rem, 1vw, 1.08rem);
+    line-height: 1.55;
+    letter-spacing: 0;
+}
+
 .painel-entrada,
 .painel-resultado,
 .grafico-area,
@@ -203,6 +230,63 @@ form input[type="number"] {
 .dados-historicos th {
     background-color: #f9fafb;
     font-weight: 700;
+}
+
+.dados-historicos .acoes-tabela {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.dados-historicos .acoes-tabela form {
+    width: auto;
+    max-width: none;
+    margin: 0;
+    display: inline-flex;
+}
+
+.dados-historicos .acoes-tabela .botao-acao {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 92px;
+    min-width: 92px;
+    height: 36px;
+    padding: 0 0.7rem;
+    border: 1px solid rgba(255,255,255,0.85);
+    border-radius: 20px;
+    color: white;
+    font-family: "Open Sauce Regular", "Open Sauce Light", sans-serif;
+    font-size: 0.86rem;
+    font-weight: 600;
+    line-height: 1;
+    text-decoration: none;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.16);
+    transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dados-historicos .acoes-tabela .botao-acao:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 7px 14px rgba(0,0,0,0.2);
+}
+
+.dados-historicos .acoes-tabela .botao-acao-editar {
+    background: #4B4B4B;
+}
+
+.dados-historicos .acoes-tabela .botao-acao-editar:hover {
+    background: #000000;
+}
+
+.dados-historicos .acoes-tabela .botao-acao-excluir {
+    background: #cc0c0c;
+}
+
+.dados-historicos .acoes-tabela .botao-acao-excluir:hover {
+    background: #aa0a0a;
 }
 
 .nota {

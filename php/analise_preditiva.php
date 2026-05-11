@@ -117,13 +117,12 @@ if ($modeloA !== null && $modeloB !== null) {
 
 <main class="container">
    <div class="layout">
-    	<div class="intro">
-        	<div class="mensagem-pequena">
-            		<h2>Bem-vindo, <?= htmlspecialchars($nomeUsuario) ?>!</h2>
-            			<p>Use dados históricos de pluviosidade para prever a potência estimada em MW.</p>
-        	</div>
-        	<a class="botao-cinza" href="inicio.php">← Voltar ao Dashboard</a>
-    	</div>
+        <div class="intro intro-principal">
+            <div class="mensagem-pequena">
+                <h2>Bem-vindo, <?= htmlspecialchars($nomeUsuario) ?>!</h2>
+                <p class="descricao-analise">Use registros históricos de chuva para estimar a potência gerada em MW.</p>
+            </div>
+        </div>
 
     	<section class="painel-entrada">
 		<div class="mensagem-pequena">
@@ -141,14 +140,13 @@ if ($modeloA !== null && $modeloB !== null) {
     	</section>
 
     	<section class="painel-resultado">
-        	<div class="intro">
-            		<div <div class="mensagem-pequena">
-                		<h3>Resultado da Previsão</h3>
-            		</div>
-            		
-                		<a href="dados_historicos.php" class="botao-azul">Gerenciar dados históricos</a>
-            		
-        	</div>
+            <div class="intro">
+                <div class="mensagem-pequena">
+                    <h3>Resultado da Previsão</h3>
+                </div>
+
+                <a href="dados_historicos.php" class="botao-cinza">Gerenciar dados históricos</a>
+            </div>
 
         	<?php if ($mensagemErro): ?>
             	<div class="alerta erro"><?= htmlspecialchars($mensagemErro) ?></div>
