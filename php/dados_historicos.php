@@ -185,7 +185,7 @@ $csrfToken = gerarTokenCSRF();
             			<label for="potencia_mw">Potência (MW)</label>
             			<input type="number" step="0.01" id="potencia_mw" name="potencia_mw" required value="<?= htmlspecialchars($registro['potencia_mw']) ?>">
 
-            			<button type="submit" class="botao-generico"> Gerar <?= $modoEdicao ? 'Atualizar registro' : 'Adicionar registro' ?></button>
+            			<button type="submit" class="botao-generico"><?= $modoEdicao ? 'Atualizar registro' : 'Adicionar registro' ?></button>
         		</form>
     		</section>
 
