@@ -43,7 +43,9 @@ $csrf_token = gerarTokenCSRF();
         </figure>
         <div class="layout">
             <section class="section">
-                <h1>Criar Conta</h1>
+                <div class="mensagem-pequena">
+                    <h1>Criar Conta</h1>
+                </div>
                 <form action="php/cadastro.php" method="POST">
                     <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf_token) ?>">
                     <input type="text" name="nomeUsuario" placeholder="Nome de Usuário" maxlength="35" required>

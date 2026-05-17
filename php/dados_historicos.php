@@ -133,7 +133,7 @@ $csrfToken = gerarTokenCSRF();
     <nav class="links">
         <ul>
             <li>
-                <a href="analise_preditiva.php" class="link_home">
+                <a href="inicio.php" class="link_home">
                     <img src="../images/home.png" alt="Voltar a Home" class="home">
                 </a>
 
