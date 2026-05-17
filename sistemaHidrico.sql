@@ -190,3 +190,20 @@ CREATE TABLE RecuperacaoSenha (
     INDEX idx_token (token),
     INDEX idx_usuario_expiracao (id_usuario, data_expiracao)
 );
+
+select * from  usuario;
+
+-- Excluindo E-mail teste gabirutaa@gmail.com
+DELETE FROM ResultadoSimulacao
+WHERE id_simulacao IN (
+  SELECT id_simulacao FROM Simulacoes WHERE id_usuario = 20
+);
+
+DELETE FROM Simulacoes WHERE id_usuario = 20;
+DELETE FROM UsuarioConfiguracoes WHERE id_usuario = 20;
+DELETE FROM RecuperacaoSenha WHERE id_usuario = 20;
+
+DELETE FROM Usuario
+WHERE id_usuario = 20
+  AND emailUsuario = 'gabirutaa@gmail.com';
+  
