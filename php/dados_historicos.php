@@ -230,5 +230,6 @@ $csrfToken = gerarTokenCSRF();
     		</section>
 	</div>
 </main>
+<script src="../js/pesquisa.js"></script>
 </body>
 </html>

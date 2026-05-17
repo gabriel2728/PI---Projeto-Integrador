@@ -273,5 +273,6 @@ function exportarSimulacao(formato) {
 }
 </script>
 
+<script src="../js/pesquisa.js"></script>
 </body>
 </html>

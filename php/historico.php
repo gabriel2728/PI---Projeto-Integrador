@@ -303,5 +303,6 @@ function realizarExportacao(formato, id) {
 }
 </script>
 
+<script src="../js/pesquisa.js"></script>
 </body>
 </html>

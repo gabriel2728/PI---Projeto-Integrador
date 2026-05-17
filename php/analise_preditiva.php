@@ -259,5 +259,6 @@ new Chart(ctx, {
     }
 });
 </script>
+<script src="../js/pesquisa.js"></script>
 </body>
 </html>

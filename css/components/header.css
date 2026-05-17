@@ -47,6 +47,7 @@ header li {
     display: flex;
     justifY-content: center;    
     align-items: center;
+    position: relative;
 
     background-color: white;
     border-radius: 25px;
@@ -60,4 +61,37 @@ header li {
 
     text-align: center;
     font-size: clamp(0.6rem, 1vw, 1rem)
+}
+
+.resultados-pesquisa {
+    background: #fff;
+    border: 1px solid #c7d6df;
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 8px 18px rgba(31, 41, 51, 0.14);
+    left: 0;
+    overflow: hidden;
+    position: absolute;
+    top: calc(100% + 3px);
+    width: 100%;
+    min-width: 180px;
+    z-index: 1000;
+}
+
+.resultado-pesquisa {
+    background: #fff;
+    border: 0;
+    color: #2f3a40;
+    cursor: pointer;
+    display: block;
+    font-family: Arial, sans-serif;
+    font-size: 0.82rem;
+    padding: 0.45rem 0.65rem;
+    text-align: center;
+    width: 100%;
+}
+
+.resultado-pesquisa:hover,
+.resultado-pesquisa:focus {
+    background: #eaf4fa;
+    outline: none;
 }

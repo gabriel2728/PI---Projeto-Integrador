@@ -73,5 +73,6 @@ $primeiroNome = explode(" ", $nomeUsuario)[0]; // Pega só o primeiro nome
     <p>&copy Todos os direitos reservados. <a href="../politica.html">Políticas de privacidade.</a></p>
 </footer>
 
+<script src="../js/pesquisa.js"></script>
 </body>
 </html>
