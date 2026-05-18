@@ -98,6 +98,30 @@ a {
     padding-bottom: 2rem;
 }
 
+.politica-dados {
+    align-items: stretch;
+    text-align: left;
+}
+
+.politica-dados .mensagem-pequena {
+    width: 100%;
+}
+
+.politica-dados h2 {
+    text-align: left;
+}
+
+.politica-dados ul {
+    margin: 0;
+    padding-left: 1.5rem;
+    color: #333333;
+    line-height: 1.6;
+}
+
+.politica-dados li {
+    margin-bottom: 0.75rem;
+}
+
 footer p, footer a {
 	font-size: clamp(0.8rem, 1.2vw, 2rem);
     text-align: center;

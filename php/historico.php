@@ -211,7 +211,7 @@ $stmt->close();
 </main>
 
 <footer>
-    <p>&copy; Todos os direitos reservados. <a href="politica.html">Políticas de privacidade.</a></p>
+    <p>&copy; Todos os direitos reservados. <a href="../politica.html">Políticas de privacidade.</a></p>
 </footer>
 
 <script>

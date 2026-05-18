@@ -157,7 +157,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </main>
 
     <footer>
-        <p> &copy Todos os direitos reservados. <a href="politica.html"> Políticas de privacidade. </a> </p>
+        <p> &copy Todos os direitos reservados. <a href="../politica.html"> Políticas de privacidade. </a> </p>
     </footer>
     <script src="../js/pesquisa.js"></script>
 </body>

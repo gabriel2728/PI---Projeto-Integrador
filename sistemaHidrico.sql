@@ -196,14 +196,28 @@ select * from  usuario;
 -- Excluindo E-mail teste gabirutaa@gmail.com
 DELETE FROM ResultadoSimulacao
 WHERE id_simulacao IN (
-  SELECT id_simulacao FROM Simulacoes WHERE id_usuario = 20
+  SELECT id_simulacao
+  FROM Simulacoes
+  WHERE id_usuario IN (
+    SELECT id_usuario FROM Usuario WHERE emailUsuario = 'gabirutaa@gmail.com'
+  )
 );
 
-DELETE FROM Simulacoes WHERE id_usuario = 20;
-DELETE FROM UsuarioConfiguracoes WHERE id_usuario = 20;
-DELETE FROM RecuperacaoSenha WHERE id_usuario = 20;
+DELETE FROM Simulacoes
+WHERE id_usuario IN (
+  SELECT id_usuario FROM Usuario WHERE emailUsuario = 'gabirutaa@gmail.com'
+);
+
+DELETE FROM UsuarioConfiguracoes
+WHERE id_usuario IN (
+  SELECT id_usuario FROM Usuario WHERE emailUsuario = 'gabirutaa@gmail.com'
+);
+
+DELETE FROM RecuperacaoSenha
+WHERE id_usuario IN (
+  SELECT id_usuario FROM Usuario WHERE emailUsuario = 'gabirutaa@gmail.com'
+);
 
 DELETE FROM Usuario
-WHERE id_usuario = 20
-  AND emailUsuario = 'gabirutaa@gmail.com';
+WHERE emailUsuario = 'gabirutaa@gmail.com';
   
