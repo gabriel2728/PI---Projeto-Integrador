@@ -55,7 +55,7 @@ $primeiroNome = explode(" ", $nomeUsuario)[0];
             </div>
 
             <form id="formSimulacao" method="get">
-                <input type="number" step="any" id="vazao" placeholder="Vazão Mássica (m³/s)" required>
+                <input type="number" step="any" id="vazao" placeholder="Vazão volumétrica por turbina (m³/s)" required>
                 <input type="number" step="any" id="altura" placeholder="Altura da queda d'água (m)" required>
                 <input type="number" step="any" id="potTurbina" placeholder="Potência das turbinas (MW)" required>
                 <input type="number" step="1" id="qtdTurbinas" placeholder="Quantidade de turbinas" required>
