@@ -125,26 +125,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <div class="form-group">
                         <label>Notificações:</label>
                         <div class="checkbox-group">
-                            <div class="checkbox-item">
-                                <input type="checkbox" name="notificacoes_email" id="notificacoes_email"
-                                    <?php echo ($configuracoes['notificacoes_email']) ? 'checked' : ''; ?>>
-                                <label for="notificacoes_email">📧 Notificações por e-mail</label>
-                            </div>
+        
                             <div class="checkbox-item">
                                 <input type="checkbox" name="notificacoes_sistema" id="notificacoes_sistema"
                                     <?php echo ($configuracoes['notificacoes_sistema']) ? 'checked' : ''; ?>>
                                 <label for="notificacoes_sistema">🔔 Notificações do sistema</label>
                             </div>
-                            <div class="checkbox-item">
-                                <input type="checkbox" name="notificacoes_simulacao" id="notificacoes_simulacao"
-                                    <?php echo ($configuracoes['notificacoes_simulacao']) ? 'checked' : ''; ?>>
-                                <label for="notificacoes_simulacao">📊 Notificações de simulações</label>
-                            </div>
-                            <div class="checkbox-item">
-                                <input type="checkbox" name="notificacoes_relatorios" id="notificacoes_relatorios"
-                                    <?php echo ($configuracoes['notificacoes_relatorios']) ? 'checked' : ''; ?>>
-                                <label for="notificacoes_relatorios">📋 Notificações de relatórios</label>
-                            </div>
+                        
                         </div>
                     </div>
 
