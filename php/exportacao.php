@@ -149,18 +149,22 @@ function exportarSimulacaoSalva($dados, $formato) {
 
 // ===== EXPORTAÇÃO PDF =====
 
+function textoPDF($texto) {
+    return iconv('UTF-8', 'ISO-8859-1//TRANSLIT', (string) $texto);
+}
+
 function exportarPDFNovo($dados, $timestamp) {
     require('fpdf.php');
     
     $pdf = new FPDF();
     $pdf->AddPage();
     $pdf->SetFont('Arial', 'B', 16);
-    $pdf->Cell(0, 10, 'Relatorio de Simulacao Hidreletrica', 0, 1, 'C');
+    $pdf->Cell(0, 10, textoPDF('Relatório de Simulação Hidrelétrica'), 0, 1, 'C');
     $pdf->Ln(10);
     
     $pdf->SetFont('Arial', '', 12);
     $campos = [
-        'Vazão Mássica' => $dados['vazao'] . ' m³/s',
+        'Vazão Volumétrica' => $dados['vazao'] . ' m³/s',
         'Altura da Queda' => $dados['altura'] . ' m',
         'Potência da Turbina' => $dados['potTurbina'] . ' MW',
         'Quantidade de Turbinas' => $dados['qtdTurbinas'],
@@ -170,13 +174,13 @@ function exportarPDFNovo($dados, $timestamp) {
     ];
     
     foreach ($campos as $label => $valor) {
-        $pdf->Cell(60, 10, utf8_decode($label) . ':', 0, 0);
-        $pdf->Cell(0, 10, utf8_decode($valor), 0, 1);
+        $pdf->Cell(60, 10, textoPDF($label . ':'), 0, 0);
+        $pdf->Cell(0, 10, textoPDF($valor), 0, 1);
     }
     
     $pdf->Ln(5);
     $pdf->SetFont('Arial', 'B', 12);
-    $pdf->Cell(60, 10, utf8_decode('Resultados:'), 0, 1);
+    $pdf->Cell(60, 10, textoPDF('Resultados:'), 0, 1);
     $pdf->SetFont('Arial', '', 12);
     
     $resultadoPrincipal = $dados['eficiencia'] * 1000 * $dados['vazao'] * 9.81 * $dados['altura'] * $dados['qtdTurbinas'] / 1e6;
@@ -184,15 +188,15 @@ function exportarPDFNovo($dados, $timestamp) {
     $geracaoMes = $dados['horas'] > 0 ? $geracaoDia * 30 : 0;
     $geracaoAno = $dados['horas'] > 0 ? $geracaoDia * 365 : 0;
     
-    $pdf->Cell(60, 10, utf8_decode('Geração Total (MW):'), 0, 0);
+    $pdf->Cell(60, 10, textoPDF('Geração Total (MW):'), 0, 0);
     $pdf->Cell(0, 10, number_format($resultadoPrincipal, 2, ',', '.'), 0, 1);
     
     if ($dados['horas'] > 0) {
-        $pdf->Cell(60, 10, utf8_decode('Geração Diária (MWh/dia):'), 0, 0);
+        $pdf->Cell(60, 10, textoPDF('Geração Diária (MWh/dia):'), 0, 0);
         $pdf->Cell(0, 10, number_format($geracaoDia, 2, ',', '.'), 0, 1);
-        $pdf->Cell(60, 10, utf8_decode('Geração Mensal (MWh/mês):'), 0, 0);
+        $pdf->Cell(60, 10, textoPDF('Geração Mensal (MWh/mês):'), 0, 0);
         $pdf->Cell(0, 10, number_format($geracaoMes, 2, ',', '.'), 0, 1);
-        $pdf->Cell(60, 10, utf8_decode('Geração Anual (MWh/ano):'), 0, 0);
+        $pdf->Cell(60, 10, textoPDF('Geração Anual (MWh/ano):'), 0, 0);
         $pdf->Cell(0, 10, number_format($geracaoAno, 2, ',', '.'), 0, 1);
     }
     
@@ -206,17 +210,17 @@ function exportarPDFSalvo($dados) {
     $pdf = new FPDF();
     $pdf->AddPage();
     $pdf->SetFont('Arial', 'B', 16);
-    $pdf->Cell(0, 10, 'Relatorio de Simulacao Hidreletrica', 0, 1, 'C');
+    $pdf->Cell(0, 10, textoPDF('Relatório de Simulação Hidrelétrica'), 0, 1, 'C');
     $pdf->Ln(5);
     
     $pdf->SetFont('Arial', '', 10);
     $dataFormatada = date('d/m/Y H:i', strtotime($dados['data_simulacao']));
-    $pdf->Cell(0, 8, 'Data da Simulacao: ' . $dataFormatada, 0, 1);
+    $pdf->Cell(0, 8, textoPDF('Data da Simulação: ' . $dataFormatada), 0, 1);
     $pdf->Ln(5);
     
     $pdf->SetFont('Arial', '', 12);
     $campos = [
-        'Vazão Mássica' => $dados['vazao'] . ' m³/s',
+        'Vazão Volumétrica' => $dados['vazao'] . ' m³/s',
         'Altura da Queda' => $dados['altura'] . ' m',
         'Potência da Turbina' => $dados['potTurbina'] . ' MW',
         'Quantidade de Turbinas' => $dados['qtdTurbinas'],
@@ -226,22 +230,22 @@ function exportarPDFSalvo($dados) {
     ];
     
     foreach ($campos as $label => $valor) {
-        $pdf->Cell(60, 10, utf8_decode($label) . ':', 0, 0);
-        $pdf->Cell(0, 10, utf8_decode($valor), 0, 1);
+        $pdf->Cell(60, 10, textoPDF($label . ':'), 0, 0);
+        $pdf->Cell(0, 10, textoPDF($valor), 0, 1);
     }
     
     $pdf->Ln(5);
     $pdf->SetFont('Arial', 'B', 12);
-    $pdf->Cell(60, 10, utf8_decode('Resultados:'), 0, 1);
+    $pdf->Cell(60, 10, textoPDF('Resultados:'), 0, 1);
     $pdf->SetFont('Arial', '', 12);
     
-    $pdf->Cell(60, 10, utf8_decode('Geração Total (MW):'), 0, 0);
+    $pdf->Cell(60, 10, textoPDF('Geração Total (MW):'), 0, 0);
     $pdf->Cell(0, 10, number_format($dados['geracao_principal'], 2, ',', '.'), 0, 1);
-    $pdf->Cell(60, 10, utf8_decode('Geração Diária (MWh/dia):'), 0, 0);
+    $pdf->Cell(60, 10, textoPDF('Geração Diária (MWh/dia):'), 0, 0);
     $pdf->Cell(0, 10, number_format($dados['geracao_diaria'], 2, ',', '.'), 0, 1);
-    $pdf->Cell(60, 10, utf8_decode('Geração Mensal (MWh/mês):'), 0, 0);
+    $pdf->Cell(60, 10, textoPDF('Geração Mensal (MWh/mês):'), 0, 0);
     $pdf->Cell(0, 10, number_format($dados['geracao_mensal'], 2, ',', '.'), 0, 1);
-    $pdf->Cell(60, 10, utf8_decode('Geração Anual (MWh/ano):'), 0, 0);
+    $pdf->Cell(60, 10, textoPDF('Geração Anual (MWh/ano):'), 0, 0);
     $pdf->Cell(0, 10, number_format($dados['geracao_anual'], 2, ',', '.'), 0, 1);
     
     $nomearquivo = 'Simulacao_' . $dados['id_simulacao'] . '_' . date('Y-m-d_H-i-s', strtotime($dados['data_simulacao'])) . '.pdf';

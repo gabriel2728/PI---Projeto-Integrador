@@ -2,6 +2,10 @@
 require('fpdf/fpdf.php');
 include('conexao.php');
 
+function textoPDF($texto) {
+    return iconv('UTF-8', 'ISO-8859-1//TRANSLIT', (string) $texto);
+}
+
 // Verifica se recebeu o ID da simulação pela URL
 if (isset($_GET['id'])) {
     $id_simulacao = intval($_GET['id']);
@@ -18,7 +22,7 @@ if (isset($_GET['id'])) {
 
         // Título
         $pdf->SetFont('Arial', 'B', 16);
-        $pdf->Cell(0, 10, 'Relatorio de Simulacao Hidreletrica', 0, 1, 'C');
+        $pdf->Cell(0, 10, textoPDF('Relatório de Simulação Hidrelétrica'), 0, 1, 'C');
         $pdf->Ln(10);
 
         // Define fonte para o conteúdo
@@ -26,8 +30,13 @@ if (isset($_GET['id'])) {
 
         // Mostra os dados
         foreach ($dados as $campo => $valor) {
-            $pdf->Cell(60, 10, utf8_decode(ucfirst($campo)) . ':', 0, 0);
-            $pdf->Cell(0, 10, utf8_decode($valor), 0, 1);
+            $label = ucfirst($campo);
+            if ($campo === 'vazao') {
+                $label = 'Vazão Volumétrica';
+            }
+
+            $pdf->Cell(60, 10, textoPDF($label . ':'), 0, 0);
+            $pdf->Cell(0, 10, textoPDF($valor), 0, 1);
         }
 
         // Força o download do PDF
