@@ -265,7 +265,7 @@ function exportarCSVNovo($dados, $timestamp) {
     fputcsv($output, ['SIMULAÇÃO HIDRELÉTRICA'], ';');
     fputcsv($output, [], ';');
     fputcsv($output, ['PARÂMETROS DE ENTRADA', ''], ';');
-    fputcsv($output, ['Vazão Mássica (m³/s)', $dados['vazao']], ';');
+    fputcsv($output, ['Vazão Volumétrica (m³/s)', $dados['vazao']], ';');
     fputcsv($output, ['Altura da Queda (m)', $dados['altura']], ';');
     fputcsv($output, ['Potência da Turbina (MW)', $dados['potTurbina']], ';');
     fputcsv($output, ['Quantidade de Turbinas', $dados['qtdTurbinas']], ';');
@@ -305,7 +305,7 @@ function exportarCSVSalvo($dados) {
     fputcsv($output, ['Data: ' . $dataFormatada], ';');
     fputcsv($output, [], ';');
     fputcsv($output, ['PARÂMETROS DE ENTRADA', ''], ';');
-    fputcsv($output, ['Vazão Mássica (m³/s)', $dados['vazao']], ';');
+    fputcsv($output, ['Vazão Volumétrica (m³/s)', $dados['vazao']], ';');
     fputcsv($output, ['Altura da Queda (m)', $dados['altura']], ';');
     fputcsv($output, ['Potência da Turbina (MW)', $dados['potTurbina']], ';');
     fputcsv($output, ['Quantidade de Turbinas', $dados['qtdTurbinas']], ';');
@@ -413,7 +413,7 @@ function construirXMLSimulacao($titulo, $subtitulo, $dados, $isSalvo = false) {
     $row++;
     
     $campos = [
-        'Vazão Mássica (m³/s)' => $dados['vazao'],
+        'Vazão Volumétrica (m³/s)' => $dados['vazao'],
         'Altura da Queda (m)' => $dados['altura'],
         'Potência da Turbina (MW)' => $dados['potTurbina'],
         'Quantidade de Turbinas' => $dados['qtdTurbinas'],
