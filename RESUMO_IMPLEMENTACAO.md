@@ -130,7 +130,7 @@ Arquivo gerado e baixado
 ## 📊 Dados Inclusos em Todos os Formatos
 
 ### Parâmetros de Entrada
-- Vazão Mássica (m³/s)
+- Vazão Volumétrica (m³/s)
 - Altura da Queda (m)
 - Potência da Turbina (MW)
 - Quantidade de Turbinas

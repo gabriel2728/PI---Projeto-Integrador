@@ -55,7 +55,7 @@ Seu sistema agora suporta exportação em **3 formatos**:
 ### Todos os formatos contêm:
 
 1. **Dados de Entrada:**
-   - Vazão Mássica (m³/s)
+   - Vazão Volumétrica (m³/s)
    - Altura da Queda (m)
    - Potência da Turbina (MW)
    - Quantidade de Turbinas
