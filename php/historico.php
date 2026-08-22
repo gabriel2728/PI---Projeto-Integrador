@@ -130,7 +130,7 @@ $stmt->close();
                             <tr class="detalhes" id="detalhes-<?= $sim['id_simulacao'] ?>" style="display:none;">
                                     <td colspan="5">
                                         <table class="tabelaExpandida">
-                                                <tr><td>Vazão Mássica</td><td><?= $sim['vazao'] ?> m³/s</td></tr>
+                                                <tr><td>Vazão Volumétrica</td><td><?= $sim['vazao'] ?> m³/s</td></tr>
                                                 <tr><td>Altura da Queda</td><td><?= $sim['altura'] ?> m</td></tr>
                                                 <tr><td>Potência Turbina</td><td><?= $sim['potTurbina'] ?> MW</td></tr>
                                                 <tr><td>Qtd. Turbinas</td><td><?= $sim['qtdTurbinas'] ?></td></tr>

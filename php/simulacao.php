@@ -139,7 +139,7 @@ document.getElementById("formSimulacao").addEventListener("submit", function(e) 
     const geracaoAno = horas > 0 ? geracaoDia * 365 : 0;
 
     let linhas = `
-        <tr><td>Vazão Mássica</td><td>${vazao.toFixed(2)} m³/s</td></tr>
+        <tr><td>Vazão Volumétrica</td><td>${vazao.toFixed(2)} m³/s</td></tr>
         <tr><td>Altura da queda</td><td>${altura.toFixed(2)} m</td></tr>
         <tr><td>Potência da turbina</td><td>${potTurbina.toFixed(2)} MW</td></tr>
         <tr><td>Quantidade de turbinas</td><td>${qtdTurbinas}</td></tr>
