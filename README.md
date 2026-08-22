@@ -8,7 +8,7 @@ Sistema web para simulação e cálculo de geração de energia elétrica em hid
 
 ## 📋 Sobre o Projeto
 
-O SiSGEH (Sistema de Simulação de Geração de Energia Hidrelétrica) é uma aplicação web que permite aos usuários simular cenários de geração de energia elétrica em hidrelétricas. O sistema calcula a potência gerada com base em parâmetros físicos como vazão mássica, altura da queda d'água, potência das turbinas e outros fatores ambientais.
+O SiSGEH (Sistema de Simulação de Geração de Energia Hidrelétrica) é uma aplicação web que permite aos usuários simular cenários de geração de energia elétrica em hidrelétricas. O sistema calcula a potência gerada com base em parâmetros físicos como vazão volumétrica, altura da queda d'água, potência das turbinas e outros fatores ambientais.
 
 ### 🎯 Funcionalidades Principais
 
@@ -78,7 +78,7 @@ ResultadoSimulacao (id, id_simulacao, geracao_diaria, geracao_mensal, geracao_an
 
 ### 2. Realizar Simulação
 - Na página "Simulação", preencha os parâmetros:
-  - Vazão mássica (m³/s)
+  - Vazão volumétrica (m³/s)
   - Altura da queda (m)
   - Potência da turbina (MW)
   - Quantidade de turbinas
@@ -114,7 +114,7 @@ Onde:
 - **ρ**: Densidade da água (1000 kg/m³)
 - **g**: Aceleração da gravidade (9.81 m/s²)
 - **h**: Altura da queda (metros)
-- **Q**: Vazão mássica (m³/s)
+- **Q**: Vazão volumétrica (m³/s)
 - **η**: Eficiência do sistema (decimal)
 
 ### Exportação de Dados
