@@ -114,9 +114,7 @@ if (isset($_POST['entrar'])) {
                 <li>
                     <a href="../sobre.html" class="sobre"> Sobre </a>
 
-                    <a href="../index.html" class="link_home">
-                        <img src="../images/home.png" alt="Voltar a Home" class="home"> 
-                    </a>
+                    
                 </li>
             </ul>
         </div>
