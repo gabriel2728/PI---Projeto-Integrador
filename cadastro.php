@@ -28,7 +28,7 @@ $csrf_token = gerarTokenCSRF();
                 </li>
 
                 <li>
-                    <a href="index.html" class="link_home">
+                    <a href="php/login.php" class="link_home">
                         <img src="images/home.png" alt="Voltar a Home" class="home">
                     </a>
                 </li>
