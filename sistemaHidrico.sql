@@ -220,4 +220,39 @@ WHERE id_usuario IN (
 
 DELETE FROM Usuario
 WHERE emailUsuario = 'gabirutaa@gmail.com';
-  
+
+-- Criando Tabela de Dados Históricos
+CREATE TABLE IF NOT EXISTS DadosHistoricos (
+    id_dado INT AUTO_INCREMENT PRIMARY KEY,
+    data_registro DATE NOT NULL,
+    pluviosidade_mm DECIMAL(10,2) NOT NULL,
+    potencia_mw DECIMAL(10,2) NOT NULL,
+    INDEX idx_data_registro (data_registro)
+);
+
+-- Criando Tabela de Analise Preditiva
+CREATE TABLE IF NOT EXISTS AnalisePreditiva (
+    id_analise_preditiva INT AUTO_INCREMENT PRIMARY KEY,
+    id_usuario INT NOT NULL,
+    data_calculo DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    pluviosidade_informada DECIMAL(10,2) NOT NULL,
+    potencia_estimada DECIMAL(10,2) NOT NULL,
+    modelo VARCHAR(100) NOT NULL DEFAULT 'Regressão Linear Simples',
+    equacao VARCHAR(100) NULL,
+    status ENUM('concluido', 'pendente', 'erro') NOT NULL DEFAULT 'concluido',
+    FOREIGN KEY (id_usuario) REFERENCES Usuario(id_usuario) ON DELETE CASCADE,
+    INDEX idx_usuario_data (id_usuario, data_calculo)
+);
+
+
+INSERT INTO AnalisePreditiva (
+    id_usuario,
+    pluviosidade_informada,
+    potencia_estimada,
+    modelo,
+    equacao,
+    status
+) VALUES
+(1, 150.00, 31.20, 'Regressão Linear Simples', 'y = -0,7712x + 191,4026', 'concluido'),
+(1, 180.00, 34.40, 'Regressão Linear Simples', 'y = -0,7712x + 191,4026', 'concluido'),
+(1, 220.00, 40.50, 'Regressão Linear Simples', 'y = -0,7712x + 191,4026', 'concluido');
