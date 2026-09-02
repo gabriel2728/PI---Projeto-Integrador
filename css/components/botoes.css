@@ -1,43 +1,46 @@
+@font-face {
+    font-family: "Open Sauce Light";
+    src: url(../../fonts/open-sauce.sans-light.ttf) format("truetype");
+}
+
+
+/* ===== Padronização dos Botões ===== */
+
+* {
+	font-family: "Open Sauce Light";
+}
+
+.botao-azul,
+.botao-cinza,
+.botao-generico,
+.btn-azul,
+.btn-vermelho,
+.btn-pagina,
+.botao-acao {
+    border-radius: 10px;
+}
+
+/* ===== Padronização dos Botões ===== */
+
+
+
 section form {
 	max-width: 100%;
 }
 
-.botao-generico {
-	text-decoration: none;
-	color: #4B4B4B;
-	font-family: "Open Sauce Regular";
-	font-size: clamp(1rem, 1.5vw, 2rem);
-	text-align: center;
 
-	width: 100%;
-	max-width: 400px;
-	padding: 0.8rem 0;
-	margin: 0.8rem;
-    	
-    border: 1px solid #4b4b4b;
-    border-radius: 20px; 
-    background-color: #bcdcf0; 
-	cursor: pointer; 
-	transition: all 0.3s ease;    	
-}
 
 .botao-generico a {
 	text-decoration: none;
 	color: #4B4B4B;
 }
 
-.botao-generico:hover {
-	background: #9ad6f7;
-	transform: translateY(-2px);
-	box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-}
-
 .botao-azul {
 	text-decoration: none;
 	color: white;
-	font-family: "Open Sauce Regular";
 	font-size: clamp(0.8rem, 1.2vw, 2rem);
 	text-align: center;
+	font-family: "Open Sauce Light";
 
 	width: 100%;
 	max-width: 350px;
@@ -45,7 +48,6 @@ section form {
 
     	
     border: 0.6px solid #EEEEEE;
-    border-radius: 20px; 
     background-color: #004aad; 
 	cursor: pointer; 
 	transition: all 0.3s ease;    	
@@ -57,7 +59,8 @@ section form {
 	box-shadow: 0 6px 12px rgba(0,0,0,0.15);
 }
 
-.botao-cinza {
+.botao-cinza, .botao-generico {
+
 	display: inline-block;
 
 	width: 100%;
@@ -65,9 +68,8 @@ section form {
 	padding: 0.6rem 0;
 	margin: 0.4rem;
 
-	background: #4B4B4B;
+	background: #757575;
 	color: white;
-	border-radius: 20px; 
 	text-decoration: none;
 	text-align: center;
 	font-size: clamp(0.8rem, 1vw, 2rem);
@@ -76,7 +78,7 @@ section form {
 	transition: all 0.3s ease;  
 }
 
-.botao-cinza:hover {
+.botao-cinza:hover, .botao-generico:hover, .btn-azul:hover  {
 	background-color: #000000;
 	transform: translateY(-2px);
 	box-shadow: 0 6px 12px rgba(0,0,0,0.15);
@@ -88,7 +90,6 @@ section form {
 .btn-azul, .btn-vermelho {
 	text-decoration: none;
 	color: white;
-	font-family: "Open Sauce Regular";
 	font-size: clamp(0.6em, 1.2vw, 1rem);
 	text-align: center;
 
@@ -97,7 +98,6 @@ section form {
 	padding: 0.6rem 0.8rem;
 
     	border: 0.6px solid #EEEEEE;
-    	border-radius: 15px; 
 	cursor: pointer; 
 	transition: all 0.3s ease;    	
 }
@@ -105,11 +105,6 @@ section form {
 	background-color: #004aad; 
 }
 
-.btn-azul:hover {
-	background-color: #00266a;
-	transform: translateY(-2px);
-	box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-}
 
 .btn-vermelho {
 	background-color: #cc0c0c; 
@@ -130,7 +125,6 @@ section form {
     color: #007bff;
     background-color: #f8f9fa;
     border: 1px solid #dee2e6;
-    border-radius: 4px;
     transition: all 0.3s ease;
     font-size: 14px;
     font-weight: 500;

@@ -1,7 +1,7 @@
 header {   
     width: auto;
     background-color: #bcdcf0;    
-    font-family: "Alta"; 
+    font-family: "Open Sauce Light"; 
     color: #4B4B4B;
 
     display: grid;
@@ -60,7 +60,8 @@ header li {
     outline: none;
 
     text-align: center;
-    font-size: clamp(0.6rem, 1vw, 1rem)
+    font-size: clamp(0.6rem, 1vw, 1rem);
+    font-family: "Open Sauce Light"; 
 }
 
 .resultados-pesquisa {
@@ -83,7 +84,6 @@ header li {
     color: #2f3a40;
     cursor: pointer;
     display: block;
-    font-family: Arial, sans-serif;
     font-size: 0.82rem;
     padding: 0.45rem 0.65rem;
     text-align: center;

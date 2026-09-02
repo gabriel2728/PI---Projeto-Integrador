@@ -162,19 +162,22 @@ form input[type="email"],
 form input[type="password"],
 form input[type="number"] {
 	width: 100%;
-	max-width: 700px;
-	padding: 0.8rem 1rem;
+	max-width: 450px;
+	padding: 1rem;
 	margin-bottom: 1rem;
 
 	border: none;
 	text-decoration: none;
 	background-color: #bcdcf0;
-	border-radius:20px;
+	border-radius: 10px;
 
 	color: #4B4B4B;
-	font-size: clamp(0.6rem, 1.2vw, 2.5rem);
-    text-align: center;    
+	font-size: clamp(0.5rem, 1vw, 1.5rem);
+    text-align: center;   
 }
+
+
+
 
 
 .resultado-card {
@@ -186,8 +189,28 @@ form input[type="number"] {
     margin: 1rem;
 }
 
+.resultado-card.sucesso {
+    background-color: #ecfdf5;
+    border-color: #86efac;
+    color: #166534;
+}
 
+.acao-analise,
+.acoes-analise {
+    width: 100%;
+    max-width: 800px;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+}
 
+.form-acao-analise {
+    width: auto;
+    max-width: none;
+    display: inline-flex;
+}
 
 .resultado-card,
 .alerta {
@@ -215,22 +238,15 @@ form input[type="number"] {
     height: 360px !important;
 }
 
+
+
+
 .dados-historicos table {
     width: 100%;
     border-collapse: collapse;
 }
 
-.dados-historicos th,
-.dados-historicos td {
-    padding: 12px 14px;
-    border-bottom: 1px solid #e5e7eb;
-    text-align: left;
-}
 
-.dados-historicos th {
-    background-color: #f9fafb;
-    font-weight: 700;
-}
 
 .dados-historicos .acoes-tabela {
     display: flex;
@@ -256,7 +272,7 @@ form input[type="number"] {
     height: 36px;
     padding: 0 0.7rem;
     border: 1px solid rgba(255,255,255,0.85);
-    border-radius: 20px;
+
     color: white;
     font-family: "Open Sauce Regular", "Open Sauce Light", sans-serif;
     font-size: 0.86rem;

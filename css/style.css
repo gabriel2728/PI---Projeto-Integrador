@@ -31,10 +31,13 @@ body {
 		background-attachment: fixed; /* mant�m o fundo fixo mesmo ao rolar a p�gina */
 
     	margin: 0;
+
+		font-family: "../fonts/open-sauce.sans-light.ttf";
 }
 
 main{
 	flex: 1;
+	font-family: "Open Sauce Light";
 }
 
 .layout { 
@@ -88,7 +91,6 @@ main{
 
 label {
     color: #4b4b4b;
-    font-family: "Open Sans Regular";
 	font-size: clamp(1rem, 1.2vw, 2.5rem);
 	padding: 1rem;
 }
@@ -101,7 +103,6 @@ form {
 
 	width: 100%;
 	max-width: 450px;
-	font-family: "Open Sauce Light";
 }
 
 form input[type="tel"],
@@ -110,18 +111,18 @@ form input[type="email"],
 form input[type="password"],
 form input[type="number"] {
 	width: 100%;
-	max-width: 400px;
-	padding: 0.3rem 1rem;
+	max-width: 450px;
+	padding: 1rem;
 	margin-bottom: 1rem;
 
 	border: none;
 	text-decoration: none;
 	background-color: #bcdcf0;
-	border-radius:20px;
+	border-radius: 10px;
 
 	color: #4B4B4B;
-	font-size: clamp(0.6rem, 1.2vw, 2.5rem);
-    text-align: center;    
+	font-size: clamp(0.5rem, 1vw, 1.5rem);
+    text-align: center;        
 }
 
 input[type="checkbox"] {
@@ -138,7 +139,6 @@ footer p, footer a {
 	font-size: clamp(0.8rem, 1.2vw, 2rem);
     text-align: center;
     color: #4b4b4b;
-    font-family: "Open Sauce Light";
 }
 
 

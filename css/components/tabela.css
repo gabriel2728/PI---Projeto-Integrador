@@ -1,3 +1,11 @@
+@font-face {
+    font-family: "Open Sauce Light";
+    src: url(../../fonts/open-sauce.sans-light.ttf) format("truetype");
+}
+
+* {
+  font-family: "Open Sauce Light";
+}
 
 #resultados {
   margin: 0 auto;
@@ -17,9 +25,9 @@
 }
 
 #tabelaResultados th, #tabelaResultados td {
-  padding: 0.8rem 1.2rem;
+  padding: 0.8rem 4rem;
   border-bottom: 1px solid #ddd;
-  text-align: left;
+  text-align: center;
 }
 
 #tabelaResultados th {
