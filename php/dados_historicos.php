@@ -118,9 +118,10 @@ $csrfToken = gerarTokenCSRF();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dados Históricos - SiSGEH</title>
+    <link rel="stylesheet" href="../css/historico.css?v=20260511-layout">
+    <link rel="stylesheet" href="../css/components/botoes.css">
     <link rel="stylesheet" href="../css/components/header.css">
     <link rel="stylesheet" href="../css/analise_preditiva.css?v=20260511-acao-tabela">
-    <link rel="stylesheet" href="../css/components/botoes.css">
 </head>
 <body>
 <header>
@@ -180,10 +181,10 @@ $csrfToken = gerarTokenCSRF();
             			<input type="date" id="data_registro" name="data_registro" required value="<?= htmlspecialchars($registro['data_registro']) ?>">
 
             			<label for="pluviosidade_mm">Pluviosidade (mm)</label>
-            			<input type="number" step="0.01" id="pluviosidade_mm" name="pluviosidade_mm" required value="<?= htmlspecialchars($registro['pluviosidade_mm']) ?>">
+            			<input type="number" step="0.01" id="pluviosidade_mm" placeholder="180" name="pluviosidade_mm" required value="<?= htmlspecialchars($registro['pluviosidade_mm']) ?>">
 
             			<label for="potencia_mw">Potência (MW)</label>
-            			<input type="number" step="0.01" id="potencia_mw" name="potencia_mw" required value="<?= htmlspecialchars($registro['potencia_mw']) ?>">
+            			<input type="number" step="0.01" id="potencia_mw" placeholder="60" name="potencia_mw" required value="<?= htmlspecialchars($registro['potencia_mw']) ?>">
 
             			<button type="submit" class="botao-generico"><?= $modoEdicao ? 'Atualizar registro' : 'Adicionar registro' ?></button>
         		</form>
