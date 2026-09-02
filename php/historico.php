@@ -9,6 +9,38 @@ include('seguranca.php');
 $id_usuario = $_SESSION['id_usuario'];
 $nomeUsuario = $_SESSION['nomeUsuario'];
 
+$conn->query("CREATE TABLE IF NOT EXISTS AnalisePreditiva (
+    id_analise_preditiva INT AUTO_INCREMENT PRIMARY KEY,
+    id_usuario INT NOT NULL,
+    id_simulacao INT NULL,
+    periodo VARCHAR(50) NULL,
+    data_calculo DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    pluviosidade_informada DECIMAL(10,2) NOT NULL,
+    potencia_estimada DECIMAL(10,2) NOT NULL,
+    modelo VARCHAR(100) NOT NULL DEFAULT 'Regressão Linear Simples',
+    equacao VARCHAR(100) NULL,
+    status ENUM('concluido', 'pendente', 'erro') NOT NULL DEFAULT 'concluido',
+    FOREIGN KEY (id_usuario) REFERENCES Usuario(id_usuario) ON DELETE CASCADE,
+    INDEX idx_usuario_data (id_usuario, data_calculo)
+)");
+
+$colunasAnalise = [];
+$colsResult = $conn->query("SHOW COLUMNS FROM AnalisePreditiva");
+if ($colsResult) {
+    while ($coluna = $colsResult->fetch_assoc()) {
+        $colunasAnalise[] = $coluna['Field'];
+    }
+    if (!in_array('id_simulacao', $colunasAnalise, true)) {
+        $conn->query("ALTER TABLE AnalisePreditiva ADD COLUMN id_simulacao INT NULL AFTER id_usuario");
+    }
+    if (!in_array('periodo', $colunasAnalise, true)) {
+        $conn->query("ALTER TABLE AnalisePreditiva ADD COLUMN periodo VARCHAR(50) NULL AFTER id_simulacao");
+    }
+    if (!in_array('status', $colunasAnalise, true)) {
+        $conn->query("ALTER TABLE AnalisePreditiva ADD COLUMN status ENUM('concluido', 'pendente', 'erro') NOT NULL DEFAULT 'concluido' AFTER equacao");
+    }
+}
+
 // Gera token CSRF
 $csrf_token = gerarTokenCSRF();
 
@@ -26,6 +58,13 @@ $total_simulacoes = $result_count->fetch_assoc()['total'];
 $stmt_count->close();
 
 $total_paginas = ceil($total_simulacoes / $itens_por_pagina);
+
+$stmt_analise = $conn->prepare("SELECT id_analise_preditiva, id_simulacao, periodo, data_calculo, pluviosidade_informada, potencia_estimada, modelo, equacao FROM AnalisePreditiva WHERE id_usuario = ? AND status = 'concluido' ORDER BY data_calculo DESC");
+$stmt_analise->bind_param("i", $id_usuario);
+$stmt_analise->execute();
+$result_analise = $stmt_analise->get_result();
+$analises_preditivas = $result_analise->fetch_all(MYSQLI_ASSOC);
+$stmt_analise->close();
 
 // Pega histórico do usuário com paginação
 $stmt = $conn->prepare("
@@ -148,6 +187,51 @@ $stmt->close();
                         </tbody>
                 </table>
         </div>	
+
+        <div class="tabelaContainer secao-analise-preditiva">
+            <div class="cabecalho-secao">
+                <h2>Análises preditivas salvas</h2>
+            </div>
+            <table id="tabelaAnalisesPreditivas">
+                <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>Origem</th>
+                        <th>Período</th>
+                        <th>Pluviosidade</th>
+                        <th>Potência estimada</th>
+                        <th>Modelo</th>
+                        <th>Exportar</th>
+                        <th>Excluir</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php if (empty($analises_preditivas)): ?>
+                        <tr>
+                            <td colspan="8">Nenhuma análise preditiva salva ainda.</td>
+                        </tr>
+                    <?php else: ?>
+                        <?php foreach ($analises_preditivas as $analise): ?>
+                            <tr>
+                                <td><?= date('d/m/Y', strtotime($analise['data_calculo'])) ?></td>
+                                <td><?= !empty($analise['id_simulacao']) ? '<span class="badge-simulacao">Sim. #' . intval($analise['id_simulacao']) . '</span>' : '<span class="badge-manual">Manual</span>' ?></td>
+                                <td><?= htmlspecialchars($analise['periodo'] ?: '-') ?></td>
+                                <td><?= number_format(floatval($analise['pluviosidade_informada']), 2, ',', '.') ?> mm</td>
+                                <td><?= number_format(floatval($analise['potencia_estimada']), 2, ',', '.') ?> MW</td>
+                                <td><?= htmlspecialchars($analise['modelo']) ?></td>
+                                <td><button class="btn-azul btn-exportar-analise" onclick="exportAnalisePreditiva(<?= $analise['id_analise_preditiva'] ?>)">Exportar CSV</button></td>
+                                <td><button class="btn-vermelho" onclick="excluirAnalisePreditiva(<?= $analise['id_analise_preditiva'] ?>)">Excluir</button></td>
+                            </tr>
+                            <tr class="linha-equacao-analise">
+                                <td colspan="8">
+                                    <strong>Equação:</strong> <?= htmlspecialchars($analise['equacao'] ?: '-') ?>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+        </div>
 
         <!-- Controles de Paginação -->
         <?php if ($total_paginas > 1): ?>
@@ -296,9 +380,40 @@ function excluirSimulacao(id) {
     form.submit();
 }
 
+function excluirAnalisePreditiva(id) {
+    if (!confirm('Tem certeza de que deseja excluir esta análise preditiva? Esta ação não pode ser desfeita.')) {
+        return;
+    }
+
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = 'deletar_simulacao.php';
+    form.style.display = 'none';
+
+    const inputId = document.createElement('input');
+    inputId.type = 'hidden';
+    inputId.name = 'id_analise_preditiva';
+    inputId.value = id;
+    form.appendChild(inputId);
+
+    const csrfInput = document.createElement('input');
+    csrfInput.type = 'hidden';
+    csrfInput.name = 'csrf_token';
+    csrfInput.value = document.querySelector('input[name="csrf_token"]')?.value || '';
+    form.appendChild(csrfInput);
+
+    document.body.appendChild(form);
+    form.submit();
+}
+
 function realizarExportacao(formato, id) {
     // Para simulações salvas, vamos usar GET direto
     const url = `exportacao.php?tipo=salvo&id=${id}&formato=${formato}`;
+    window.location.href = url;
+}
+
+function exportAnalisePreditiva(id) {
+    const url = `exportacao.php?tipo=analise&id=${id}&formato=csv`;
     window.location.href = url;
 }
 </script>

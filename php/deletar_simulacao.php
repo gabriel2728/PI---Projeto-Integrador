@@ -27,6 +27,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     }
 
+    $id_analise_preditiva = intval($_POST['id_analise_preditiva'] ?? 0);
+    if ($id_analise_preditiva > 0) {
+        $stmt = $conn->prepare('SELECT id_analise_preditiva FROM AnalisePreditiva WHERE id_analise_preditiva = ? AND id_usuario = ?');
+        $stmt->bind_param('ii', $id_analise_preditiva, $id_usuario);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows === 0) {
+            logTentativaSuspeita('unauthorized_delete_attempt', ['id_usuario' => $id_usuario, 'id_analise_preditiva' => $id_analise_preditiva]);
+            $_SESSION['mensagem_erro'] = 'Analise preditiva nao encontrada ou voce nao tem permissao para excluir.';
+            header('Location: historico.php');
+            exit();
+        }
+
+        $stmt = $conn->prepare('DELETE FROM AnalisePreditiva WHERE id_analise_preditiva = ? AND id_usuario = ?');
+        $stmt->bind_param('ii', $id_analise_preditiva, $id_usuario);
+
+        if ($stmt->execute()) {
+            logAuditoria('analise_preditiva_excluida', $id_usuario, ['id_analise_preditiva' => $id_analise_preditiva]);
+            $_SESSION['mensagem_sucesso'] = 'Analise preditiva excluida com sucesso.';
+        } else {
+            logTentativaSuspeita('delete_predictive_analysis_error', ['id_usuario' => $id_usuario, 'id_analise_preditiva' => $id_analise_preditiva]);
+            $_SESSION['mensagem_erro'] = 'Erro ao excluir analise preditiva. Tente novamente.';
+        }
+
+        header('Location: historico.php');
+        exit();
+    }
+
     $id_simulacao = intval($_POST['id_simulacao'] ?? 0);
 
     if ($id_simulacao <= 0) {

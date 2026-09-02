@@ -20,6 +20,7 @@ if (!isset($_SESSION['id_usuario'])) {
 // Verifica se recebeu o formato de exportação
 $formato = isset($_GET['formato']) ? sanitizeInput($_GET['formato']) : (isset($_POST['formato']) ? sanitizeInput($_POST['formato']) : null);
 $id_simulacao = isset($_GET['id']) ? intval($_GET['id']) : (isset($_POST['id']) ? intval($_POST['id']) : null);
+$id_analise = $id_simulacao;
 $tipo = isset($_GET['tipo']) ? sanitizeInput($_GET['tipo']) : (isset($_POST['tipo']) ? sanitizeInput($_POST['tipo']) : 'salvo');
 
 // Validar formato
@@ -31,7 +32,7 @@ if (!in_array($formato, ['pdf', 'csv', 'xlsx'])) {
 }
 
 // Validar tipo
-if (!in_array($tipo, ['novo', 'salvo'])) {
+if (!in_array($tipo, ['novo', 'salvo', 'analise'])) {
     logTentativaSuspeita('invalid_export_type', ['tipo' => $tipo, 'id_usuario' => $_SESSION['id_usuario']]);
     ob_end_clean();
     header('Content-Type: application/json');
@@ -46,6 +47,13 @@ if ($tipo === 'salvo' && ($id_simulacao === null || $id_simulacao <= 0)) {
     header('Content-Type: application/json');
     http_response_code(400);
     die(json_encode(['success' => false, 'message' => 'ID da simulação inválido']));
+}
+
+if ($tipo === 'analise' && ($id_analise === null || $id_analise <= 0)) {
+    ob_end_clean();
+    header('Content-Type: application/json');
+    http_response_code(400);
+    die(json_encode(['success' => false, 'message' => 'ID da análise inválido']));
 }
 
 // Se é uma simulação nova (não salva ainda)
@@ -87,6 +95,30 @@ elseif ($tipo === 'salvo' && $id_simulacao) {
             header('Content-Type: application/json');
             http_response_code(404);
             die(json_encode(['success' => false, 'message' => 'Simulação não encontrada']));
+        }
+    } else {
+        ob_end_clean();
+        header('Content-Type: application/json');
+        http_response_code(500);
+        die(json_encode(['success' => false, 'message' => 'Erro ao preparar query: ' . $conn->error]));
+    }
+} elseif ($tipo === 'analise' && $id_analise) {
+    $stmt = $conn->prepare("SELECT id_analise_preditiva, id_usuario, periodo, data_calculo, pluviosidade_informada, potencia_estimada, modelo, equacao, status FROM AnalisePreditiva WHERE id_analise_preditiva = ? AND id_usuario = ? AND status = 'concluido'");
+    if ($stmt) {
+        $stmt->bind_param("ii", $id_analise, $_SESSION['id_usuario']);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $dados = $result->fetch_assoc();
+        $stmt->close();
+
+        if ($dados) {
+            ob_end_clean();
+            exportarAnalisePreditiva($dados, $formato);
+        } else {
+            ob_end_clean();
+            header('Content-Type: application/json');
+            http_response_code(404);
+            die(json_encode(['success' => false, 'message' => 'Análise preditiva não encontrada']));
         }
     } else {
         ob_end_clean();
@@ -145,6 +177,58 @@ function exportarSimulacaoSalva($dados, $formato) {
         http_response_code(400);
         echo json_encode(['success' => false, 'message' => 'Formato inválido']);
     }
+}
+
+function exportarAnalisePreditiva($dados, $formato) {
+    if ($formato === 'csv') {
+        exportarCSVAnalisePreditiva($dados);
+    } elseif ($formato === 'pdf') {
+        exportarPDFAnalisePreditiva($dados);
+    } elseif ($formato === 'xlsx') {
+        exportarCSVAnalisePreditiva($dados);
+    } else {
+        http_response_code(400);
+        echo json_encode(['success' => false, 'message' => 'Formato inválido']);
+    }
+}
+
+function exportarCSVAnalisePreditiva($dados) {
+    header('Content-Type: text/csv; charset=utf-8');
+    header('Content-Disposition: attachment; filename="AnalisePreditiva_' . $dados['id_analise_preditiva'] . '.csv"');
+
+    $output = fopen('php://output', 'w');
+    fputcsv($output, ['Campo', 'Valor'], ';');
+    fputcsv($output, ['Data do cálculo', date('d/m/Y H:i', strtotime($dados['data_calculo']))], ';');
+    fputcsv($output, ['Período', $dados['periodo'] ?: '-'], ';');
+    fputcsv($output, ['Pluviosidade informada', number_format(floatval($dados['pluviosidade_informada']), 2, ',', '.') . ' mm'], ';');
+    fputcsv($output, ['Potência estimada', number_format(floatval($dados['potencia_estimada']), 2, ',', '.') . ' MW'], ';');
+    fputcsv($output, ['Modelo', $dados['modelo']], ';');
+    fputcsv($output, ['Equação', $dados['equacao'] ?: '-'], ';');
+    fclose($output);
+    exit;
+}
+
+function exportarPDFAnalisePreditiva($dados) {
+    require('fpdf.php');
+    $pdf = new FPDF();
+    $pdf->AddPage();
+    $pdf->SetFont('Arial', 'B', 16);
+    $pdf->Cell(0, 10, textoPDF('Relatório de Análise Preditiva'), 0, 1, 'C');
+    $pdf->Ln(5);
+    $pdf->SetFont('Arial', '', 12);
+    $campos = [
+        'Período' => $dados['periodo'] ?: '-',
+        'Pluviosidade Informada' => number_format(floatval($dados['pluviosidade_informada']), 2, ',', '.') . ' mm',
+        'Potência Estimada' => number_format(floatval($dados['potencia_estimada']), 2, ',', '.') . ' MW',
+        'Modelo' => $dados['modelo'],
+        'Equação' => $dados['equacao'] ?: '-',
+    ];
+    foreach ($campos as $label => $valor) {
+        $pdf->Cell(60, 10, textoPDF($label . ':'), 0, 0);
+        $pdf->Cell(0, 10, textoPDF($valor), 0, 1);
+    }
+    $pdf->Output('D', 'AnalisePreditiva_' . $dados['id_analise_preditiva'] . '.pdf');
+    exit;
 }
 
 // ===== EXPORTAÇÃO PDF =====
