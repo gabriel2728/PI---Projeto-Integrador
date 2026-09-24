@@ -17,8 +17,15 @@ $conn->query("CREATE TABLE IF NOT EXISTS DadosHistoricos (
     id_dado INT AUTO_INCREMENT PRIMARY KEY,
     data_registro DATE NOT NULL,
     pluviosidade_mm DECIMAL(10,2) NOT NULL,
-    potencia_mw DECIMAL(10,2) NOT NULL
+    potencia_mw DECIMAL(10,2) NOT NULL,
+    fonte VARCHAR(500) NULL
 )");
+
+// Garante a coluna fonte em instalações antigas que já tinham a tabela sem ela
+$colunasResult = $conn->query("SHOW COLUMNS FROM DadosHistoricos LIKE 'fonte'");
+if ($colunasResult && $colunasResult->num_rows === 0) {
+    $conn->query("ALTER TABLE DadosHistoricos ADD COLUMN fonte VARCHAR(500) NULL");
+}
 
 $mensagem = '';
 $erro = '';
@@ -27,7 +34,8 @@ $registro = [
     'id_dado' => null,
     'data_registro' => '',
     'pluviosidade_mm' => '',
-    'potencia_mw' => ''
+    'potencia_mw' => '',
+    'fonte' => ''
 ];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -39,6 +47,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $dataRegistro = sanitizeInput($_POST['data_registro'] ?? '');
         $pluviosidade = sanitizeInput($_POST['pluviosidade_mm'] ?? '');
         $potencia = sanitizeInput($_POST['potencia_mw'] ?? '');
+        $fonte = trim(sanitizeInput($_POST['fonte'] ?? ''));
+        $fonte = $fonte === '' ? null : $fonte;
 
         if ($acao === 'excluir' && $id_dado) {
             $stmt = $conn->prepare('DELETE FROM DadosHistoricos WHERE id_dado = ?');
@@ -61,8 +71,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $potencia = floatval($potencia);
 
                 if ($id_dado) {
-                    $stmt = $conn->prepare('UPDATE DadosHistoricos SET data_registro = ?, pluviosidade_mm = ?, potencia_mw = ? WHERE id_dado = ?');
-                    $stmt->bind_param('sddi', $dataRegistro, $pluviosidade, $potencia, $id_dado);
+                    $stmt = $conn->prepare('UPDATE DadosHistoricos SET data_registro = ?, pluviosidade_mm = ?, potencia_mw = ?, fonte = ? WHERE id_dado = ?');
+                    $stmt->bind_param('sddsi', $dataRegistro, $pluviosidade, $potencia, $fonte, $id_dado);
                     if ($stmt->execute()) {
                         $mensagem = 'Registro atualizado com sucesso.';
                     } else {
@@ -70,8 +80,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     }
                     $stmt->close();
                 } else {
-                    $stmt = $conn->prepare('INSERT INTO DadosHistoricos (data_registro, pluviosidade_mm, potencia_mw) VALUES (?, ?, ?)');
-                    $stmt->bind_param('sdd', $dataRegistro, $pluviosidade, $potencia);
+                    $stmt = $conn->prepare('INSERT INTO DadosHistoricos (data_registro, pluviosidade_mm, potencia_mw, fonte) VALUES (?, ?, ?, ?)');
+                    $stmt->bind_param('sdds', $dataRegistro, $pluviosidade, $potencia, $fonte);
                     if ($stmt->execute()) {
                         $mensagem = 'Registro adicionado com sucesso.';
                     } else {
@@ -88,7 +98,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 if (isset($_GET['editar'])) {
     $idEdicao = intval($_GET['editar']);
-    $stmt = $conn->prepare('SELECT id_dado, data_registro, pluviosidade_mm, potencia_mw FROM DadosHistoricos WHERE id_dado = ?');
+    $stmt = $conn->prepare('SELECT id_dado, data_registro, pluviosidade_mm, potencia_mw, fonte FROM DadosHistoricos WHERE id_dado = ?');
     $stmt->bind_param('i', $idEdicao);
     $stmt->execute();
     $resultado = $stmt->get_result();
@@ -106,7 +116,7 @@ if (isset($_GET['erro'])) {
     $erro = sanitizeInput($_GET['erro']);
 }
 
-$result = $conn->query('SELECT id_dado, data_registro, pluviosidade_mm, potencia_mw FROM DadosHistoricos ORDER BY data_registro DESC');
+$result = $conn->query('SELECT id_dado, data_registro, pluviosidade_mm, potencia_mw, fonte FROM DadosHistoricos ORDER BY data_registro DESC');
 $registros = $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
 
 $csrfToken = gerarTokenCSRF();
@@ -186,6 +196,9 @@ $csrfToken = gerarTokenCSRF();
             			<label for="potencia_mw">Potência (MW)</label>
             			<input type="number" step="0.01" id="potencia_mw" placeholder="60" name="potencia_mw" required value="<?= htmlspecialchars($registro['potencia_mw']) ?>">
 
+            			<label for="fonte">Fonte (opcional)</label>
+            			<input type="text" id="fonte" placeholder="Ex: INMET, estação X, 2025 (link)" name="fonte" value="<?= htmlspecialchars($registro['fonte'] ?? '') ?>">
+
             			<button type="submit" class="botao-generico"><?= $modoEdicao ? 'Atualizar registro' : 'Adicionar registro' ?></button>
         		</form>
     		</section>
@@ -198,13 +211,14 @@ $csrfToken = gerarTokenCSRF();
                     				<th>Data</th>
                     				<th>Pluviosidade (mm)</th>
                     				<th>Potência (MW)</th>
+                    				<th>Fonte</th>
                     				<th>Ações</th>
                 			</tr>
             			</thead>
             			<tbody>
                 			<?php if (empty($registros)): ?>
                     			<tr>
-                        			<td colspan="4">Nenhum registro encontrado.</td>
+                        			<td colspan="5">Nenhum registro encontrado.</td>
                     			</tr>
                 			<?php endif; ?>
                 			<?php foreach ($registros as $item): ?>
@@ -212,6 +226,7 @@ $csrfToken = gerarTokenCSRF();
                         			<td><?= htmlspecialchars($item['data_registro']) ?></td>
                         			<td><?= htmlspecialchars(number_format($item['pluviosidade_mm'], 2, ',', '.')) ?></td>
                         			<td><?= htmlspecialchars(number_format($item['potencia_mw'], 2, ',', '.')) ?></td>
+                        			<td><?= $item['fonte'] ? htmlspecialchars($item['fonte']) : '<span class="nota">não informada</span>' ?></td>
                         			<td>
                                         <div class="acoes-tabela">
                                             <a class="botao-acao botao-acao-editar" href="dados_historicos.php?editar=<?= $item['id_dado'] ?>">Editar</a>

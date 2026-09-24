@@ -96,7 +96,7 @@ $useDatasetDefault = true;
 // Verifica se existe tabela de dados históricos com registros reais
 $result = $conn->query("SHOW TABLES LIKE 'DadosHistoricos'");
 if ($result && $result->num_rows > 0) {
-    $stmt = $conn->prepare('SELECT data_registro, pluviosidade_mm, potencia_mw FROM DadosHistoricos ORDER BY data_registro ASC');
+    $stmt = $conn->prepare('SELECT data_registro, pluviosidade_mm, potencia_mw, fonte FROM DadosHistoricos ORDER BY data_registro ASC');
     if ($stmt) {
         $stmt->execute();
         $res = $stmt->get_result();
@@ -106,6 +106,7 @@ if ($result && $result->num_rows > 0) {
                 'data_registro' => $row['data_registro'],
                 'pluviosidade_mm' => floatval($row['pluviosidade_mm']),
                 'potencia_mw' => floatval($row['potencia_mw']),
+                'fonte' => $row['fonte'],
             ];
         }
         $stmt->close();
@@ -160,10 +161,30 @@ $equacaoTexto = ($modeloA !== null && $modeloB !== null)
     ? 'y = ' . number_format($modeloA, 4, ',', '.') . 'x + ' . number_format($modeloB, 4, ',', '.')
     : null;
 
-$origemDadosRotulo = $useDatasetDefault ? 'demonstração' : 'manual';
-$origemDadosTexto = $useDatasetDefault
-    ? 'Os dados exibidos são dados de demonstração e não representam medições reais de uma usina. A previsão serve apenas para demonstrar o funcionamento do modelo.'
-    : 'Os dados de treinamento foram inseridos manualmente e podem não representar uma situação real de operação.';
+// Fontes documentadas por linha (ex.: dados reais semeados no sistema) permitem
+// mostrar a origem de verdade, em vez do rótulo genérico "manual".
+$fontesDocumentadas = array_values(array_unique(array_filter(array_map(
+    fn($item) => trim($item['fonte'] ?? ''),
+    $dadosHistoricos
+))));
+$registrosSemFonte = count(array_filter(
+    $dadosHistoricos,
+    fn($item) => trim($item['fonte'] ?? '') === ''
+));
+
+if ($useDatasetDefault) {
+    $origemDadosRotulo = 'demonstração';
+    $origemDadosTexto = 'Os dados exibidos são dados de demonstração e não representam medições reais de uma usina. A previsão serve apenas para demonstrar o funcionamento do modelo.';
+} elseif (count($fontesDocumentadas) > 0) {
+    $origemDadosRotulo = 'real (fonte documentada)';
+    $origemDadosTexto = implode(' ', $fontesDocumentadas);
+    if ($registrosSemFonte > 0) {
+        $origemDadosTexto .= " Atenção: {$registrosSemFonte} registro(s) deste conjunto não têm fonte documentada (podem ter sido inseridos manualmente sem indicação de origem).";
+    }
+} else {
+    $origemDadosRotulo = 'manual';
+    $origemDadosTexto = 'Os dados de treinamento foram inseridos manualmente e podem não representar uma situação real de operação.';
+}
 
 // Payload único para o gráfico: o JS reaproveita os coeficientes calculados aqui,
 // sem recalcular a regressão, para não divergir do resultado exibido na página.
