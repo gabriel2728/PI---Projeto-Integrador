@@ -196,7 +196,6 @@ $stmt->close();
                 <thead>
                     <tr>
                         <th>Data</th>
-                        <th>Origem</th>
                         <th>Período</th>
                         <th>Pluviosidade</th>
                         <th>Potência estimada</th>
@@ -208,13 +207,12 @@ $stmt->close();
                 <tbody>
                     <?php if (empty($analises_preditivas)): ?>
                         <tr>
-                            <td colspan="8">Nenhuma análise preditiva salva ainda.</td>
+                            <td colspan="7">Nenhuma análise preditiva salva ainda.</td>
                         </tr>
                     <?php else: ?>
                         <?php foreach ($analises_preditivas as $analise): ?>
                             <tr>
                                 <td><?= date('d/m/Y', strtotime($analise['data_calculo'])) ?></td>
-                                <td><?= !empty($analise['id_simulacao']) ? '<span class="badge-simulacao">Sim. #' . intval($analise['id_simulacao']) . '</span>' : '<span class="badge-manual">Manual</span>' ?></td>
                                 <td><?= htmlspecialchars($analise['periodo'] ?: '-') ?></td>
                                 <td><?= number_format(floatval($analise['pluviosidade_informada']), 2, ',', '.') ?> mm</td>
                                 <td><?= number_format(floatval($analise['potencia_estimada']), 2, ',', '.') ?> MW</td>
@@ -223,7 +221,7 @@ $stmt->close();
                                 <td><button class="btn-vermelho" onclick="excluirAnalisePreditiva(<?= $analise['id_analise_preditiva'] ?>)">Excluir</button></td>
                             </tr>
                             <tr class="linha-equacao-analise">
-                                <td colspan="8">
+                                <td colspan="7">
                                     <strong>Equação:</strong> <?= htmlspecialchars($analise['equacao'] ?: '-') ?>
                                 </td>
                             </tr>
