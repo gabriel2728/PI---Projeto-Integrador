@@ -217,7 +217,7 @@ $stmt->close();
                                 <td><?= number_format(floatval($analise['pluviosidade_informada']), 2, ',', '.') ?> mm</td>
                                 <td><?= number_format(floatval($analise['potencia_estimada']), 2, ',', '.') ?> MW</td>
                                 <td><?= htmlspecialchars($analise['modelo']) ?></td>
-                                <td><button class="btn-azul btn-exportar-analise" onclick="exportAnalisePreditiva(<?= $analise['id_analise_preditiva'] ?>)">Exportar CSV</button></td>
+                                <td><button class="btn-azul btn-exportar-analise" onclick="exportAnalisePreditiva(<?= $analise['id_analise_preditiva'] ?>)">Exportar</button></td>
                                 <td><button class="btn-vermelho" onclick="excluirAnalisePreditiva(<?= $analise['id_analise_preditiva'] ?>)">Excluir</button></td>
                             </tr>
                             <tr class="linha-equacao-analise">
@@ -310,14 +310,16 @@ document.querySelectorAll('.btnDetalhes').forEach(btn => {
 const modal = document.getElementById("modalExportacao");
 const closeBtn = document.getElementById("closeModal");
 let idSimulacaoAtual = null;
+let tipoExportacaoAtual = 'salvo';
 
-function abrirModalExportacao(id) {
+function abrirModalExportacao(id, tipo) {
     idSimulacaoAtual = id;
+    tipoExportacaoAtual = tipo || 'salvo';
     modal.style.display = "block";
 }
 
 function exportSimulacao(id) {
-    abrirModalExportacao(id);
+    abrirModalExportacao(id, 'salvo');
 }
 
 closeBtn.addEventListener("click", function() {
@@ -405,14 +407,12 @@ function excluirAnalisePreditiva(id) {
 }
 
 function realizarExportacao(formato, id) {
-    // Para simulações salvas, vamos usar GET direto
-    const url = `exportacao.php?tipo=salvo&id=${id}&formato=${formato}`;
+    const url = `exportacao.php?tipo=${tipoExportacaoAtual}&id=${id}&formato=${formato}`;
     window.location.href = url;
 }
 
 function exportAnalisePreditiva(id) {
-    const url = `exportacao.php?tipo=analise&id=${id}&formato=csv`;
-    window.location.href = url;
+    abrirModalExportacao(id, 'analise');
 }
 </script>
 

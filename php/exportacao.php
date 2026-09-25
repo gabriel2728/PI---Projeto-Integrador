@@ -32,7 +32,7 @@ if (!in_array($formato, ['pdf', 'csv', 'xlsx'])) {
 }
 
 // Validar tipo
-if (!in_array($tipo, ['novo', 'salvo', 'analise'])) {
+if (!in_array($tipo, ['novo', 'salvo', 'analise', 'cenario'])) {
     logTentativaSuspeita('invalid_export_type', ['tipo' => $tipo, 'id_usuario' => $_SESSION['id_usuario']]);
     ob_end_clean();
     header('Content-Type: application/json');
@@ -69,6 +69,20 @@ if ($tipo === 'novo') {
     
     ob_end_clean();
     exportarSimulacaoNova($dados, $formato);
+}
+// Se é uma comparação de cenários (nunca fica salva no banco)
+elseif ($tipo === 'cenario') {
+    $dados = json_decode(file_get_contents('php://input'), true);
+
+    if (!$dados || empty($dados['resultados']) || !is_array($dados['resultados'])) {
+        ob_end_clean();
+        header('Content-Type: application/json');
+        http_response_code(400);
+        die(json_encode(['success' => false, 'message' => 'Dados de cenários incompletos']));
+    }
+
+    ob_end_clean();
+    exportarCenarios($dados, $formato);
 }
 // Se é uma simulação salva no banco
 elseif ($tipo === 'salvo' && $id_simulacao) {
@@ -185,7 +199,7 @@ function exportarAnalisePreditiva($dados, $formato) {
     } elseif ($formato === 'pdf') {
         exportarPDFAnalisePreditiva($dados);
     } elseif ($formato === 'xlsx') {
-        exportarCSVAnalisePreditiva($dados);
+        exportarXLSXAnalisePreditiva($dados);
     } else {
         http_response_code(400);
         echo json_encode(['success' => false, 'message' => 'Formato inválido']);
@@ -197,6 +211,8 @@ function exportarCSVAnalisePreditiva($dados) {
     header('Content-Disposition: attachment; filename="AnalisePreditiva_' . $dados['id_analise_preditiva'] . '.csv"');
 
     $output = fopen('php://output', 'w');
+    fprintf($output, chr(0xEF).chr(0xBB).chr(0xBF)); // BOM para UTF-8
+
     fputcsv($output, ['Campo', 'Valor'], ';');
     fputcsv($output, ['Data do cálculo', date('d/m/Y H:i', strtotime($dados['data_calculo']))], ';');
     fputcsv($output, ['Período', $dados['periodo'] ?: '-'], ';');
@@ -206,6 +222,60 @@ function exportarCSVAnalisePreditiva($dados) {
     fputcsv($output, ['Equação', $dados['equacao'] ?: '-'], ';');
     fclose($output);
     exit;
+}
+
+function exportarXLSXAnalisePreditiva($dados) {
+    $zipPath = tempnam(sys_get_temp_dir(), 'xlsx');
+
+    $conteudo = construirXMLAnalisePreditiva($dados);
+    criarXLSX($zipPath, $conteudo);
+
+    header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    header('Content-Disposition: attachment; filename="AnalisePreditiva_' . $dados['id_analise_preditiva'] . '.xlsx"');
+    header('Content-Length: ' . filesize($zipPath));
+
+    readfile($zipPath);
+    unlink($zipPath);
+    exit;
+}
+
+function construirXMLAnalisePreditiva($dados) {
+    $linhas = [];
+    $linhas[] = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>';
+    $linhas[] = '<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">';
+    $linhas[] = '<dimension ref="A1:B8"/>';
+    $linhas[] = '<cols>';
+    $linhas[] = '<col min="1" max="1" width="30" customWidth="1"/>';
+    $linhas[] = '<col min="2" max="2" width="35" customWidth="1"/>';
+    $linhas[] = '</cols>';
+    $linhas[] = '<sheetData>';
+
+    $row = 1;
+    $linhas[] = '<row r="' . $row . '"><c r="A' . $row . '" t="str"><v>ANÁLISE PREDITIVA</v></c></row>';
+    $row++;
+    $row++; // linha em branco
+
+    $campos = [
+        'Data do cálculo' => date('d/m/Y H:i', strtotime($dados['data_calculo'])),
+        'Período' => $dados['periodo'] ?: '-',
+        'Pluviosidade informada (mm)' => number_format(floatval($dados['pluviosidade_informada']), 2, ',', '.'),
+        'Potência estimada (MW)' => number_format(floatval($dados['potencia_estimada']), 2, ',', '.'),
+        'Modelo' => $dados['modelo'],
+        'Equação' => $dados['equacao'] ?: '-',
+    ];
+
+    foreach ($campos as $label => $valor) {
+        $linhas[] = '<row r="' . $row . '">';
+        $linhas[] = '<c r="A' . $row . '" t="str"><v>' . htmlspecialchars($label) . '</v></c>';
+        $linhas[] = '<c r="B' . $row . '" t="str"><v>' . htmlspecialchars((string) $valor) . '</v></c>';
+        $linhas[] = '</row>';
+        $row++;
+    }
+
+    $linhas[] = '</sheetData>';
+    $linhas[] = '</worksheet>';
+
+    return implode('', $linhas);
 }
 
 function exportarPDFAnalisePreditiva($dados) {
@@ -576,6 +646,91 @@ function construirXMLSimulacao($titulo, $subtitulo, $dados, $isSalvo = false) {
     $linhas[] = '</worksheet>';
     
     return implode('', $linhas);
+}
+
+function exportarCenarios($dados, $formato) {
+    if ($formato !== 'pdf') {
+        http_response_code(400);
+        echo json_encode(['success' => false, 'message' => 'Formato inválido para cenários (use pdf)']);
+        return;
+    }
+    exportarPDFCenarios($dados);
+}
+
+function exportarPDFCenarios($dados) {
+    require('fpdf.php');
+
+    $parametros = $dados['parametros'] ?? [];
+    $resultados = $dados['resultados'] ?? [];
+    $chuvaFoiLimitada = !empty($dados['chuvaFoiLimitada']);
+
+    $pdf = new FPDF();
+    $pdf->AddPage();
+    $pdf->SetFont('Arial', 'B', 16);
+    $pdf->Cell(0, 10, textoPDF('Comparação de Cenários de Risco Hídrico'), 0, 1, 'C');
+    $pdf->Ln(5);
+
+    $pdf->SetFont('Arial', 'B', 12);
+    $pdf->Cell(0, 8, textoPDF('Parâmetros da simulação base'), 0, 1);
+    $pdf->SetFont('Arial', '', 11);
+    $camposBase = [
+        'Vazão Volumétrica' => (isset($parametros['vazao']) ? number_format((float) $parametros['vazao'], 2, ',', '.') : '-') . ' m³/s',
+        'Altura da Queda' => (isset($parametros['altura']) ? number_format((float) $parametros['altura'], 2, ',', '.') : '-') . ' m',
+        'Quantidade de Turbinas' => $parametros['qtdTurbinas'] ?? '-',
+        'Potência do Gerador' => (isset($parametros['potGerador']) ? number_format((float) $parametros['potGerador'], 2, ',', '.') : '-') . ' MW',
+        'Eficiência do Sistema' => (isset($parametros['eficiencia']) ? number_format((float) $parametros['eficiencia'] * 100, 2, ',', '.') : '-') . ' %',
+    ];
+    foreach ($camposBase as $label => $valor) {
+        $pdf->Cell(60, 8, textoPDF($label . ':'), 0, 0);
+        $pdf->Cell(0, 8, textoPDF((string) $valor), 0, 1);
+    }
+
+    $pdf->Ln(5);
+    $pdf->SetFont('Arial', 'B', 12);
+    $pdf->Cell(0, 8, textoPDF('Resultados por cenário'), 0, 1);
+    $pdf->SetFont('Arial', '', 11);
+
+    foreach ($resultados as $resultado) {
+        $nome = $resultado['nome'] ?? '-';
+        $potencia = isset($resultado['potencia']) ? number_format((float) $resultado['potencia'], 2, ',', '.') : '-';
+        $pdf->Cell(100, 8, textoPDF($nome . ':'), 0, 0);
+        $pdf->Cell(0, 8, textoPDF($potencia . ' MW'), 0, 1);
+    }
+
+    if ($chuvaFoiLimitada) {
+        $pdf->Ln(5);
+        $pdf->SetFont('Arial', 'I', 10);
+        $pdf->MultiCell(0, 6, textoPDF('Aviso: a potência do cenário de chuva intensa foi limitada pela capacidade instalada da usina (potência do gerador x quantidade de turbinas) - o excesso de água seria vertido, não convertido em energia.'));
+    }
+
+    $pdf->Ln(5);
+    $pdf->SetFont('Arial', 'I', 9);
+    $pdf->MultiCell(0, 6, textoPDF('Cenários calculados a partir dos mesmos parâmetros da simulação normal, aplicando ajustes percentuais de escassez, chuva intensa e/ou perda por detritos. Este documento não representa um registro salvo no histórico do sistema.'));
+
+    // Embute o gráfico de barras (enviado pelo navegador como PNG em base64) numa pagina nova
+    $graficoBase64 = $dados['graficoBase64'] ?? null;
+    $tmpImg = null;
+    if ($graficoBase64 && preg_match('/^data:image\/png;base64,(.+)$/', $graficoBase64, $matches)) {
+        $imgData = base64_decode($matches[1], true);
+        if ($imgData !== false) {
+            $tmpImg = tempnam(sys_get_temp_dir(), 'graf') . '.png';
+            file_put_contents($tmpImg, $imgData);
+
+            $pdf->AddPage();
+            $pdf->SetFont('Arial', 'B', 14);
+            $pdf->Cell(0, 10, textoPDF('Gráfico Comparativo'), 0, 1, 'C');
+            $pdf->Ln(3);
+            $pdf->Image($tmpImg, null, null, 180);
+        }
+    }
+
+    $timestamp = date('Y-m-d_H-i-s');
+    $pdf->Output('D', 'Cenarios_' . $timestamp . '.pdf');
+
+    if ($tmpImg && file_exists($tmpImg)) {
+        unlink($tmpImg);
+    }
+    exit;
 }
 
 function criarXLSX($zipPath, $worksheetXML) {
