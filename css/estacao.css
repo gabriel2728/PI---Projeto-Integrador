@@ -1,0 +1,54 @@
+.filtro-estacoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.filtro-estacao-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: #4b4b4b;
+    font-family: "Open Sauce Light", sans-serif;
+    cursor: pointer;
+}
+
+.filtro-periodo {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    margin-bottom: 1rem;
+}
+
+.filtro-periodo label {
+    padding: 0;
+}
+
+.filtro-periodo input[type="month"] {
+    padding: 0.5rem;
+    border: none;
+    border-radius: 10px;
+    background-color: #bcdcf0;
+    color: #4b4b4b;
+}
+
+.grafico-area {
+    margin-bottom: 2rem;
+}
+
+.grafico-area h3 {
+    margin-bottom: 1rem;
+    color: #464646;
+}
+
+.dados-historicos {
+    margin-bottom: 2rem;
+}
+
+.dados-historicos table {
+    font-size: 0.85rem;
+}

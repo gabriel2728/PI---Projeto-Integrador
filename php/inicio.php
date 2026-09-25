@@ -59,6 +59,7 @@ $primeiroNome = explode(" ", $nomeUsuario)[0]; // Pega só o primeiro nome
                 <a href="simulacao.php" class="botao-generico"> ⚡ Simulação</a>
                 <a href="historico.php" class="botao-generico"> 🧾 Histórico</a>
                 <a href="analise_preditiva.php" class="botao-generico"> 🔮 Análise Preditiva</a>
+                <a href="estacao.php" class="botao-generico"> 🌦️ Estações</a>
 
                 <!-- Botão sair estilizado -->
                 <form method="post" action="logout.php">
