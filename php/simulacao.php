@@ -9,6 +9,7 @@ include('conexao.php');
 $id_usuario = $_SESSION['id_usuario'];
 $nomeUsuario = $_SESSION['nomeUsuario'];
 $primeiroNome = explode(" ", $nomeUsuario)[0];
+$paginaAtiva = 'simulacao';
 ?>
 
 <!DOCTYPE html>
@@ -17,36 +18,16 @@ $primeiroNome = explode(" ", $nomeUsuario)[0];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simulação Hidrelétrica</title>
-    <link rel="stylesheet" href="../css/components/header.css"> 
+    <link rel="stylesheet" href="../css/components/sidebar.css">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/components/botoes.css">
     <link rel="stylesheet" href="../css/components/tabela.css?v=20260925-cenarios">
 </head>
 <body>
 
-  <header>
-    <div class="caixa_de_texto">
-      <input type="text" class="search-text" placeholder="Pesquisar...">
-    </div>
+<?php include('includes/sidebar.php'); ?>
 
-    <h1 class="sisgeh"> SiSGEH </h1>
-
-    <nav class="links">
-        <ul>
-            <li>
-                <a href="inicio.php" class="link_home">
-                    <img src="../images/home.png" alt="Voltar a Home" class="home">
-                </a>
-
-                <a href="configuracoes.php" class="link_config">
-                    <img src="../images/gear.png" alt="Configurações" class="config">
-                </a>
-            </li>
-        </ul>
-    </nav>
-  </header>
-
-<main>
+<main class="com-sidebar">
     <div class="layout">
         <section class="section">
             <div class="mensagem-pequena">
@@ -150,7 +131,7 @@ $primeiroNome = explode(" ", $nomeUsuario)[0];
     </div>
 </main>
 
-  <footer>
+  <footer class="com-sidebar">
     <p>&copy; Todos os direitos reservados. <a href="../politica.html">Políticas de privacidade.</a></p>
   </footer>
 

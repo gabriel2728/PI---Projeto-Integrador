@@ -73,7 +73,7 @@ if (isset($_POST['entrar'])) {
             $log = date('Y-m-d H:i:s') . " - [LOGIN_SUCESSO] Usuário ID: " . $usuario['id_usuario'] . " - Email: " . $email . "\n";
             @file_put_contents(__DIR__ . '/logs/auditoria.log', $log, FILE_APPEND | LOCK_EX);
 
-            header("Location: inicio.php");
+            header("Location: simulacao.php");
             exit;
         } else {
             // Senha incorreta

@@ -81,6 +81,7 @@ $stmt->execute();
 $result = $stmt->get_result();
 $simulacoes = $result->fetch_all(MYSQLI_ASSOC);
 $stmt->close();
+$paginaAtiva = 'historico';
 ?>
 
 <!DOCTYPE html>
@@ -89,36 +90,16 @@ $stmt->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Histórico de Simulações</title>
-    <link rel="stylesheet" href="../css/components/header.css"> 
+    <link rel="stylesheet" href="../css/components/sidebar.css">
     <link rel="stylesheet" type="text/css" href="../css/style.css">
     <link rel="stylesheet" href="../css/historico.css?v=20260511-layout">
-    <link rel="stylesheet" href="../css/components/botoes.css"> 
+    <link rel="stylesheet" href="../css/components/botoes.css">
 </head>
 <body>
 
-<header>
-    <div class="caixa_de_texto">
-        <input type="text" class="search-text" placeholder="Pesquisar...">
-    </div>
-    <h1 class="sisgeh"> SiSGEH </h1>
-    <nav class="links">
-	<ul>
-		<li>
-      			<a href="inicio.php" class="link_home">
-        			<img src="../images/home.png" alt="Voltar a Home" class="home">
-      			</a>
-		</li>
+<?php include('includes/sidebar.php'); ?>
 
-		<li>
-      			<a href="configuracoes.php" class="link_config">
-        			<img src="../images/gear.png" alt="Configurações" class="config">
-    			</a>
-		</li>
-	</ul>
-    </nav>
-</header>
-
-<main>
+<main class="com-sidebar">
 <div class="layout">
     <section class="historico">
         <!-- Token CSRF para proteção de formulários -->
@@ -292,7 +273,7 @@ $stmt->close();
   </div>
 </main>
 
-<footer>
+<footer class="com-sidebar">
     <p>&copy; Todos os direitos reservados. <a href="../politica.html">Políticas de privacidade.</a></p>
 </footer>
 

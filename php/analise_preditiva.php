@@ -199,6 +199,7 @@ $dadosGraficoJs = json_encode([
     'pluviosidadeInformada' => $pluviosidade_mm,
     'potenciaEstimada' => $resultado,
 ], JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP);
+$paginaAtiva = 'analise_preditiva';
 ?>
 
 <!DOCTYPE html>
@@ -207,35 +208,15 @@ $dadosGraficoJs = json_encode([
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Análise Preditiva - SiSGEH</title>
-    <link rel="stylesheet" href="../css/components/header.css">
+    <link rel="stylesheet" href="../css/components/sidebar.css">
     <link rel="stylesheet" href="../css/historico.css?v=20260511-layout">
     <link rel="stylesheet" href="../css/analise_preditiva.css">
     <link rel="stylesheet" href="../css/components/botoes.css">
 </head>
 <body>
-<header>
-     <div class="caixa_de_texto">
-      <input type="text" class="search-text" placeholder="Pesquisar...">
-    </div>
+<?php include('includes/sidebar.php'); ?>
 
-    <h1 class="sisgeh"> SiSGEH </h1>
-
-    <nav class="links">
-        <ul>
-            <li>
-                <a href="inicio.php" class="link_home">
-                    <img src="../images/home.png" alt="Voltar a Home" class="home">
-                </a>
-
-                <a href="configuracoes.php" class="link_config">
-                    <img src="../images/gear.png" alt="Configurações" class="config">
-                </a>
-            </li>
-        </ul>
-    </nav>
-</header>
-
-<main class="container">
+<main class="container com-sidebar">
    <div class="layout">
         <div class="intro intro-principal">
             <div class="mensagem-pequena">

@@ -120,6 +120,7 @@ $result = $conn->query('SELECT id_dado, data_registro, pluviosidade_mm, potencia
 $registros = $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
 
 $csrfToken = gerarTokenCSRF();
+$paginaAtiva = 'analise_preditiva';
 ?>
 
 <!DOCTYPE html>
@@ -130,32 +131,13 @@ $csrfToken = gerarTokenCSRF();
     <title>Dados Históricos - SiSGEH</title>
     <link rel="stylesheet" href="../css/historico.css?v=20260511-layout">
     <link rel="stylesheet" href="../css/components/botoes.css">
-    <link rel="stylesheet" href="../css/components/header.css">
+    <link rel="stylesheet" href="../css/components/sidebar.css">
     <link rel="stylesheet" href="../css/analise_preditiva.css?v=20260511-acao-tabela">
 </head>
 <body>
-<header>
-    <div class="caixa_de_texto">
-      	<input type="text" class="search-text" placeholder="Pesquisar...">
-    </div>
+<?php include('includes/sidebar.php'); ?>
 
-    <h1 class="sisgeh"> SiSGEH </h1>
-
-    <nav class="links">
-        <ul>
-            <li>
-                <a href="inicio.php" class="link_home">
-                    <img src="../images/home.png" alt="Voltar a Home" class="home">
-                </a>
-
-                <a href="configuracoes.php" class="link_config">
-                    <img src="../images/gear.png" alt="Configurações" class="config">
-                </a>
-            </li>
-        </ul>
-    </nav>
-</header>
-<main class="container">
+<main class="container com-sidebar">
 	<div class="layout">
     		<section class="intro">
         		<div class="mensagem-pequena">

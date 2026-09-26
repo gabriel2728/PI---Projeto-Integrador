@@ -1,0 +1,139 @@
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 220px;
+    height: 100vh;
+    background-color: #2f6fb8;
+    color: #ffffff;
+    font-family: "Open Sauce Light", sans-serif;
+
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 0;
+
+    z-index: 900;
+    transition: transform 0.25s ease;
+}
+
+.sidebar-topo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 1rem 1rem;
+}
+
+/* Botao hamburguer fica FORA da sidebar (ela some da tela no mobile,
+   entao um botao la dentro nao daria pra clicar pra reabrir) */
+.sidebar-toggle-mobile {
+    display: none;
+    position: fixed;
+    top: 0.6rem;
+    left: 0.6rem;
+    z-index: 950;
+    background-color: #2f6fb8;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    width: 2.4rem;
+    height: 2.4rem;
+    font-size: 1.3rem;
+    cursor: pointer;
+}
+
+.sidebar .caixa_de_texto {
+    margin: 0 1rem 1rem;
+    border-color: #ffffff;
+}
+
+.sidebar-nav {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-nav a {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.9rem 1.2rem;
+    color: #ffffff;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(255,255,255,0.25);
+    font-size: 1rem;
+}
+
+.sidebar-nav a:hover,
+.sidebar-nav a.ativo {
+    background-color: rgba(255,255,255,0.15);
+}
+
+.sidebar-nav .icone {
+    font-size: 1.2rem;
+    width: 1.4rem;
+    text-align: center;
+}
+
+.sidebar-sair {
+    padding: 0.9rem 1.2rem;
+}
+
+.sidebar-sair form {
+    width: auto;
+    max-width: none;
+}
+
+.sidebar-sair button {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    background: none;
+    border: none;
+    color: #ff6b6b;
+    font-family: "Open Sauce Light", sans-serif;
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 0;
+}
+
+.sidebar-logo {
+    display: flex;
+    justify-content: center;
+    margin-top: 1.5rem;
+}
+
+.sidebar-logo span {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background-color: #bcdcf0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+}
+
+/* Conteudo desloca para a direita da sidebar */
+main.com-sidebar,
+footer.com-sidebar {
+    margin-left: 220px;
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        transform: translateX(-100%);
+    }
+
+    body.sidebar-aberta .sidebar {
+        transform: translateX(0);
+    }
+
+    .sidebar-toggle-mobile {
+        display: block;
+    }
+
+    main.com-sidebar,
+    footer.com-sidebar {
+        margin-left: 0;
+    }
+}

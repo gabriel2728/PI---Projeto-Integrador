@@ -27,6 +27,7 @@ if ($result->num_rows > 0) {
     header('Location: inicio.php');
     exit();
 }
+$paginaAtiva = 'configuracoes';
 ?>
 
 <!DOCTYPE html>
@@ -35,7 +36,7 @@ if ($result->num_rows > 0) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Configurações de Perfil - SiSGEH</title>
-    <link rel="stylesheet" href="../css/components/header.css"> 
+    <link rel="stylesheet" href="../css/components/sidebar.css">
     <link rel="stylesheet" href="../css/estilo_configuracao_perfil.css"> 
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/components/botoes.css">
@@ -300,24 +301,9 @@ if ($result->num_rows > 0) {
     </script>
 </head>
 <body>
-    <header>
-        <div class="caixa_de_texto">
-            <input type="text" class="search-text" placeholder="Pesquisar...">
-        </div>
-        <h1 class="sisgeh"> SiSGEH </h1>
+    <?php include('includes/sidebar.php'); ?>
 
-        <nav class="links">
-            <ul>
-                <li>
-                    <a href="inicio.php" class="link_home">
-                        <img src="../images/home.png" alt="Voltar a Home" class="home">
-                    </a>
-                </li>
-            </ul>
-        </nav>
-    </header>
-
-    <main>
+    <main class="com-sidebar">
         <div class="layout">
             <section class="configuracao">
                 <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token); ?>">
@@ -370,7 +356,7 @@ if ($result->num_rows > 0) {
         </div>
     </main>    
 
-    <footer>
+    <footer class="com-sidebar">
         <p>&copy; Todos os direitos reservados. <a href="../politica.html">Políticas de privacidade.</a></p>
     </footer>
     <script src="../js/pesquisa.js"></script>
