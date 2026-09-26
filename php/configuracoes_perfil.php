@@ -38,7 +38,7 @@ $paginaAtiva = 'configuracoes';
     <title>Configurações de Perfil - SiSGEH</title>
     <link rel="stylesheet" href="../css/components/sidebar.css">
     <link rel="stylesheet" href="../css/estilo_configuracao_perfil.css"> 
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/style.css?v=gotas2026">
     <link rel="stylesheet" href="../css/components/botoes.css">
     <script>
         function adicionarTokenCSRF(form) {

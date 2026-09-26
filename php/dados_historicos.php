@@ -132,7 +132,7 @@ $paginaAtiva = 'analise_preditiva';
     <link rel="stylesheet" href="../css/historico.css?v=20260511-layout">
     <link rel="stylesheet" href="../css/components/botoes.css">
     <link rel="stylesheet" href="../css/components/sidebar.css">
-    <link rel="stylesheet" href="../css/analise_preditiva.css?v=20260511-acao-tabela">
+    <link rel="stylesheet" href="../css/analise_preditiva.css?v=gotas2026">
 </head>
 <body>
 <?php include('includes/sidebar.php'); ?>

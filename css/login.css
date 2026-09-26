@@ -26,9 +26,9 @@ body {
     		min-height: 100vh;
     		width: auto;
 
-    		background-image: url("../images/fundo_estatico.jpg");
-    		background-size: cover;
-    		background-repeat: no-repeat; 
+    		background-image: url("../images/fundo_estatico.jpg?v=gotas2026");
+    		background-size: auto;
+    		background-repeat: repeat;
 		background-attachment: fixed; /* mant�m o fundo fixo mesmo ao rolar a p�gina */
 
     		margin: 0;

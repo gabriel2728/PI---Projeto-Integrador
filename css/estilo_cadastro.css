@@ -22,9 +22,9 @@ body {
     min-height: 100dvh;
     display: flex;
     flex-direction: column;
-    background-image: url("../images/fundo_estatico.jpg");
-    background-size: cover;
-    background-repeat: no-repeat;
+    background-image: url("../images/fundo_estatico.jpg?v=gotas2026");
+    background-size: auto;
+    background-repeat: repeat;
     background-position: center;
 }
 

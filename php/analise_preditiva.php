@@ -210,7 +210,7 @@ $paginaAtiva = 'analise_preditiva';
     <title>Análise Preditiva - SiSGEH</title>
     <link rel="stylesheet" href="../css/components/sidebar.css">
     <link rel="stylesheet" href="../css/historico.css?v=20260511-layout">
-    <link rel="stylesheet" href="../css/analise_preditiva.css">
+    <link rel="stylesheet" href="../css/analise_preditiva.css?v=gotas2026">
     <link rel="stylesheet" href="../css/components/botoes.css">
 </head>
 <body>

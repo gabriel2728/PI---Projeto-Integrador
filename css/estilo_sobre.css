@@ -58,9 +58,9 @@
 body {  
     height: 100vh;
     width: auto;     /* Ajuste  do tamanho da tela do body */
-    background-image: url("../images/fundo_estatico.jpg");
-    background-size: cover;
-    background-repeat: no-repeat; /* Adicionando gif como plano de fundo e ajustando-o para prencher a tela toda de forma que o gif não repita */
+    background-image: url("../images/fundo_estatico.jpg?v=gotas2026");
+    background-size: auto;
+    background-repeat: repeat; /* textura de gotinhas repetida como plano de fundo */
     margin: 0;
     background-attachment: fixed; /* mantém o fundo fixo mesmo ao rolar a página */
     flex-wrap: wrap; /* Ajuda a ajustar a tela automatica fazendo os items que ultrapassar o limite de tela quebrar uma linha e descer.*/
