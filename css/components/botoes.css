@@ -17,7 +17,7 @@
 .btn-vermelho,
 .btn-pagina,
 .botao-acao {
-    border-radius: 10px;
+    border-radius: 0.2rem;
 }
 
 /* ===== Padronização dos Botões ===== */
@@ -48,7 +48,7 @@ section form {
 
     	
     border: 0.6px solid #EEEEEE;
-    background-color: #004aad; 
+    background-color: #2f6fb8; 
 	cursor: pointer; 
 	transition: all 0.3s ease;    	
 }

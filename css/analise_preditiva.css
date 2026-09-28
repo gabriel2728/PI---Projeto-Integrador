@@ -107,11 +107,12 @@ main{
 	font-size: clamp(1rem, 1vw, 2.5rem);
 	font-family: "Open Sauce Light";
 	text-align: center;
-	border-radius: 40px;
+	border-radius: 0.4rem;
+	border: 0.4px solid #000000;
 }
 
 a {
-    color: #4b4b4b;
+    color: #ffffff;
 }
 
 .mensagem-pequena h1 {
@@ -168,10 +169,10 @@ form input[type="number"] {
 
 	border: none;
 	text-decoration: none;
-	background-color: #bcdcf0;
+	background-color: #2f6fb8;
 	border-radius: 10px;
 
-	color: #4B4B4B;
+	color: #ffffff;
 	font-size: clamp(0.5rem, 1vw, 1.5rem);
     text-align: center;   
 }
@@ -333,6 +334,10 @@ form input[type="number"] {
     cursor: pointer;
     box-shadow: 0 4px 10px rgba(0,0,0,0.16);
     transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+input::placeholder {
+  color: #ffffff;
 }
 
 .dados-historicos .acoes-tabela .botao-acao:hover {

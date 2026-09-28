@@ -47,7 +47,7 @@ aside {
     	max-width: 300px;
     	height: auto;
     
-    	background-color: #bcdcf0;
+    	background-color: #2f6fb8;
 	background-repeat: no-repeat;
 	background-size: cover;
     	padding: 2rem;
@@ -76,7 +76,7 @@ aside {
 
 .lateral a:hover {
     	background-color: white;
-    	color:#bcdcf0;
+    	color:#2f6fb8;
 }
 
 

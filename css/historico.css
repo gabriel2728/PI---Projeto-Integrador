@@ -34,7 +34,9 @@
     margin: 1.5rem auto;
     background-color: white;
     box-shadow: 8px 10px 5px 3px rgb(160,160,180, 0.6);
-    border-radius: 40px;
+
+    border-radius: 0.4rem;
+	border: 0.4px solid #000000;
 }
 
 .historico .mensagem-pequena {
@@ -81,8 +83,8 @@ th, td {
     font-size: clamp(0.6rem, 1vw, 2rem);
 }
 th {
-    background-color: #bcdcf0;
-    color: #4b4b4b;
+    background-color: #2f6fb8f0;
+    color: #ffffff;
 }
 
 .historico .btn-azul,
@@ -93,7 +95,7 @@ th {
     max-width: 112px;
     padding: 0.55rem 0.7rem;
     border: none;
-    border-radius: 10px;
+
     font-size: 0.9rem;
 }
 

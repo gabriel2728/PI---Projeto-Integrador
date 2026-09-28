@@ -18,7 +18,7 @@ $paginaAtiva = 'simulacao';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simulação Hidrelétrica</title>
-    <link rel="stylesheet" href="../css/components/sidebar.css">
+    <link rel="stylesheet" href="../css/components/sidebar.css?v=4">
     <link rel="stylesheet" href="../css/style.css?v=gotas2026">
     <link rel="stylesheet" href="../css/components/botoes.css">
     <link rel="stylesheet" href="../css/components/tabela.css?v=20260925-cenarios">

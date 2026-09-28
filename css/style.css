@@ -68,7 +68,8 @@ main{
 	font-size: clamp(1rem, 1.5vw, 2.5rem);
 	font-family: "Open Sauce Light";
 	text-align: center;
-	border-radius: 60px;
+	border-radius: 0.2rem;
+	border: 0.4px solid #000000;
 }
 
 .mensagem-pequena h1 {
@@ -117,12 +118,17 @@ form input[type="number"] {
 
 	border: none;
 	text-decoration: none;
-	background-color: #bcdcf0;
-	border-radius: 10px;
+	background-color: #2f6fb8;
+	border-radius: 0.4rem;
+	border: 0.4px solid #000000;
 
-	color: #4B4B4B;
+	color: #ffffff;
 	font-size: clamp(0.5rem, 1vw, 1.5rem);
     text-align: center;        
+}
+
+input::placeholder {
+  color: #ffffff;
 }
 
 input[type="checkbox"] {

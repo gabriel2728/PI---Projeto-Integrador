@@ -208,7 +208,7 @@ $paginaAtiva = 'analise_preditiva';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Análise Preditiva - SiSGEH</title>
-    <link rel="stylesheet" href="../css/components/sidebar.css">
+    <link rel="stylesheet" href="../css/components/sidebar.css?v=4">
     <link rel="stylesheet" href="../css/historico.css?v=20260511-layout">
     <link rel="stylesheet" href="../css/analise_preditiva.css?v=gotas2026">
     <link rel="stylesheet" href="../css/components/botoes.css">
