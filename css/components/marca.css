@@ -1,0 +1,36 @@
+/* Marca */
+
+.marca-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	margin-bottom: 2rem;
+}
+
+.marca {
+	text-align: center;
+	font-family: "Open Sauce Light";
+	font-size: clamp(1rem, 1.5vw, 2.5rem);
+	margin: 0rem;
+	padding: 0rem;
+	color: #2f6fb8;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.3rem; /* espaco entre titulo, linha e subtitulo */
+}
+
+/* remove as margens padrao do navegador, que separavam os itens */
+.marca h1,
+.marca hr,
+.marca p {
+	margin: 0;
+	padding: 0;
+}
+
+.marca hr {
+	width: 100%;
+}
+
+/* Marca */

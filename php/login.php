@@ -99,49 +99,54 @@ if (isset($_POST['entrar'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="../css/components/header.css"> 
-    <link rel="stylesheet" href="../css/login.css?v=gotas2026">
+    <link rel="stylesheet" href="../css/login.css?v=marca2026">
+    <link rel="stylesheet" href="../css/components/marca.css">
 </head>
 <body>
-
-    <header> 
-        <div class="caixa_de_texto">
-            <input type="text" class="search-text" placeholder="Pesquisar...">
-        </div>
-        <h1 class="sisgeh"> SiSGEH </h1>
-
-        <nav class="links">
-            <ul>
-                <li>
-                    <a href="../sobre.html" class="sobre"> Sobre </a>
-
-                    
-                </li>
-            </ul>
-        </div>
-    </header>
 
        
     <main>
         <div class="layout">
-            <figure>
-                <img src="../images/logo.png" class="logo">
-            </figure>
+
+            <aside>
+                <div class="lateral">
+                    <h2> Seja Bem-Vindo! </h2>
+	                <p> Novo por aqui? </p>
+                    <br>
+	                <a href="../cadastro.php" > Criar conta </a>
+
+                   
+                    <figure>
+                        <img src="../images/logo.png" class="logo">
+                    </figure>
+        
+                </div>
+            </aside>
+
         
             <section class="section">
+
+                <div class="marca-container">
+                    <div class="marca">
+                        <h1>SiSGEH</h1>
+                        <hr>
+                        <p> Sistema de geração de energia hidrelétrica </p>
+                    </div>
+                </div>
+
+
                 <div class="pequena-mensagem">
-                    <h2>Área do Usuário</h2>
+                    <h2>Área de Login</h2>
                     <p>Identifique-se</p>
                 </div>
 
                 <form action="login.php" method="POST">
                     <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf_token) ?>">
-                    <label for="email">E-MAIL</label>
-                    <input type="email" name="email" placeholder="E-mail" maxlength="50" required>
+                    <input type="email" name="email" placeholder="Digite um nome de usuário ou E-mail" maxlength="50" required>
 
                     <br>
 
-                    <label for="senha">SENHA</label>
-                    <input type="password" name="senha" placeholder="Senha" minlength="8" maxlength="20" required>
+                    <input type="password" name="senha" placeholder="Digite sua senha" minlength="8" maxlength="20" required>
                     <br>
 
                     <input type="submit" name="entrar" value="Entrar" style="align-self: center;">
@@ -151,14 +156,7 @@ if (isset($_POST['entrar'])) {
 
             </section>
 
-            <aside>
-                <div class="lateral">
-                    <h2> Seja Bem-Vindo! </h2>
-	                <p> Novo por aqui? </p>
-                    <br>
-	                <a href="../cadastro.php" > Criar conta </a>
-                </div>
-            </aside>
+            
         </div>
 </body>
 </html>

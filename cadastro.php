@@ -9,9 +9,11 @@ $csrf_token = gerarTokenCSRF();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro | SiSGEH</title>
-    <link rel="stylesheet" type="text/css" href="css/components/header.css"> 
+    <link rel="stylesheet" type="text/css" href="css/components/header.css">
     <link rel="stylesheet" type="text/css" href="css/style.css?v=gotas2026">
-   <link rel="stylesheet" type="text/css" href="css/components/botoes.css">  
+    <link rel="stylesheet" type="text/css" href="css/components/card.css?v=4">
+   <link rel="stylesheet" type="text/css" href="css/components/botoes.css">
+   <link rel="stylesheet" type="text/css" href="css/components/marca.css">  
 </head>
 <body>
 
@@ -19,7 +21,14 @@ $csrf_token = gerarTokenCSRF();
         <div class="caixa_de_texto">
             <input type="text" class="search-text" placeholder="Pesquisar...">
         </div>
-        <h1 class="sisgeh">SiSGEH</h1>
+
+       <div class="marca-container">
+                    <div class="marca">
+                        <h1 style="color: #ffffff">SiSGEH</h1>
+                        <hr style="color: #ffffff">
+                        <p style="color: #ffffff"> Sistema de geração de energia hidrelétrica </p>
+                    </div>
+        </div>
 
         <nav class="links">
             <ul>
@@ -38,11 +47,8 @@ $csrf_token = gerarTokenCSRF();
 
 
     <main>
-        <figure>
-            <img src="images/logo.png" alt="Logo SiSGEH" class="logo">
-        </figure>
         <div class="layout">
-            <section class="section">
+            <section class="cadastro">
                 <div class="mensagem-pequena">
                     <h1>Criar Conta</h1>
                 </div>
