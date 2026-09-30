@@ -75,6 +75,7 @@
     justify-content: center;
 }
 
+
 .sidebar-nav a:hover,
 .sidebar-nav a.ativo {
     background-color: rgba(255,255,255,0.15);
@@ -111,24 +112,27 @@
     display: flex;
     align-items: center;
     justify-content: flex-start;
+
+
     gap: 0.8rem;
-    width: 100%;
+    width: 90%;
     padding: 0.9rem 1.5rem;
     margin: 0.6rem 1.5rem;
     box-sizing: border-box;
+
+    border-radius: 6px;
     background: none;
     border: none;
-    
-    color: #ac2828;
-    font-weight: bold;
+    background-color: #ac2828;
+    color: #ffffff;
     font-family: "Open Sauce Light", sans-serif;
     font-size: 0.8rem;
     cursor: pointer;
 }
 
 .sidebar-sair button:hover {
-    background-color: rgba(240, 122, 122, 0.384);
-    transform: translateY(-0.5px);
+    background-color: rgb(255, 0, 0);
+    transform: translateY(-3px);
     box-shadow: 0 7px 14px rgba(0,0,0,0.2);
 }
 

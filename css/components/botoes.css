@@ -38,7 +38,7 @@ section form {
 .botao-azul {
 	text-decoration: none;
 	color: white;
-	font-size: clamp(0.8rem, 1.2vw, 2rem);
+	font-size: clamp(0.5rem, 1vw, 1.5rem);
 	text-align: center;
 	font-family: "Open Sauce Light";
 
@@ -71,8 +71,7 @@ section form {
 	background: #757575;
 	color: white;
 	text-decoration: none;
-	text-align: center;
-	font-size: clamp(0.8rem, 1vw, 2rem);
+	font-size: clamp(0.5rem, 1vw, 1.5rem);
 
 	cursor: pointer; 
 	transition: all 0.3s ease;  
@@ -80,7 +79,7 @@ section form {
 
 .botao-cinza:hover, .botao-generico:hover, .btn-azul:hover  {
 	background-color: #000000;
-	transform: translateY(-2px);
+	transform: translateY(-3px);
 	box-shadow: 0 6px 12px rgba(0,0,0,0.15);
 }
 
@@ -90,7 +89,7 @@ section form {
 .btn-azul, .btn-vermelho {
 	text-decoration: none;
 	color: white;
-	font-size: clamp(0.6em, 1.2vw, 1rem);
+	font-size: clamp(0.5rem, 1vw, 1.5rem);
 	text-align: center;
 
 	width: 100%;
