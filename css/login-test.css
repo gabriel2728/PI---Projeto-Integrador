@@ -1,0 +1,253 @@
+@font-face {
+    font-family: "Alta";
+    src: url("../fonts/alta-regular.otf") format("opentype");
+}
+
+@font-face {
+    font-family: "Open Sans Regular";
+    src: url("../fonts/open-sans.bold.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Open Sauce Light";
+    src: url("../fonts/open-sauce.sans-light.ttf") format("truetype");
+}
+
+
+*, *::before, *::after {
+    box-sizing: border-box;
+	font-family: "Open Sauce Light";
+}
+
+body {  
+		display: flex;
+		flex-direction: column;
+
+    		min-height: 100vh;
+    		width: auto;
+
+    		background-image: url("../images/fundo-test.png");
+    		background-size: cover; /* mostra a imagem inteira, sem cortar */
+    		background-position: center;
+    		background-repeat: no-repeat;
+    		background-color: #ffffff; /* cor das sobras quando a proporcao da tela for diferente da imagem */
+		background-attachment: fixed; /* mant�m o fundo fixo mesmo ao rolar a p�gina */
+
+    		margin: 0;
+}
+
+
+main{
+		flex: 1;
+        display: flex;
+    		flex-direction: row; /* agora fica lado a lado */
+		justify-content: flex-end;
+    		width: 100%;
+    		min-height: 100vh;
+}
+
+
+.container-cadastro {
+    display: flex;
+    flex-direction: row; /* agora fica lado a lado */
+    justify-content:left;
+    align-items:flex-start;
+    width: 50%;
+    min-height: 100vh;
+}
+
+.cadastro {
+    margin: 1rem;
+    text-decoration: none;
+    color: white;
+    background-color: #2f6fb8;
+    border-radius: 0.4rem;
+    padding: 1rem;
+    font-family: "Open Sauce Light";
+    font-size: clamp(0.5rem, 1vw, 1.5rem);
+}
+
+
+/*section e layout*/
+.container-login { 
+
+		display: flex;
+    		flex-direction: row; /* agora fica lado a lado */
+		justify-content: left;
+    		width: 50%;
+    		min-height: 100vh;
+}
+
+.esqueci_senha {
+    	color: #414141;
+        font-family: "Open Sauce Light";
+        font-weight: bold;
+    	font-size: clamp(0.5rem, 1vw, 1.5rem);
+}
+
+section {
+	flex: 1;
+	width: auto;
+	max-width: 100%;
+	height: auto;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	padding: 2rem;
+	font-size: clamp(1rem, 1.2vw, 3rem);
+	font-family: "Open Sauce Light";
+	text-align: center;
+	border-radius: 80px;
+}
+/*section e layout*/
+
+/* Marca */
+
+.marca-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	margin-bottom: 2rem;
+}
+
+.marca {
+	text-align: center;
+	font-family: "Open Sauce Light";
+	font-size: clamp(1rem, 1.5vw, 2.5rem);
+	margin: 0rem;
+	padding: 0rem;
+	color: #2f6fb8;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.3rem; /* espaco entre titulo, linha e subtitulo */
+}
+
+/* remove as margens padrao do navegador, que separavam os itens */
+.marca h1,
+.marca hr,
+.marca p {
+	margin: 0;
+	padding: 0;
+}
+
+.marca hr {
+	width: 100%;
+}
+
+/* Marca */
+
+
+/*mensagem*/
+.pequena-mensagem h2 {
+	font-size: clamp(1rem, 2vw, 3rem);
+   color: #4b4b4b;
+    font-family: "Open Sauce Light";
+}
+
+.pequena-mensagem p {
+    	color: #4b4b4b;
+    	font-size: clamp(0.5rem, 1vw, 1.5rem);
+	
+	margin: 0 1rem;
+    	padding-bottom: 2rem;
+        font-family: "Open Sauce Light";
+}
+
+hr {
+    border: none;
+    border-top: 1px solid #2f6fb8;
+    width: 100%;
+    margin: 0.5rem 0;
+}
+
+
+/* Formulario */
+label {
+    font-family: "Open Sans Regular";
+}
+
+form input {
+        width: 100%;
+        padding: 1rem;
+        margin-bottom: 1rem;
+
+        border: none;
+        text-decoration: none;
+        background-color: transparent;
+        border-radius: 0.8rem;
+
+        color: #2f6fb8;
+        font-size: clamp(0.5rem, 1vw, 1.5rem);
+        text-align: center;    
+}
+
+form input[type="email"],
+form input[type="password"] {
+    border: 3px solid #2f6fb8;
+}
+
+
+input::placeholder {
+  color: #2f6fb8;
+  font-size: clamp(0.5rem, 1vw, 1.5rem);
+  text-align:left;
+  padding-left: 1rem;
+  font-family: "Open Sauce Light";
+  font-weight: bold;
+}
+
+
+form {
+	width: 100%;
+	width: 400px;
+    	display: flex;
+    	justify-content: center;
+    	align-items: flex-start;
+    	flex-direction: column;
+}
+
+input[type="submit"] {
+    background-color: #2f6fb8;
+    color: white;
+    width: 100%;
+	max-width: 200px;
+	padding: 0.8rem 0;
+    margin-top: 1vh;
+    align-items: center;
+	font-size: clamp(0.5rem, 1vw, 1.5rem);
+	text-align: center;
+	font-family: "Open Sauce Light";
+	border-radius: 0.6rem;
+	cursor: pointer;
+}
+
+
+input[type="submit"]:hover, .cadastro:hover {
+    background-color: #224c7c;
+	transform: translateY(-3px);
+}
+/* Formulario */
+
+
+
+
+/*logo*/
+
+figure {
+    display: flex;
+    justify-content: center;
+    margin: 0;
+}
+
+/* .logo (usada em login/cadastro) tem position:fixed, que tiraria a
+   imagem do lugar aqui dentro da sidebar - sobrescreve so aqui dentro */
+.logo {
+    position: static;
+    width: 100%;
+    max-width: 140px;
+    object-fit: contain;
+}
