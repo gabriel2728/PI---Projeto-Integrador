@@ -40,6 +40,7 @@ $paginaAtiva = 'configuracoes';
     <link rel="stylesheet" href="../css/estilo_configuracao_perfil.css"> 
     <link rel="stylesheet" href="../css/style.css?v=gotas2026">
     <link rel="stylesheet" href="../css/components/botoes.css">
+    <link rel="stylesheet" href="../css/components/card.css">
     <script>
         function adicionarTokenCSRF(form) {
             const csrfInput = document.createElement('input');

@@ -27,17 +27,6 @@
     border: 1px solid #f5c6cb;
 }
 
-.historico, .dados-historicos {
-    width: min(960px, calc(100vw - 2rem));
-    max-width: 960px;
-    padding: clamp(1.4rem, 3vw, 2.8rem);
-    margin: 1.5rem auto;
-    background-color: white;
-    box-shadow: 8px 10px 5px 3px rgb(160,160,180, 0.6);
-
-    border-radius: 0.4rem;
-	border: 0.4px solid #000000;
-}
 
 .historico .mensagem-pequena {
     width: 100%;
@@ -47,6 +36,7 @@
 
 .historico .mensagem-pequena h1 {
     margin: 0 0 0.6rem;
+    font-size: clamp(1.5rem, 2.5vw, 3rem);
 }
 
 .historico .mensagem-pequena p {
@@ -54,6 +44,7 @@
     padding-bottom: 1.2rem;
     max-width: 720px;
     text-align: center;
+    font-size: clamp(0.5rem, 1vw, 1.5rem);
 }
 
 /* Tabela */
@@ -80,7 +71,7 @@ th, td {
     padding: clamp(0.2rem, 1.4vw, 2rem);
     border: 1px solid #ddd;
     text-align: center;
-    font-size: clamp(0.6rem, 1vw, 2rem);
+    font-size: clamp(0.5rem, 1vw, 1.5rem);
 }
 th {
     background-color: #2f6fb8f0;
@@ -95,8 +86,6 @@ th {
     max-width: 112px;
     padding: 0.55rem 0.7rem;
     border: none;
-
-    font-size: 0.9rem;
 }
 
 .historico .btn-azul,

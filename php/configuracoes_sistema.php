@@ -75,6 +75,7 @@ $paginaAtiva = 'configuracoes';
     <link rel="stylesheet" href="../css/components/sidebar.css?v=4">
     <link rel="stylesheet" href="../css/style.css?v=gotas2026">
     <link rel="stylesheet" href="../css/components/botoes.css">
+    <link rel="stylesheet" href="../css/components/card.css">
 </head>
 <body>
     <?php include('includes/sidebar.php'); ?>

@@ -51,26 +51,7 @@ main{
 	flex-direction: column;
 }
 
-.section, .configuracao, .recuperar_senha, .historico {
-    width: 100%;
-    max-width: 800px;
-	padding: clamp(0.8rem, 10vw, 3rem);
-	margin: 1rem;
-	
-    background-color: white;
-    box-shadow: 8px 10px 5px 3px rgb(160,160,180, 0.6);
 
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	flex-direction: column;
-
-	font-size: clamp(1rem, 1.5vw, 2.5rem);
-	font-family: "Open Sauce Light";
-	text-align: center;
-	border-radius: 0.2rem;
-	border: 0.4px solid #000000;
-}
 
 .mensagem-pequena h1 {
 	font-size: clamp(1.5rem, 2.5vw, 3rem);
@@ -84,7 +65,7 @@ main{
 
 .mensagem-pequena p {
     color: #929292;
-    font-size: clamp(1rem, 1.4vw, 2rem);
+    font-size: clamp(1rem, 1.5vw, 2rem);
 	
 	margin: 0 1rem;
     padding-bottom: 2rem;
@@ -119,12 +100,20 @@ form input[type="number"] {
 	border: none;
 	text-decoration: none;
 	background-color: #2f6fb8;
-	border-radius: 0.4rem;
+	border-radius: 0.6rem;
 	border: 0.4px solid #000000;
 
 	color: #ffffff;
 	font-size: clamp(0.5rem, 1vw, 1.5rem);
     text-align: center;        
+}
+
+form input[type="tel"]:hover,
+form input[type="text"]:hover,
+form input[type="email"]:hover,
+form input[type="password"]:hover,
+form input[type="number"]:hover {
+	background-color: #225186;
 }
 
 input::placeholder {

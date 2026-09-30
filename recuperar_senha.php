@@ -76,6 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <link rel="stylesheet" href="css/style.css?v=gotas2026">
 <link rel="stylesheet" href="css/components/botoes.css">
 <link rel="stylesheet" type="text/css" href="css/recuperar_senha.css"> 
+<link rel="stylesheet" type="text/css" href="css/components/card.css">
 </head>
 <body>
 

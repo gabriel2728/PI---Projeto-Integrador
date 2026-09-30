@@ -87,46 +87,23 @@ main{
     letter-spacing: 0;
 }
 
-.painel-entrada,
-.painel-resultado,
-.grafico-area,
-.dados-historicos {
-    width: 100%;
-    max-width: 1000px;
-	padding: clamp(0.2rem, 2vw, 3rem);
-	margin: 0 0 2.5rem 0;
-	
-    background-color: white;
-    box-shadow: 8px 10px 5px 3px rgb(160,160,180, 0.6);
-
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	flex-direction: column;
-
-	font-size: clamp(1rem, 1vw, 2.5rem);
-	font-family: "Open Sauce Light";
-	text-align: center;
-	border-radius: 0.4rem;
-	border: 0.4px solid #000000;
-}
 
 a {
     color: #ffffff;
 }
 
 .mensagem-pequena h1 {
-	font-size: clamp(1.4rem, 2.5vw, 3rem);
+	font-size: clamp(1.5rem, 2.5vw, 3rem);
    	color: #464646;
 }
 
 .mensagem-pequena h2 {
-	font-size: clamp(1.2rem, 2.5vw, 3rem);
+	font-size: clamp(1rem, 2vw, 2.5rem);
    	color: #464646;
 }
 
 .mensagem-pequena h3 {
-	font-size: clamp(1rem, 2vw, 2.5rem);
+	 font-size: clamp(1rem, 1.5vw, 2rem);
    	color: #464646;
 }
 

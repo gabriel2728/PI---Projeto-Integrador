@@ -86,6 +86,7 @@ $paginaAtiva = 'estacao';
     <link rel="stylesheet" href="../css/components/sidebar.css?v=4">
     <link rel="stylesheet" href="../css/analise_preditiva.css?v=gotas2026">
     <link rel="stylesheet" href="../css/estacao.css">
+    <link rel="stylesheet" href="../css/components/card.css">
     <link rel="stylesheet" href="../css/components/botoes.css">
 </head>
 <body>
