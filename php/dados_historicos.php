@@ -1,7 +1,7 @@
 <?php
-session_start();
+require_once __DIR__ . '/sessao.php';
 include('error_handler.php');
-include('seguranca.php');
+require_once('seguranca.php');
 include('conexao.php');
 
 if (!isset($_SESSION['id_usuario'])) {
@@ -9,22 +9,21 @@ if (!isset($_SESSION['id_usuario'])) {
     exit;
 }
 
-$usuarioId = $_SESSION['id_usuario'];
+$usuarioId = (int) $_SESSION['id_usuario'];
 $nomeUsuario = $_SESSION['nomeUsuario'];
 
-// Garante existência da tabela
-$conn->query("CREATE TABLE IF NOT EXISTS DadosHistoricos (
-    id_dado INT AUTO_INCREMENT PRIMARY KEY,
-    data_registro DATE NOT NULL,
-    pluviosidade_mm DECIMAL(10,2) NOT NULL,
-    potencia_mw DECIMAL(10,2) NOT NULL,
-    fonte VARCHAR(500) NULL
-)");
+// Garante a tabela e entrega ao usuário a cópia pessoal da base original na primeira vez
+require_once __DIR__ . '/dados_historicos_tabela.php';
+garantirTabelaDadosHistoricos($conn);
+garantirDadosDoUsuario($conn, $usuarioId);
 
-// Garante a coluna fonte em instalações antigas que já tinham a tabela sem ela
-$colunasResult = $conn->query("SHOW COLUMNS FROM DadosHistoricos LIKE 'fonte'");
-if ($colunasResult && $colunasResult->num_rows === 0) {
-    $conn->query("ALTER TABLE DadosHistoricos ADD COLUMN fonte VARCHAR(500) NULL");
+function registroDoUsuario(mysqli $conn, $idDado, $usuarioId) {
+    $stmt = $conn->prepare('SELECT 1 FROM DadosHistoricos WHERE id_dado = ? AND id_usuario = ?');
+    $stmt->bind_param('ii', $idDado, $usuarioId);
+    $stmt->execute();
+    $existe = $stmt->get_result()->num_rows > 0;
+    $stmt->close();
+    return $existe;
 }
 
 $mensagem = '';
@@ -50,11 +49,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $fonte = trim(sanitizeInput($_POST['fonte'] ?? ''));
         $fonte = $fonte === '' ? null : $fonte;
 
-        if ($acao === 'excluir' && $id_dado) {
-            $stmt = $conn->prepare('DELETE FROM DadosHistoricos WHERE id_dado = ?');
-            $stmt->bind_param('i', $id_dado);
-            if ($stmt->execute()) {
+        if ($acao === 'restaurar') {
+            restaurarBaseOriginal($conn, $usuarioId);
+            $mensagem = 'Base original restaurada com sucesso.';
+        } elseif ($acao === 'excluir' && $id_dado) {
+            // Só exclui registros da base pessoal do usuário; a base original e a dos outros não são afetadas
+            $stmt = $conn->prepare('DELETE FROM DadosHistoricos WHERE id_dado = ? AND id_usuario = ?');
+            $stmt->bind_param('ii', $id_dado, $usuarioId);
+            if ($stmt->execute() && $stmt->affected_rows > 0) {
                 $mensagem = 'Registro excluído com sucesso.';
+            } elseif ($stmt->errno === 0) {
+                logTentativaSuspeita('tentativa_excluir_dado_historico_alheio', ['id_usuario' => $usuarioId, 'id_dado' => $id_dado]);
+                $erro = 'Registro não encontrado.';
             } else {
                 $erro = 'Falha ao excluir o registro.';
             }
@@ -71,17 +77,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $potencia = floatval($potencia);
 
                 if ($id_dado) {
-                    $stmt = $conn->prepare('UPDATE DadosHistoricos SET data_registro = ?, pluviosidade_mm = ?, potencia_mw = ?, fonte = ? WHERE id_dado = ?');
-                    $stmt->bind_param('sddsi', $dataRegistro, $pluviosidade, $potencia, $fonte, $id_dado);
-                    if ($stmt->execute()) {
+                    $stmt = $conn->prepare('UPDATE DadosHistoricos SET data_registro = ?, pluviosidade_mm = ?, potencia_mw = ?, fonte = ? WHERE id_dado = ? AND id_usuario = ?');
+                    $stmt->bind_param('sddsii', $dataRegistro, $pluviosidade, $potencia, $fonte, $id_dado, $usuarioId);
+                    if ($stmt->execute() && $stmt->affected_rows > 0) {
                         $mensagem = 'Registro atualizado com sucesso.';
+                    } elseif ($stmt->errno === 0 && !registroDoUsuario($conn, $id_dado, $usuarioId)) {
+                        logTentativaSuspeita('tentativa_editar_dado_historico_alheio', ['id_usuario' => $usuarioId, 'id_dado' => $id_dado]);
+                        $erro = 'Registro não encontrado.';
+                    } elseif ($stmt->errno === 0) {
+                        $mensagem = 'Nenhuma alteração realizada.';
                     } else {
                         $erro = 'Falha ao atualizar o registro.';
                     }
                     $stmt->close();
                 } else {
-                    $stmt = $conn->prepare('INSERT INTO DadosHistoricos (data_registro, pluviosidade_mm, potencia_mw, fonte) VALUES (?, ?, ?, ?)');
-                    $stmt->bind_param('sdds', $dataRegistro, $pluviosidade, $potencia, $fonte);
+                    $stmt = $conn->prepare('INSERT INTO DadosHistoricos (data_registro, pluviosidade_mm, potencia_mw, fonte, id_usuario) VALUES (?, ?, ?, ?, ?)');
+                    $stmt->bind_param('sddsi', $dataRegistro, $pluviosidade, $potencia, $fonte, $usuarioId);
                     if ($stmt->execute()) {
                         $mensagem = 'Registro adicionado com sucesso.';
                     } else {
@@ -98,8 +109,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 if (isset($_GET['editar'])) {
     $idEdicao = intval($_GET['editar']);
-    $stmt = $conn->prepare('SELECT id_dado, data_registro, pluviosidade_mm, potencia_mw, fonte FROM DadosHistoricos WHERE id_dado = ?');
-    $stmt->bind_param('i', $idEdicao);
+    $stmt = $conn->prepare('SELECT id_dado, data_registro, pluviosidade_mm, potencia_mw, fonte FROM DadosHistoricos WHERE id_dado = ? AND id_usuario = ?');
+    $stmt->bind_param('ii', $idEdicao, $usuarioId);
     $stmt->execute();
     $resultado = $stmt->get_result();
     if ($resultado->num_rows > 0) {
@@ -116,8 +127,12 @@ if (isset($_GET['erro'])) {
     $erro = sanitizeInput($_GET['erro']);
 }
 
-$result = $conn->query('SELECT id_dado, data_registro, pluviosidade_mm, potencia_mw, fonte FROM DadosHistoricos ORDER BY data_registro DESC');
-$registros = $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
+// Mostra só a base pessoal do usuário
+$stmt = $conn->prepare('SELECT id_dado, data_registro, pluviosidade_mm, potencia_mw, fonte FROM DadosHistoricos WHERE id_usuario = ? ORDER BY data_registro DESC');
+$stmt->bind_param('i', $usuarioId);
+$stmt->execute();
+$registros = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+$stmt->close();
 
 $csrfToken = gerarTokenCSRF();
 $paginaAtiva = 'analise_preditiva';
@@ -142,7 +157,7 @@ $paginaAtiva = 'analise_preditiva';
     		<section class="intro">
         		<div class="mensagem-pequena">
             			<h2>Gerenciar Dados Históricos</h2>
-            			<p>Cadastre e edite registros de chuva e potência usados pelo módulo preditivo.</p>
+            			<p>Esta é a sua base pessoal, iniciada com dados reais do INMET e do ONS. Você pode editar, excluir e incluir registros para treinar o modelo como quiser, sem afetar a base dos outros usuários.</p>
         		</div>
         
             		<a class="botao-cinza" href="analise_preditiva.php">← Voltar à Análise Preditiva</a>   
@@ -187,6 +202,11 @@ $paginaAtiva = 'analise_preditiva';
 
     		<section class="dados-historicos">
         		<h3>Registros Existentes</h3>
+        		<form method="POST" action="dados_historicos.php" style="margin-bottom:12px;">
+            			<input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrfToken) ?>">
+            			<input type="hidden" name="acao" value="restaurar">
+            			<button type="submit" class="botao-cinza" onclick="return confirm('Isso apaga todos os seus registros e coloca de novo a base original (INMET/ONS). Deseja continuar?');">↺ Restaurar base original</button>
+        		</form>
         		<table>
             			<thead>
                 			<tr>

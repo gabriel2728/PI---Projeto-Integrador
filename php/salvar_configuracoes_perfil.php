@@ -1,7 +1,7 @@
 <?php
-session_start();
+require_once __DIR__ . '/sessao.php';
 include('error_handler.php');
-include('seguranca.php');
+require_once('seguranca.php');
 include 'conexao.php';
 
 // Verificar se usuário está logado
@@ -126,6 +126,53 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
             }
             break;
+
+        case 'excluir_conta':
+            // Usa a mesma sanitização do login, para a senha conferir com o hash salvo
+            $senha_atual = sanitizeInput($_POST['senha_atual'] ?? '');
+
+            $stmt = $conn->prepare("SELECT senha FROM Usuario WHERE id_usuario = ?");
+            $stmt->bind_param("i", $id_usuario);
+            $stmt->execute();
+            $usuario = $stmt->get_result()->fetch_assoc();
+            $stmt->close();
+
+            if (!$usuario || $senha_atual === '' || !password_verify($senha_atual, $usuario['senha'])) {
+                $_SESSION['mensagem_erro'] = 'Senha incorreta. A conta não foi excluída.';
+                logTentativaSuspeita('excluir_conta_senha_incorreta', ['id_usuario' => $id_usuario]);
+                break;
+            }
+
+            // Apaga todos os dados do usuário. Análises preditivas e tokens de recuperação
+            // saem junto por ON DELETE CASCADE; o restante é apagado aqui.
+            $conn->begin_transaction();
+            try {
+                $exclusoes = [
+                    "DELETE FROM DadosHistoricos WHERE id_usuario = ?",
+                    "DELETE r FROM ResultadoSimulacao r JOIN Simulacoes s ON s.id_simulacao = r.id_simulacao WHERE s.id_usuario = ?",
+                    "DELETE FROM Simulacoes WHERE id_usuario = ?",
+                    "DELETE FROM UsuarioConfiguracoes WHERE id_usuario = ?",
+                    "DELETE FROM Usuario WHERE id_usuario = ?",
+                ];
+                foreach ($exclusoes as $sql) {
+                    $stmt = $conn->prepare($sql);
+                    $stmt->bind_param("i", $id_usuario);
+                    $stmt->execute();
+                    $stmt->close();
+                }
+                $conn->commit();
+            } catch (Throwable $e) {
+                $conn->rollback();
+                logCustom('ERROR', 'Falha ao excluir conta', ['id_usuario' => $id_usuario, 'erro' => $e->getMessage()]);
+                $_SESSION['mensagem_erro'] = 'Erro ao excluir a conta. Tente novamente.';
+                break;
+            }
+
+            logAuditoria('conta_excluida', $id_usuario);
+            $_SESSION = [];
+            session_destroy();
+            header('Location: login.php?conta_excluida=1');
+            exit();
 
         default:
             $_SESSION['mensagem_erro'] = 'Tipo de alteração inválido.';

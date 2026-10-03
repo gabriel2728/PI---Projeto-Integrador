@@ -1,7 +1,7 @@
 <?php
-session_start();
+require_once __DIR__ . '/sessao.php';
 include('error_handler.php');
-include('seguranca.php');
+require_once('seguranca.php');
 include 'conexao.php';
 
 // Verificar se usuário está logado
@@ -48,6 +48,57 @@ $paginaAtiva = 'configuracoes';
             csrfInput.name = 'csrf_token';
             csrfInput.value = document.querySelector('input[name="csrf_token"]')?.value || '';
             form.appendChild(csrfInput);
+        }
+
+        // Formulário de exclusão de conta: pede a senha atual para confirmar
+        function abrirFormularioExcluirConta() {
+            document.querySelectorAll('.form-config').forEach(form => form.remove());
+
+            const areaConfig = document.querySelector('.configuracao');
+            const form = document.createElement('form');
+            form.className = 'form-config';
+            form.innerHTML = `
+                <div id="estiloExcluirConta">
+                    <p>Esta ação apaga sua conta, suas simulações, análises e dados históricos. Não é possível desfazer.</p>
+                    <input type="password" id="senhaExcluirConta" placeholder="Digite sua senha para confirmar" required>
+                    <button type="button" onclick="excluirConta()">Excluir minha conta</button>
+                </div>`;
+
+            const titulo = areaConfig.querySelector('h2');
+            titulo.insertAdjacentElement('afterend', form);
+        }
+
+        function excluirConta() {
+            const senha = document.getElementById('senhaExcluirConta').value;
+
+            if (senha === '') {
+                alert('Digite sua senha para confirmar a exclusão.');
+                return;
+            }
+
+            if (!confirm('Tem certeza que deseja excluir sua conta? Todos os seus dados serão apagados.')) {
+                return;
+            }
+
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = 'salvar_configuracoes_perfil.php';
+
+            const inputTipo = document.createElement('input');
+            inputTipo.type = 'hidden';
+            inputTipo.name = 'tipo';
+            inputTipo.value = 'excluir_conta';
+            form.appendChild(inputTipo);
+
+            const inputSenha = document.createElement('input');
+            inputSenha.type = 'hidden';
+            inputSenha.name = 'senha_atual';
+            inputSenha.value = senha;
+            form.appendChild(inputSenha);
+
+            adicionarTokenCSRF(form);
+            document.body.appendChild(form);
+            form.submit();
         }
 
         // Função para abrir o formulário de trocar nome
@@ -330,7 +381,7 @@ $paginaAtiva = 'configuracoes';
                 <a href="#" onclick="abrirFormularioNome(); return false;" class="botao-generico"> 📛 Trocar Nome </a>
                 <a href="#" onclick="abrirFormularioSenha(); return false;" class="botao-generico"> 🔑 Trocar Senha </a>
                 <a href="#" onclick="abrirFormularioEmail(); return false;" class="botao-generico"> 📧 Trocar E-mail </a>
-                <a href="#" class="botao-generico"> ❌ Excluir conta </a>
+                <a href="#" onclick="abrirFormularioExcluirConta(); return false;" class="botao-generico"> ❌ Excluir conta </a>
                 <!-- Botão sair estilizado -->
                 <form method="post" action="logout.php">
                     <button type="submit" class="botao-cinza">📥 Sair da conta</button>

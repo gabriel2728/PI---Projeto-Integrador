@@ -1,7 +1,7 @@
 <?php
-session_start();
+require_once __DIR__ . '/sessao.php';
 include('error_handler.php');
-include('seguranca.php');
+require_once('seguranca.php');
 include('conexao.php');
 
 if (!isset($_SESSION['id_usuario'])) {
@@ -29,7 +29,8 @@ $conn->query("CREATE TABLE IF NOT EXISTS AnalisePreditiva (
 
 if ($conn->error) {
     $conn->close();
-    die('Erro ao criar tabela AnalisePreditiva: ' . $conn->error);
+    logCustom('ERROR', 'Erro ao criar tabela AnalisePreditiva', ['erro' => $conn->error]);
+    die('Erro ao preparar a análise preditiva. Contate o administrador.');
 }
 
 $colunasAnalise = [];
@@ -94,28 +95,31 @@ $dadosHistoricos = $dadosHistoricosPadrao;
 $useDatasetDefault = true;
 
 // Verifica se existe tabela de dados históricos com registros reais
-$result = $conn->query("SHOW TABLES LIKE 'DadosHistoricos'");
-if ($result && $result->num_rows > 0) {
-    $stmt = $conn->prepare('SELECT data_registro, pluviosidade_mm, potencia_mw, fonte FROM DadosHistoricos ORDER BY data_registro ASC');
-    if ($stmt) {
-        $stmt->execute();
-        $res = $stmt->get_result();
-        $dadosReais = [];
-        while ($row = $res->fetch_assoc()) {
-            $dadosReais[] = [
-                'data_registro' => $row['data_registro'],
-                'pluviosidade_mm' => floatval($row['pluviosidade_mm']),
-                'potencia_mw' => floatval($row['potencia_mw']),
-                'fonte' => $row['fonte'],
-            ];
-        }
-        $stmt->close();
-        // Só troca para o dataset real se houver ao menos um registro;
-        // caso contrário mantém o padrão de demonstração (e o rótulo continua correto).
-        if (count($dadosReais) > 0) {
-            $dadosHistoricos = $dadosReais;
-            $useDatasetDefault = false;
-        }
+// Usa a base pessoal do usuário (cópia da base original INMET/ONS que ele pode alterar)
+require_once __DIR__ . '/dados_historicos_tabela.php';
+garantirTabelaDadosHistoricos($conn);
+$idUsuarioDados = (int) $_SESSION['id_usuario'];
+garantirDadosDoUsuario($conn, $idUsuarioDados);
+$stmt = $conn->prepare('SELECT data_registro, pluviosidade_mm, potencia_mw, fonte FROM DadosHistoricos WHERE id_usuario = ? ORDER BY data_registro ASC');
+if ($stmt) {
+    $stmt->bind_param('i', $idUsuarioDados);
+    $stmt->execute();
+    $res = $stmt->get_result();
+    $dadosReais = [];
+    while ($row = $res->fetch_assoc()) {
+        $dadosReais[] = [
+            'data_registro' => $row['data_registro'],
+            'pluviosidade_mm' => floatval($row['pluviosidade_mm']),
+            'potencia_mw' => floatval($row['potencia_mw']),
+            'fonte' => $row['fonte'],
+        ];
+    }
+    $stmt->close();
+    // Só troca para o dataset real se houver ao menos um registro;
+    // caso contrário mantém o padrão de demonstração (e o rótulo continua correto).
+    if (count($dadosReais) > 0) {
+        $dadosHistoricos = $dadosReais;
+        $useDatasetDefault = false;
     }
 }
 
