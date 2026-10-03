@@ -138,58 +138,87 @@ function logAuditoria($acao, $usuario_id = null, $detalhes = []) {
  * Exemplo: rateLimitCheck('login', 5, 900) = máximo 5 tentativas em 15 minutos
  */
 function rateLimitCheck($chave, $limite = 5, $janela = 900) {
-    $ip = $_SERVER['REMOTE_ADDR'];
-    $rate_limit_key = "rate_limit_{$chave}_{$ip}";
-    
-    if (!isset($_SESSION[$rate_limit_key])) {
-        $_SESSION[$rate_limit_key] = ['count' => 0, 'time' => time(), 'bloqueado' => false];
-    }
+    $ip = $_SERVER['REMOTE_ADDR'] ?? 'desconhecido';
+    $permitido = true;
 
-    $rate_data = $_SESSION[$rate_limit_key];
+    rateLimitAtualizar($chave, function ($dados) use ($limite, $janela, $ip, $chave, &$permitido) {
+        $agora = time();
 
-    // Verifica se está bloqueado
-    if ($rate_data['bloqueado'] && (time() - $rate_data['block_time'] < $janela)) {
-        return false; // Bloqueado
-    }
+        // Ainda bloqueado
+        if (!empty($dados['bloqueado']) && ($agora - $dados['block_time'] < $janela)) {
+            $permitido = false;
+            return $dados;
+        }
 
-    // Reset após janela de tempo
-    if (time() - $rate_data['time'] > $janela) {
-        $rate_data = ['count' => 0, 'time' => time(), 'bloqueado' => false];
-    }
+        // Reset após janela de tempo
+        if (empty($dados) || $agora - $dados['time'] > $janela || !empty($dados['bloqueado'])) {
+            $dados = ['count' => 0, 'time' => $agora, 'bloqueado' => false];
+        }
 
-    // Incrementa contador
-    $rate_data['count']++;
+        $dados['count']++;
 
-    // Bloqueia se exceder limite
-    if ($rate_data['count'] > $limite) {
-        $rate_data['bloqueado'] = true;
-        $rate_data['block_time'] = time();
-        logTentativaSuspeita("rate_limit_excedido_{$chave}", ['ip' => $ip, 'tentativas' => $rate_data['count']]);
-    }
+        if ($dados['count'] > $limite) {
+            $permitido = false;
+            $dados['bloqueado'] = true;
+            $dados['block_time'] = $agora;
+            logTentativaSuspeita("rate_limit_excedido_{$chave}", ['ip' => $ip, 'tentativas' => $dados['count']]);
+        }
+        return $dados;
+    });
 
-    $_SESSION[$rate_limit_key] = $rate_data;
-    return true; // Permitido
+    return $permitido;
 }
 
 /**
  * Incrementa tentativa de rate limit
  */
 function rateLimitIncrement($chave) {
-    $ip = $_SERVER['REMOTE_ADDR'];
-    $rate_limit_key = "rate_limit_{$chave}_{$ip}";
-    
-    if (isset($_SESSION[$rate_limit_key])) {
-        $_SESSION[$rate_limit_key]['count']++;
-    }
+    rateLimitAtualizar($chave, function ($dados) {
+        if (!empty($dados)) {
+            $dados['count']++;
+        }
+        return $dados;
+    });
 }
 
 /**
  * Reseta rate limit (após login bem-sucedido, por exemplo)
  */
 function rateLimitReset($chave) {
-    $ip = $_SERVER['REMOTE_ADDR'];
-    $rate_limit_key = "rate_limit_{$chave}_{$ip}";
-    unset($_SESSION[$rate_limit_key]);
+    $arquivo = rateLimitArquivo($chave);
+    if (is_file($arquivo)) {
+        @unlink($arquivo);
+    }
+}
+
+/**
+ * Os contadores ficam em arquivos no servidor (php/logs/ratelimit), por IP,
+ * e não na sessão: apagar o cookie não zera as tentativas.
+ */
+function rateLimitArquivo($chave) {
+    $ip = $_SERVER['REMOTE_ADDR'] ?? 'desconhecido';
+    $dir = __DIR__ . '/logs/ratelimit';
+    if (!is_dir($dir)) {
+        @mkdir($dir, 0700, true);
+    }
+    return $dir . '/' . hash('sha256', $chave . '|' . $ip) . '.json';
+}
+
+function rateLimitAtualizar($chave, callable $alterar) {
+    $fp = @fopen(rateLimitArquivo($chave), 'c+');
+    if (!$fp) {
+        return;
+    }
+    flock($fp, LOCK_EX);
+    $conteudo = stream_get_contents($fp);
+    $dados = $conteudo ? (json_decode($conteudo, true) ?: []) : [];
+    $dados = $alterar($dados);
+    ftruncate($fp, 0);
+    rewind($fp);
+    fwrite($fp, json_encode($dados));
+    fflush($fp);
+    flock($fp, LOCK_UN);
+    fclose($fp);
 }
 
 // ============ PROTEÇÃO CSRF ============
@@ -297,6 +326,11 @@ function iniciarSessaoSegura($timeout = 1800) {
         logTentativaSuspeita('session_timeout', ['ip' => $_SERVER['REMOTE_ADDR'] ?? 'desconhecido']);
         $_SESSION = [];
         session_destroy();
+        // Abre uma sessão nova e vazia para a página continuar funcionando (ex.: redirecionar ao login)
+        session_start();
+        session_regenerate_id(true);
+        $_SESSION['session_iniciada'] = true;
+        $_SESSION['ultimo_acesso'] = time();
         return false;
     }
 

@@ -4,10 +4,10 @@ ob_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 0);
 
-session_start();
+require_once __DIR__ . '/sessao.php';
 include('error_handler.php');
 include('conexao.php');
-include('seguranca.php');
+require_once('seguranca.php');
 
 // Validar sessão
 if (!isset($_SESSION['id_usuario'])) {
@@ -91,11 +91,12 @@ elseif ($tipo === 'salvo' && $id_simulacao) {
                r.geracao_principal, r.geracao_diaria, r.geracao_mensal, r.geracao_anual
         FROM Simulacoes s
         LEFT JOIN ResultadoSimulacao r ON r.id_simulacao = s.id_simulacao
-        WHERE s.id_simulacao = ?
+        WHERE s.id_simulacao = ? AND s.id_usuario = ?
     ");
     
     if ($stmt) {
-        $stmt->bind_param("i", $id_simulacao);
+        // Só exporta simulações do próprio usuário
+        $stmt->bind_param("ii", $id_simulacao, $_SESSION['id_usuario']);
         $stmt->execute();
         $result = $stmt->get_result();
         $dados = $result->fetch_assoc();
@@ -114,7 +115,7 @@ elseif ($tipo === 'salvo' && $id_simulacao) {
         ob_end_clean();
         header('Content-Type: application/json');
         http_response_code(500);
-        die(json_encode(['success' => false, 'message' => 'Erro ao preparar query: ' . $conn->error]));
+        die(json_encode(['success' => false, 'message' => 'Erro ao gerar a exportação. Tente novamente.']));
     }
 } elseif ($tipo === 'analise' && $id_analise) {
     $stmt = $conn->prepare("SELECT id_analise_preditiva, id_usuario, periodo, data_calculo, pluviosidade_informada, potencia_estimada, modelo, equacao, status FROM AnalisePreditiva WHERE id_analise_preditiva = ? AND id_usuario = ? AND status = 'concluido'");
@@ -138,7 +139,7 @@ elseif ($tipo === 'salvo' && $id_simulacao) {
         ob_end_clean();
         header('Content-Type: application/json');
         http_response_code(500);
-        die(json_encode(['success' => false, 'message' => 'Erro ao preparar query: ' . $conn->error]));
+        die(json_encode(['success' => false, 'message' => 'Erro ao gerar a exportação. Tente novamente.']));
     }
 } else {
     ob_end_clean();

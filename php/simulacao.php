@@ -1,5 +1,5 @@
 ﻿<?php
-session_start();
+require_once __DIR__ . '/sessao.php';
 if (!isset($_SESSION['id_usuario'])) {
     header("Location: login.php");
     exit;
@@ -10,6 +10,7 @@ $id_usuario = $_SESSION['id_usuario'];
 $nomeUsuario = $_SESSION['nomeUsuario'];
 $primeiroNome = explode(" ", $nomeUsuario)[0];
 $paginaAtiva = 'simulacao';
+$csrf_token = gerarTokenCSRF();
 ?>
 
 <!DOCTYPE html>
@@ -376,7 +377,7 @@ document.getElementById("salvar").addEventListener("click", function() {
 
     fetch('salvar_simulacao.php', {
         method: 'POST',
-        headers: {'Content-Type': 'application/json'},
+        headers: {'Content-Type': 'application/json', 'X-CSRF-Token': <?= json_encode($csrf_token) ?>},
         body: JSON.stringify(window.simulacaoAtual)
     })
     .then(response => response.json())

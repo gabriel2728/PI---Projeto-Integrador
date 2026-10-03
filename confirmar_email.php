@@ -1,7 +1,7 @@
 <?php
-session_start();
+require_once __DIR__ . '/php/sessao.php';
 include('php/error_handler.php');
-include('php/seguranca.php');
+require_once('php/seguranca.php');
 include('php/conexao.php');
 
 $titulo = 'Confirmacao de e-mail';

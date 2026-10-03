@@ -1,5 +1,5 @@
 <?php
-session_start();
+require_once __DIR__ . '/sessao.php';
 if (!isset($_SESSION['id_usuario'])) {
     header('Location: login.php');
     exit();
@@ -7,7 +7,7 @@ if (!isset($_SESSION['id_usuario'])) {
 
 include('error_handler.php');
 include 'conexao.php';
-include 'seguranca.php';
+require_once('seguranca.php');
 
 $id_usuario = $_SESSION['id_usuario'];
 

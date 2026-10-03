@@ -27,6 +27,11 @@ document.addEventListener('DOMContentLoaded', () => {
             termos: ['analise', 'preditiva', 'previsao', 'grafico']
         },
         {
+            titulo: 'Estações Meteorológicas',
+            url: 'estacao.php',
+            termos: ['estacao', 'estacoes', 'meteorologia', 'clima', 'chuva', 'temperatura', 'umidade']
+        },
+        {
             titulo: 'Dados Históricos',
             url: 'dados_historicos.php',
             termos: ['dados', 'historicos', 'dados historicos']

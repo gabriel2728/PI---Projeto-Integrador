@@ -5,7 +5,15 @@
  */
 
 // Detectar ambiente (desenvolvimento = com display_errors, produção = sem)
-$isDevelopment = (getenv('APP_ENV') === 'development' || getenv('APP_ENV') === false);
+// Por padrão é produção (erros só no log). Para ver os erros na tela, defina APP_ENV=development no .env.
+$appEnv = getenv('APP_ENV');
+if ($appEnv === false) {
+    $envFile = dirname(__DIR__) . '/.env';
+    if (is_file($envFile) && preg_match('/^\s*APP_ENV\s*=\s*["\']?(\w+)/m', (string) file_get_contents($envFile), $m)) {
+        $appEnv = $m[1];
+    }
+}
+$isDevelopment = ($appEnv === 'development');
 
 // Configurar exibição de erros
 if ($isDevelopment) {

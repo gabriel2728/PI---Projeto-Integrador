@@ -1,7 +1,7 @@
 <?php
-session_start();
+require_once __DIR__ . '/php/sessao.php';
 include('php/error_handler.php');
-include('php/seguranca.php');
+require_once('php/seguranca.php');
 
 $mensagem_sucesso = '';
 $mensagem_erro = '';
@@ -126,7 +126,7 @@ if (isset($_GET['token'])) {
             <li>
                 <a href="sobre.html" class="sobre"> Sobre </a>
 
-                <a href="index.html" class="link_home">
+                <a href="php/login.php" class="link_home">
                     <img src="images/home.png" alt="Voltar a Home" class="home">
                 </a>
             </li>

@@ -1,8 +1,14 @@
 ﻿<?php
-session_start();
+require_once __DIR__ . '/sessao.php';
 include('error_handler.php');
-include('seguranca.php');
+require_once('seguranca.php');
 include('conexao.php');
+
+// Quem já está logado (ex.: clicou no ícone de início) vai direto para a simulação
+if (isset($_SESSION['id_usuario']) && !isset($_POST['entrar'])) {
+    header('Location: simulacao.php');
+    exit;
+}
 
 // Gerar CSRF token se não existir
 $csrf_token = gerarTokenCSRF();
@@ -51,41 +57,32 @@ if (isset($_POST['entrar'])) {
     $stmt->execute();
     $resultado = $stmt->get_result();
 
-    if ($resultado->num_rows > 0) {
-        $usuario = $resultado->fetch_assoc();
+    // Cada tentativa já foi contada em rateLimitCheck(); as mensagens de erro são iguais
+    // para e-mail inexistente e senha incorreta, para não revelar quais e-mails têm conta.
+    $usuario = $resultado->num_rows > 0 ? $resultado->fetch_assoc() : null;
 
+    if ($usuario && password_verify($senha, $usuario['senha'])) {
         if (!$usuario['emailConfirmado']) {
-            rateLimitIncrement('login');
             echo "<script>alert('Confirme seu e-mail antes de entrar. Verifique sua caixa de entrada.'); window.history.back();</script>";
             exit;
         }
 
-        // Verifica senha criptografada
-        if (password_verify($senha, $usuario['senha'])) {
-            // Reseta rate limiting em login bem-sucedido
-            rateLimitReset('login');
-            session_regenerate_id(true);
+        // Reseta rate limiting em login bem-sucedido
+        rateLimitReset('login');
+        session_regenerate_id(true);
 
-            $_SESSION['id_usuario'] = $usuario['id_usuario'];
-            $_SESSION['nomeUsuario'] = $usuario['nomeUsuario'];
+        $_SESSION['id_usuario'] = $usuario['id_usuario'];
+        $_SESSION['nomeUsuario'] = $usuario['nomeUsuario'];
 
-            // Log de sucesso
-            $log = date('Y-m-d H:i:s') . " - [LOGIN_SUCESSO] Usuário ID: " . $usuario['id_usuario'] . " - Email: " . $email . "\n";
-            @file_put_contents(__DIR__ . '/logs/auditoria.log', $log, FILE_APPEND | LOCK_EX);
+        // Log de sucesso
+        $log = date('Y-m-d H:i:s') . " - [LOGIN_SUCESSO] Usuário ID: " . $usuario['id_usuario'] . " - Email: " . $email . "\n";
+        @file_put_contents(__DIR__ . '/logs/auditoria.log', $log, FILE_APPEND | LOCK_EX);
 
-            header("Location: simulacao.php");
-            exit;
-        } else {
-            // Senha incorreta
-            rateLimitIncrement('login');
-            logTentativaSuspeita('senha_incorreta', ['email' => $email]);
-            echo "<script>alert('Senha incorreta!'); window.history.back();</script>";
-        }
+        header("Location: simulacao.php");
+        exit;
     } else {
-        // Email não encontrado
-        rateLimitIncrement('login');
-        logTentativaSuspeita('email_nao_encontrado', ['email' => $email]);
-        echo "<script>alert('E-mail não encontrado!'); window.history.back();</script>";
+        logTentativaSuspeita($usuario ? 'senha_incorreta' : 'email_nao_encontrado', ['email' => $email]);
+        echo "<script>alert('E-mail ou senha inválidos.'); window.history.back();</script>";
     }
 
     $stmt->close();
@@ -158,5 +155,8 @@ if (isset($_POST['entrar'])) {
 
             
         </div>
+<?php if (isset($_GET['conta_excluida'])): ?>
+<script>alert('Sua conta foi excluída com sucesso.');</script>
+<?php endif; ?>
 </body>
 </html>

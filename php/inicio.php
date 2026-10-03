@@ -1,7 +1,7 @@
 ﻿<?php
-session_start();
+require_once __DIR__ . '/sessao.php';
 include('error_handler.php');
-include('seguranca.php');
+require_once('seguranca.php');
 
 // Se não estiver logado, redireciona para login
 if (!isset($_SESSION['id_usuario'])) {

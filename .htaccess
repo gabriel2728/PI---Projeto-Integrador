@@ -42,6 +42,16 @@
     Require all denied
 </FilesMatch>
 
+# Bloqueia scripts de teste, debug e migração (devem rodar só pelo terminal, nunca pelo navegador)
+<FilesMatch "^(executar_migracao_analise_preditiva|teste_https|criar_tabela|criar_tabela_recuperacao|limpar_tokens_expirados|debug_exportacao|login-test|simulacao_exportar|teste_ssl|teste_exportacao)\.(php|html)$">
+    Require all denied
+</FilesMatch>
+
+# Bloqueia dumps do banco, scripts de shell e logs
+<FilesMatch "\.(sql|sh|log)$">
+    Require all denied
+</FilesMatch>
+
 # Bloqueia acesso direto aos logs
 <IfModule mod_rewrite.c>
     RewriteEngine On

@@ -2,12 +2,26 @@
 // Configurações de e-mail para recuperação de senha
 // IMPORTANTE: Configure estas constantes para produção
 
+// As credenciais ficam no arquivo .env (fora do Git), nunca no código.
+if (!isset($_ENV['SMTP_PASS'])) {
+    $envFile = dirname(__DIR__) . '/.env';
+    if (is_file($envFile)) {
+        foreach (file($envFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) as $linha) {
+            if (strpos(trim($linha), '#') === 0 || strpos($linha, '=') === false) {
+                continue;
+            }
+            list($chave, $valor) = array_map('trim', explode('=', $linha, 2));
+            $_ENV[$chave] = trim($valor, "\"'");
+        }
+    }
+}
+
 define('SMTP_HOST', 'smtp.gmail.com');
 define('SMTP_PORT', 587);
 define('SMTP_SECURE', 'tls'); // 'tls' ou 'ssl'
-define('SMTP_USER', 'sistemasisgeh@gmail.com');
-define('SMTP_PASS', 'qgrj mnrm lgyq byuo'); // Use senha de app do Gmail
-define('SMTP_FROM', 'sistemasisgeh@gmail.com');
+define('SMTP_USER', $_ENV['SMTP_USER'] ?? '');
+define('SMTP_PASS', $_ENV['SMTP_PASS'] ?? ''); // senha de app do Gmail, definida no .env
+define('SMTP_FROM', $_ENV['SMTP_USER'] ?? '');
 define('SMTP_FROM_NAME', 'SiSGEH');
 define('SITE_URL', 'http://localhost/siteatual'); // Ajuste para produção
 

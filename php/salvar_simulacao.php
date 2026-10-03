@@ -1,10 +1,10 @@
 <?php
 // Limpa qualquer echo acidental que quebre o JSON
 ob_start();
-session_start();
+require_once __DIR__ . '/sessao.php';
 include('error_handler.php');
 include('conexao.php');
-include('seguranca.php');
+require_once('seguranca.php');
 header('Content-Type: application/json');
 
 try {
@@ -14,6 +14,11 @@ try {
     }
 
     $id_usuario = $_SESSION['id_usuario'];
+
+    if (!verificarTokenCSRF($_SERVER['HTTP_X_CSRF_TOKEN'] ?? '')) {
+        logTentativaSuspeita('csrf_fail_salvar_simulacao', ['id_usuario' => $id_usuario]);
+        throw new Exception("Token de segurança inválido. Recarregue a página e tente novamente.");
+    }
 
     // 2️⃣ Recebe os dados JSON enviados pelo fetch
     $data = json_decode(file_get_contents('php://input'), true);

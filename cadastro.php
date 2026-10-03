@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <?php
-session_start();
-include('php/seguranca.php');
+require_once __DIR__ . '/php/sessao.php';
+require_once('php/seguranca.php');
 $csrf_token = gerarTokenCSRF();
 ?>
 <html lang="pt-br">
