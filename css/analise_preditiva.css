@@ -147,6 +147,7 @@ form input[type="number"] {
 	border: none;
 	text-decoration: none;
 	background-color: #2f6fb8;
+    border: 2px solid #b4b4b4;
 	border-radius: 10px;
 
 	color: #ffffff;

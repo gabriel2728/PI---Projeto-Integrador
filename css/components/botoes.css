@@ -71,6 +71,7 @@ section form {
 	background: #757575;
 	color: white;
 	text-decoration: none;
+	border: none;
 	font-size: clamp(0.5rem, 1vw, 1.5rem);
 
 	cursor: pointer; 
