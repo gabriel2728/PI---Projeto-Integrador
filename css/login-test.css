@@ -186,7 +186,8 @@ form input {
 }
 
 form input[type="email"],
-form input[type="password"] {
+form input[type="password"],
+form input[name="senha"] {
     border: 3px solid #2f6fb8;
 }
 
@@ -223,6 +224,7 @@ input[type="submit"] {
 	font-family: "Open Sauce Light";
 	border-radius: 0.6rem;
 	cursor: pointer;
+	
 }
 
 
@@ -232,7 +234,30 @@ input[type="submit"]:hover, .cadastro:hover {
 }
 /* Formulario */
 
+/*Olho*/
 
+.senha-container {
+	position: relative;
+	width: 100%;
+}
+
+.btn-olho {
+	position: absolute;
+	right: 10%;
+	top: 30%;
+	display: flex;
+	padding: 0;
+	border: none;
+	background: none;
+	cursor: pointer;
+	color: #2f6fb8;
+}
+
+.btn-olho svg[hidden] {
+	display: none;
+}
+
+/*Olho*/
 
 
 /*logo*/
