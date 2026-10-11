@@ -1,0 +1,159 @@
+@startuml diagrama_classes
+' Diagrama de Classes do SiSGEH
+' Para visualizar no VS Code (extensão PlantUML): abra este arquivo e pressione Alt+D
+
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+skinparam linetype polyline
+skinparam dpi 150
+skinparam nodesep 60
+skinparam ranksep 70
+skinparam defaultFontName Arial
+skinparam class {
+  BackgroundColor #EAF4F7
+  BorderColor #0E6378
+  ArrowColor #3B4F58
+  HeaderBackgroundColor #CFE6EE
+}
+hide circle
+
+class Usuario {
+  - idUsuario: int
+  - nome: string
+  - telefone: string
+  - email: string
+  - senha: string
+  - emailConfirmado: bool
+  --
+  + cadastrar(): void
+  + confirmarEmail(token): bool
+  + autenticar(email, senha): bool
+  + alterarPerfil(): void
+  + excluirConta(senha): void
+  + encerrarSessao(): void
+}
+
+class ConfiguracaoUsuario {
+  - idConfig: int
+  - tema: string
+  - notificacoesEmail: bool
+  - notificacoesSistema: bool
+  - notificacoesSimulacao: bool
+  - notificacoesRelatorios: bool
+  --
+  + salvarPreferencias(): void
+}
+
+class RecuperacaoSenha {
+  - idRecuperacao: int
+  - token: string
+  - dataExpiracao: datetime
+  - usado: bool
+  --
+  + gerarToken(): string
+  + validarToken(token): bool
+  + redefinirSenha(senha): void
+}
+
+class Simulacao {
+  - idSimulacao: int
+  - vazao: float
+  - altura: float
+  - potTurbina: float
+  - qtdTurbinas: int
+  - potGerador: float
+  - eficiencia: float
+  - horas: float
+  - dataSimulacao: datetime
+  --
+  + validarParametros(): bool
+  + calcularPotencia(): float
+  + calcularGeracaoPeriodo(): void
+  + salvar(): void
+  + excluir(): void
+}
+
+class ResultadoSimulacao {
+  - idResultado: int
+  - geracaoPrincipal: float
+  - geracaoDiaria: float
+  - geracaoMensal: float
+  - geracaoAnual: float
+  --
+  + exibir(): void
+}
+
+class CenarioRisco {
+  - tipo: string
+  - percentual: float
+  --
+  + validarPercentual(): bool
+  + aplicar(simulacao): float
+}
+
+class AnalisePreditiva {
+  - idAnalise: int
+  - periodo: string
+  - pluviosidadeInformada: float
+  - potenciaEstimada: float
+  - modelo: string
+  - equacao: string
+  - dataCalculo: datetime
+  --
+  + calcularRegressao(dados): void
+  + estimarPotencia(): float
+  + gerarGrafico(): void
+  + salvar(): void
+}
+
+class DadoHistorico {
+  - idDado: int
+  - dataRegistro: date
+  - pluviosidade: float
+  - potencia: float
+  - fonte: string
+  --
+  + cadastrar(): void
+  + editar(): void
+  + excluir(): void
+  + restaurarBaseOriginal(): void
+}
+
+class DadoEstacao {
+  - idDado: int
+  - estacao: string
+  - mesAno: date
+  - tempMin: float
+  - tempMax: float
+  - umidMin: float
+  - umidMax: float
+  - precipitacao: float
+  - fonte: string
+  --
+  + filtrarPeriodo(inicio, fim): list
+  + gerarGraficos(): void
+}
+
+class Exportacao {
+  - formato: string
+  --
+  + exportarPDF(dados): file
+  + exportarCSV(dados): file
+  + exportarXLSX(dados): file
+}
+
+Usuario "1" *-- "0..1" ConfiguracaoUsuario : possui
+Usuario "1" -- "0..*" RecuperacaoSenha : solicita
+Usuario "1" -- "0..*" Simulacao : realiza
+Usuario "1" -- "0..*" AnalisePreditiva : realiza
+Usuario "0..1" -- "0..*" DadoHistorico : mantém
+
+Simulacao "1" *-down- "1" ResultadoSimulacao : gera
+Simulacao "1" -down--- "0..3" CenarioRisco : aplica
+Simulacao "0..1" -- "0..*" AnalisePreditiva : origina
+
+AnalisePreditiva ..> DadoHistorico : usa
+Simulacao ..> Exportacao : usa
+AnalisePreditiva ..> Exportacao : usa
+
+@enduml
