@@ -26,13 +26,22 @@ $itensMenu = [
 </svg>', 'texto' => 'Configurações', 'url' => 'configuracoes.php'],
 ];
 ?>
-<button type="button" class="sidebar-toggle-mobile" id="sidebarToggleMobile" aria-label="Abrir menu">☰</button>
+<!-- Botao de 3 riscos: abre o menu. Fica FORA da sidebar porque ela
+     sai da tela quando fechada -->
+<button type="button" class="sidebar-abrir" id="sidebarAbrir" aria-label="Abrir menu">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
+</svg>
+</button>
 
 <aside class="sidebar">
     <div class="sidebar-topo">
-        <div class="caixa_de_texto">
-            <input type="text" class="search-text" placeholder="Pesquisar...">
-        </div>
+        <!-- Seta: fecha o menu -->
+        <button type="button" class="sidebar-fechar" id="sidebarFechar" aria-label="Fechar menu">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"/>
+</svg>
+        </button>
     </div>
 
     <nav class="sidebar-nav">
@@ -77,11 +86,39 @@ $itensMenu = [
 
 <script>
 (function () {
-    var botao = document.getElementById('sidebarToggleMobile');
-    if (botao) {
-        botao.addEventListener('click', function () {
-            document.body.classList.toggle('sidebar-aberta');
-        });
+    // No computador o menu comeca aberto (classe sidebar-fechada esconde);
+    // no celular comeca fechado (classe sidebar-aberta mostra).
+    // A escolha do computador fica salva para valer em todas as paginas.
+    var CHAVE = 'sisgeh-sidebar-fechada';
+    var corpo = document.body;
+    var celular = window.matchMedia('(max-width: 768px)');
+
+    try {
+        if (localStorage.getItem(CHAVE) === '1') {
+            corpo.classList.add('sidebar-fechada');
+        }
+    } catch (e) {}
+
+    function salvar(fechada) {
+        try { localStorage.setItem(CHAVE, fechada ? '1' : '0'); } catch (e) {}
     }
+
+    document.getElementById('sidebarAbrir').addEventListener('click', function () {
+        if (celular.matches) {
+            corpo.classList.add('sidebar-aberta');
+        } else {
+            corpo.classList.remove('sidebar-fechada');
+            salvar(false);
+        }
+    });
+
+    document.getElementById('sidebarFechar').addEventListener('click', function () {
+        if (celular.matches) {
+            corpo.classList.remove('sidebar-aberta');
+        } else {
+            corpo.classList.add('sidebar-fechada');
+            salvar(true);
+        }
+    });
 })();
 </script>

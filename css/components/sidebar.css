@@ -19,31 +19,64 @@
 .sidebar-topo {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-end; /* seta no canto direito do menu */
     padding: 0 1rem 1rem;
 }
 
-/* Botao hamburguer fica FORA da sidebar (ela some da tela no mobile,
-   entao um botao la dentro nao daria pra clicar pra reabrir) */
-.sidebar-toggle-mobile {
+/* Seta que fecha o menu */
+.sidebar-fechar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.4rem;
+    height: 2.4rem;
+    padding: 0;
+
+    background: none;
+    border: none;
+    border-radius: 6px;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.sidebar-fechar svg {
+    width: 1.6rem;
+    height: 1.6rem;
+}
+
+.sidebar-fechar:hover {
+    background-color: rgba(255,255,255,0.15);
+}
+
+/* Botao de 3 riscos que abre o menu. Fica FORA da sidebar (ela some
+   da tela quando fechada, entao um botao la dentro nao daria pra clicar) */
+.sidebar-abrir {
     display: none;
+    align-items: center;
+    justify-content: center;
     position: fixed;
-    top: 0.6rem;
-    left: 0.6rem;
+    top: 0.8rem;
+    left: 0.8rem;
     z-index: 950;
+    width: 2.8rem;
+    height: 2.8rem;
+    padding: 0;
+
     background-color: #2f6fb8;
     color: #ffffff;
     border: none;
     border-radius: 6px;
-    width: 2.4rem;
-    height: 2.4rem;
-    font-size: 1.3rem;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     cursor: pointer;
 }
 
-.sidebar .caixa_de_texto {
-    margin: 0 1rem 1rem;
-    border-color: #ffffff;
+.sidebar-abrir svg {
+    width: 1.8rem;
+    height: 1.8rem;
+}
+
+.sidebar-abrir:hover {
+    background-color: #224c7c;
 }
 
 .sidebar-nav {
@@ -172,6 +205,27 @@
 main.com-sidebar,
 footer.com-sidebar {
     margin-left: 220px;
+    transition: margin-left 0.25s ease;
+}
+
+/* Menu fechado (computador): esconde a sidebar, mostra os 3 riscos
+   e o conteudo ocupa a tela toda */
+body.sidebar-fechada .sidebar {
+    transform: translateX(-100%);
+}
+
+body.sidebar-fechada .sidebar-abrir {
+    display: flex;
+}
+
+body.sidebar-fechada main.com-sidebar,
+body.sidebar-fechada footer.com-sidebar {
+    margin-left: 0;
+}
+
+/* espaco no topo pro botao de 3 riscos nao ficar em cima do conteudo */
+body.sidebar-fechada main.com-sidebar {
+    padding-top: 3.5rem;
 }
 
 @media (max-width: 768px) {
@@ -183,12 +237,20 @@ footer.com-sidebar {
         transform: translateX(0);
     }
 
-    .sidebar-toggle-mobile {
-        display: block;
+    .sidebar-abrir {
+        display: flex;
+    }
+
+    body.sidebar-aberta .sidebar-abrir {
+        display: none;
     }
 
     main.com-sidebar,
     footer.com-sidebar {
         margin-left: 0;
+    }
+
+    main.com-sidebar {
+        padding-top: 3.5rem;
     }
 }
