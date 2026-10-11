@@ -15,7 +15,8 @@ function garantirTabelaDadosHistoricos(mysqli $conn) {
         potencia_mw DECIMAL(10,2) NOT NULL,
         fonte VARCHAR(500) NULL,
         id_usuario INT NULL,
-        INDEX idx_dados_usuario (id_usuario)
+        INDEX idx_dados_usuario (id_usuario),
+        CONSTRAINT fk_dados_historicos_usuario FOREIGN KEY (id_usuario) REFERENCES Usuario(id_usuario) ON DELETE CASCADE
     )");
 
     $colunas = [
@@ -29,6 +30,16 @@ function garantirTabelaDadosHistoricos(mysqli $conn) {
         if ($res && $res->num_rows === 0) {
             $conn->query($alter);
         }
+    }
+
+    // Instalações antigas: garante a chave estrangeira para o usuário
+    $res = $conn->query("SELECT 1 FROM information_schema.REFERENTIAL_CONSTRAINTS
+        WHERE CONSTRAINT_SCHEMA = DATABASE() AND CONSTRAINT_NAME = 'fk_dados_historicos_usuario'");
+    if ($res && $res->num_rows === 0) {
+        $conn->query("DELETE d FROM DadosHistoricos d LEFT JOIN Usuario u ON u.id_usuario = d.id_usuario
+            WHERE d.id_usuario IS NOT NULL AND u.id_usuario IS NULL");
+        $conn->query("ALTER TABLE DadosHistoricos ADD CONSTRAINT fk_dados_historicos_usuario
+            FOREIGN KEY (id_usuario) REFERENCES Usuario(id_usuario) ON DELETE CASCADE");
     }
 }
 

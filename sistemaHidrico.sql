@@ -29,6 +29,7 @@ CREATE TABLE ResultadoSimulacao (
     geracao_diaria DOUBLE,
     geracao_mensal DOUBLE,
     geracao_anual DOUBLE,
+    UNIQUE KEY uk_resultado_simulacao (id_simulacao),
     FOREIGN KEY (id_simulacao) REFERENCES Simulacoes(id_simulacao)
 );
 ALTER TABLE ResultadoSimulacao ADD COLUMN geracao_principal DOUBLE NOT NULL AFTER id_simulacao;
@@ -174,6 +175,7 @@ CREATE TABLE UsuarioConfiguracoes (
     notificacoes_sistema BOOLEAN DEFAULT true,
     notificacoes_simulacao BOOLEAN DEFAULT true,
     notificacoes_relatorios BOOLEAN DEFAULT true,
+    UNIQUE KEY uk_config_usuario (id_usuario),
     FOREIGN KEY (id_usuario) REFERENCES Usuario(id_usuario)
 );
 select * from UsuarioConfiguracoes;
@@ -227,7 +229,10 @@ CREATE TABLE IF NOT EXISTS DadosHistoricos (
     data_registro DATE NOT NULL,
     pluviosidade_mm DECIMAL(10,2) NOT NULL,
     potencia_mw DECIMAL(10,2) NOT NULL,
-    INDEX idx_data_registro (data_registro)
+    fonte VARCHAR(500) NULL,
+    id_usuario INT NULL,
+    INDEX idx_data_registro (data_registro),
+    CONSTRAINT fk_dados_historicos_usuario FOREIGN KEY (id_usuario) REFERENCES Usuario(id_usuario) ON DELETE CASCADE
 );
 
 -- Criando Tabela de Analise Preditiva
