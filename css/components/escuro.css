@@ -1,0 +1,231 @@
+/* ===== Modo escuro =====
+   Ligado pelo tema "Escuro" em Configuracoes do Sistema. O menu lateral
+   (php/includes/sidebar.php) coloca a classe "tema-escuro" no <html>.
+   Tudo fica dentro de :not(.alto-contraste) para o alto contraste continuar
+   valendo quando os dois estiverem ligados.
+   Precisa vir DEPOIS dos outros css da pagina (e antes do contraste.css).
+   Varios !important sao para ganhar dos estilos escritos direto no HTML. */
+
+html.tema-escuro:not(.alto-contraste) {
+    --escuro-fundo: #0f1722;
+    --escuro-card: #1b2533;
+    --escuro-caixa: #243044;      /* caixas dentro dos cards */
+    --escuro-borda: #334155;
+    --escuro-texto: #e2e8f0;
+    --escuro-texto-suave: #94a3b8;
+    --escuro-menu: #15243a;
+
+    color-scheme: dark; /* barras de rolagem, calendario etc. tambem escuros */
+}
+
+/* Fundo: escurece a textura de gotas em vez de tirar ela */
+html.tema-escuro:not(.alto-contraste) body {
+    background-color: var(--escuro-fundo) !important;
+    background-image:
+        linear-gradient(rgba(15, 23, 34, 0.93), rgba(15, 23, 34, 0.93)),
+        url("../../images/fundo_estatico.jpg?v=gotas2026") !important;
+    color: var(--escuro-texto);
+}
+
+/* ===== Menu lateral ===== */
+html.tema-escuro:not(.alto-contraste) .sidebar {
+    background-color: var(--escuro-menu);
+    border-right: 1px solid var(--escuro-borda);
+}
+
+html.tema-escuro:not(.alto-contraste) body.sidebar-fechada .botao-contraste,
+html.tema-escuro:not(.alto-contraste) .sidebar-abrir {
+    background-color: var(--escuro-menu);
+    border: 1px solid var(--escuro-borda);
+}
+
+/* ===== Cards ===== */
+html.tema-escuro:not(.alto-contraste) .section,
+html.tema-escuro:not(.alto-contraste) .configuracao,
+html.tema-escuro:not(.alto-contraste) .recuperar_senha,
+html.tema-escuro:not(.alto-contraste) .historico,
+html.tema-escuro:not(.alto-contraste) .painel-entrada,
+html.tema-escuro:not(.alto-contraste) .painel-resultado,
+html.tema-escuro:not(.alto-contraste) .grafico-area,
+html.tema-escuro:not(.alto-contraste) .dados-historicos {
+    background-color: var(--escuro-card);
+    border-color: var(--escuro-borda);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45);
+}
+
+/* ===== Textos ===== */
+html.tema-escuro:not(.alto-contraste) h1,
+html.tema-escuro:not(.alto-contraste) h2,
+html.tema-escuro:not(.alto-contraste) h3,
+html.tema-escuro:not(.alto-contraste) h4,
+html.tema-escuro:not(.alto-contraste) label,
+html.tema-escuro:not(.alto-contraste) .nome-usuario,
+html.tema-escuro:not(.alto-contraste) .dado-valor,
+html.tema-escuro:not(.alto-contraste) .filtro-estacao-item {
+    color: var(--escuro-texto) !important;
+}
+
+html.tema-escuro:not(.alto-contraste) p,
+html.tema-escuro:not(.alto-contraste) .mensagem-pequena p,
+html.tema-escuro:not(.alto-contraste) .descricao-analise,
+html.tema-escuro:not(.alto-contraste) .nota,
+html.tema-escuro:not(.alto-contraste) .info-paginacao,
+html.tema-escuro:not(.alto-contraste) .paginacao-dots,
+html.tema-escuro:not(.alto-contraste) .dado-label,
+html.tema-escuro:not(.alto-contraste) footer p,
+html.tema-escuro:not(.alto-contraste) footer a {
+    color: var(--escuro-texto-suave) !important;
+}
+
+/* textos dentro do menu e dos botoes continuam brancos */
+html.tema-escuro:not(.alto-contraste) .sidebar *,
+html.tema-escuro:not(.alto-contraste) button,
+html.tema-escuro:not(.alto-contraste) .botao-azul,
+html.tema-escuro:not(.alto-contraste) .botao-cinza,
+html.tema-escuro:not(.alto-contraste) .btn-azul,
+html.tema-escuro:not(.alto-contraste) .btn-vermelho {
+    color: #ffffff;
+}
+
+/* ===== Formularios ===== */
+html.tema-escuro:not(.alto-contraste) form input[type="text"],
+html.tema-escuro:not(.alto-contraste) form input[type="tel"],
+html.tema-escuro:not(.alto-contraste) form input[type="email"],
+html.tema-escuro:not(.alto-contraste) form input[type="password"],
+html.tema-escuro:not(.alto-contraste) form input[type="number"],
+html.tema-escuro:not(.alto-contraste) input[type="month"],
+html.tema-escuro:not(.alto-contraste) input[type="date"],
+html.tema-escuro:not(.alto-contraste) select,
+html.tema-escuro:not(.alto-contraste) textarea {
+    border-color: var(--escuro-borda);
+}
+
+html.tema-escuro:not(.alto-contraste) select,
+html.tema-escuro:not(.alto-contraste) textarea {
+    background-color: var(--escuro-caixa);
+    color: var(--escuro-texto);
+}
+
+html.tema-escuro:not(.alto-contraste) .botao-cinza,
+html.tema-escuro:not(.alto-contraste) .botao-generico {
+    background-color: #4b5563;
+}
+
+html.tema-escuro:not(.alto-contraste) .botao-cinza:hover,
+html.tema-escuro:not(.alto-contraste) .botao-generico:hover {
+    background-color: #000000;
+}
+
+/* ===== Caixas claras dentro dos cards ===== */
+html.tema-escuro:not(.alto-contraste) .resultado-card,
+html.tema-escuro:not(.alto-contraste) .info-modelo,
+html.tema-escuro:not(.alto-contraste) .origem-dados-badge,
+html.tema-escuro:not(.alto-contraste) .cenario-item,
+html.tema-escuro:not(.alto-contraste) .dados-usuario,
+html.tema-escuro:not(.alto-contraste) .config-form,
+html.tema-escuro:not(.alto-contraste) .linha-equacao-analise td {
+    background: var(--escuro-caixa) !important;
+    border-color: var(--escuro-borda) !important;
+    color: var(--escuro-texto) !important;
+}
+
+html.tema-escuro:not(.alto-contraste) .info-modelo p {
+    color: var(--escuro-texto-suave) !important;
+}
+
+/* ===== Tabelas ===== */
+html.tema-escuro:not(.alto-contraste) table,
+html.tema-escuro:not(.alto-contraste) td,
+html.tema-escuro:not(.alto-contraste) #tabelaResultados,
+html.tema-escuro:not(.alto-contraste) .tabela-cenarios {
+    background-color: var(--escuro-card);
+    color: var(--escuro-texto);
+    border-color: var(--escuro-borda) !important;
+}
+
+html.tema-escuro:not(.alto-contraste) th {
+    border-color: var(--escuro-borda) !important;
+}
+
+html.tema-escuro:not(.alto-contraste) .tabela-cenarios tbody tr:nth-child(even) td {
+    background-color: #212c3d;
+}
+
+html.tema-escuro:not(.alto-contraste) #tabelaResultados tr:hover td,
+html.tema-escuro:not(.alto-contraste) tbody tr:hover td {
+    background-color: var(--escuro-caixa);
+}
+
+html.tema-escuro:not(.alto-contraste) .btn-pagina {
+    background-color: var(--escuro-caixa);
+    border-color: var(--escuro-borda);
+    color: #93c5fd;
+}
+
+html.tema-escuro:not(.alto-contraste) .btn-pagina.atual {
+    background-color: #2f6fb8;
+    color: #ffffff;
+}
+
+/* ===== Mensagens (sucesso / erro / aviso) ===== */
+html.tema-escuro:not(.alto-contraste) .mensagem.sucesso,
+html.tema-escuro:not(.alto-contraste) .status-mensagem.sucesso,
+html.tema-escuro:not(.alto-contraste) .resultado-card.sucesso,
+html.tema-escuro:not(.alto-contraste) #mensagemSucesso,
+html.tema-escuro:not(.alto-contraste) .resultado-card[style*="ecfdf5"] {
+    background: #12352a !important;
+    border-color: #1f6f4f !important;
+    color: #86efac !important;
+}
+
+html.tema-escuro:not(.alto-contraste) .mensagem.erro,
+html.tema-escuro:not(.alto-contraste) .status-mensagem.erro,
+html.tema-escuro:not(.alto-contraste) .alerta.erro {
+    background: #3b1519 !important;
+    border-color: #7f1d1d !important;
+    color: #fca5a5 !important;
+}
+
+html.tema-escuro:not(.alto-contraste) .alerta.aviso,
+html.tema-escuro:not(.alto-contraste) .nota-cenario,
+html.tema-escuro:not(.alto-contraste) .info-modelo .aviso {
+    background: #3a2f0b !important;
+    border-color: #a16207 !important;
+    color: #fde68a !important;
+}
+
+/* Etiquetas do historico */
+html.tema-escuro:not(.alto-contraste) .badge-simulacao {
+    background: #1e3a8a;
+    color: #bfdbfe;
+}
+
+html.tema-escuro:not(.alto-contraste) .badge-manual {
+    background: #4c1d95;
+    color: #e9d5ff;
+}
+
+html.tema-escuro:not(.alto-contraste) .secao-analise-preditiva {
+    border-top-color: var(--escuro-borda);
+}
+
+/* ===== Janela de exportacao (estilo escrito direto no HTML) ===== */
+html.tema-escuro:not(.alto-contraste) .modal-content,
+html.tema-escuro:not(.alto-contraste) .modal-conteudo {
+    background-color: var(--escuro-card) !important;
+    border-color: var(--escuro-borda) !important;
+}
+
+html.tema-escuro:not(.alto-contraste) .modal-content h2 {
+    color: var(--escuro-texto) !important;
+}
+
+html.tema-escuro:not(.alto-contraste) .close:hover,
+html.tema-escuro:not(.alto-contraste) .fechar:hover {
+    color: #ffffff !important;
+}
+
+/* Logo redonda do menu fica com o fundo mais escuro */
+html.tema-escuro:not(.alto-contraste) .sidebar-logo span {
+    background-color: #1e3a5f;
+}

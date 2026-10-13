@@ -72,6 +72,7 @@ if (isset($_POST['entrar'])) {
         session_regenerate_id(true);
 
         $_SESSION['id_usuario'] = $usuario['id_usuario'];
+        unset($_SESSION['tema']); // tema do usuario novo sera lido do banco pelo menu lateral
         $_SESSION['nomeUsuario'] = $usuario['nomeUsuario'];
 
         // Log de sucesso

@@ -36,7 +36,7 @@ $paginaAtiva = 'configuracoes';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Configurações de Perfil - SiSGEH</title>
-    <link rel="stylesheet" href="../css/components/sidebar.css?v=6">
+    <link rel="stylesheet" href="../css/components/sidebar.css?v=7">
     <link rel="stylesheet" href="../css/estilo_configuracao_perfil.css"> 
     <link rel="stylesheet" href="../css/style.css?v=gotas2026">
     <link rel="stylesheet" href="../css/components/botoes.css">
@@ -351,6 +351,7 @@ $paginaAtiva = 'configuracoes';
             form.submit();
         }
     </script>
+    <link rel="stylesheet" href="../css/components/escuro.css">
     <link rel="stylesheet" href="../css/components/contraste.css">
 </head>
 <body>

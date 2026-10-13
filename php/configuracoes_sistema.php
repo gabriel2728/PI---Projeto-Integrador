@@ -64,6 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($stmt->execute()) {
         $_SESSION['mensagem_sucesso'] = 'Configurações do sistema salvas com sucesso!';
+        $_SESSION['tema'] = $tema; // menu lateral aplica o tema a partir da sessao
         // Atualizar array de configurações
         $configuracoes['tema'] = $tema;
         $configuracoes['notificacoes_email'] = $notificacoes_email;
@@ -87,10 +88,11 @@ $paginaAtiva = 'configuracoes';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Configurações do Sistema - SiSGEH</title>
-    <link rel="stylesheet" href="../css/components/sidebar.css?v=6">
+    <link rel="stylesheet" href="../css/components/sidebar.css?v=7">
     <link rel="stylesheet" href="../css/style.css?v=gotas2026">
     <link rel="stylesheet" href="../css/components/botoes.css">
     <link rel="stylesheet" href="../css/components/card.css">
+    <link rel="stylesheet" href="../css/components/escuro.css">
     <link rel="stylesheet" href="../css/components/contraste.css">
 </head>
 <body>

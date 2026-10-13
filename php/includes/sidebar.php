@@ -3,6 +3,23 @@
 // com um dos valores: simulacao, historico, analise_preditiva, estacao, configuracoes
 $paginaAtiva = $paginaAtiva ?? '';
 
+// Tema (claro/escuro) escolhido em Configuracoes do Sistema. Fica guardado
+// na sessao para nao consultar o banco em toda pagina; so busca no banco
+// quando ainda nao tem (ex.: logo depois do login)
+if (!isset($_SESSION['tema']) && isset($_SESSION['id_usuario'], $conn) && $conn instanceof mysqli) {
+    try {
+        $stmtTema = $conn->prepare("SELECT tema FROM UsuarioConfiguracoes WHERE id_usuario = ?");
+        $idUsuarioTema = (int) $_SESSION['id_usuario'];
+        $stmtTema->bind_param('i', $idUsuarioTema);
+        $stmtTema->execute();
+        $linhaTema = $stmtTema->get_result()->fetch_assoc();
+        $_SESSION['tema'] = $linhaTema['tema'] ?? 'claro';
+    } catch (Throwable $e) {
+        // conexao indisponivel (ex.: ja fechada pela pagina): fica no claro
+    }
+}
+$temaEscuro = ($_SESSION['tema'] ?? 'claro') === 'escuro';
+
 $itensMenu = [
     ['chave' => 'simulacao', 'icone' => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-droplet-fill" viewBox="0 0 16 16">
   <path d="M8 16a6 6 0 0 0 6-6c0-1.655-1.122-2.904-2.432-4.362C10.254 4.176 8.75 2.503 8 0c0 0-6 5.686-6 10a6 6 0 0 0 6 6M6.646 4.646l.708.708c-.29.29-1.128 1.311-1.907 2.87l-.894-.448c.82-1.641 1.717-2.753 2.093-3.13"/>
@@ -26,6 +43,12 @@ $itensMenu = [
 </svg>', 'texto' => 'Configurações', 'url' => 'configuracoes.php'],
 ];
 ?>
+<?php if ($temaEscuro): ?>
+<!-- Modo escuro: coloca a classe no <html> antes do resto da pagina
+     aparecer, para nao piscar a tela clara (cores em css/components/escuro.css) -->
+<script>document.documentElement.classList.add('tema-escuro');</script>
+<?php endif; ?>
+
 <!-- Botao de 3 riscos: abre o menu. Fica FORA da sidebar porque ela
      sai da tela quando fechada -->
 <button type="button" class="sidebar-abrir" id="sidebarAbrir" aria-label="Abrir menu">
@@ -139,9 +162,11 @@ $itensMenu = [
         if (!window.Chart) {
             return;
         }
-        var ativo = raiz.classList.contains('alto-contraste');
-        Chart.defaults.color = ativo ? '#ffffff' : '#666666';
-        Chart.defaults.borderColor = ativo ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.1)';
+        var contraste = raiz.classList.contains('alto-contraste');
+        var escuro = raiz.classList.contains('tema-escuro');
+        Chart.defaults.color = contraste ? '#ffffff' : (escuro ? '#cbd5e1' : '#666666');
+        Chart.defaults.borderColor = contraste ? 'rgba(255,255,255,0.4)'
+            : (escuro ? 'rgba(255,255,255,0.12)' : 'rgba(0,0,0,0.1)');
         Object.values(Chart.instances).forEach(function (grafico) {
             grafico.options.color = Chart.defaults.color;
             Object.values(grafico.options.scales || {}).forEach(function (eixo) {
