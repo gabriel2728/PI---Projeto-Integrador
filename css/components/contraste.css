@@ -1,0 +1,110 @@
+/* ===== Alto contraste =====
+   Ligado pelo botao do topo (php/includes/sidebar.php), que coloca a
+   classe "alto-contraste" no <html>. Padrao de acessibilidade: fundo
+   preto, texto branco e links/botoes em amarelo.
+   Esse arquivo precisa ser o ULTIMO css da pagina, para ganhar dos outros. */
+
+html.alto-contraste *,
+html.alto-contraste *::before,
+html.alto-contraste *::after {
+    background-color: #000000 !important;
+    background-image: none !important;
+    color: #ffffff !important;
+    border-color: #ffffff !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+}
+
+html.alto-contraste,
+html.alto-contraste body {
+    background: #000000 !important;
+}
+
+/* Links e botoes em amarelo, com borda para dar pra ver onde clicar */
+html.alto-contraste a,
+html.alto-contraste a *,
+html.alto-contraste button,
+html.alto-contraste button *,
+html.alto-contraste input[type="submit"],
+html.alto-contraste input[type="button"] {
+    color: #ffff00 !important;
+}
+
+html.alto-contraste button,
+html.alto-contraste input[type="submit"],
+html.alto-contraste input[type="button"],
+html.alto-contraste .botao-azul,
+html.alto-contraste .botao-cinza,
+html.alto-contraste .botao-generico,
+html.alto-contraste .btn-azul,
+html.alto-contraste .btn-vermelho {
+    border: 2px solid #ffff00 !important;
+}
+
+/* Ao passar o mouse ou focar com o teclado: inverte (amarelo com texto preto) */
+html.alto-contraste a:hover,
+html.alto-contraste a:focus-visible,
+html.alto-contraste button:hover,
+html.alto-contraste button:focus-visible,
+html.alto-contraste input[type="submit"]:hover,
+html.alto-contraste input[type="button"]:hover {
+    background-color: #ffff00 !important;
+    color: #000000 !important;
+    outline: none;
+}
+
+html.alto-contraste a:hover *,
+html.alto-contraste a:focus-visible *,
+html.alto-contraste button:hover *,
+html.alto-contraste button:focus-visible * {
+    background-color: #ffff00 !important;
+    color: #000000 !important;
+}
+
+/* Campos de formulario */
+html.alto-contraste input,
+html.alto-contraste select,
+html.alto-contraste textarea {
+    border: 2px solid #ffffff !important;
+}
+
+html.alto-contraste input:focus,
+html.alto-contraste select:focus,
+html.alto-contraste textarea:focus {
+    outline: 3px solid #ffff00 !important;
+}
+
+html.alto-contraste ::placeholder {
+    color: #cccccc !important;
+    opacity: 1;
+}
+
+/* Menu lateral: separa do conteudo e destaca a pagina atual */
+html.alto-contraste .sidebar {
+    border-right: 2px solid #ffffff !important;
+}
+
+html.alto-contraste .sidebar-nav a.ativo {
+    outline: 2px solid #ffff00;
+}
+
+/* Cards e tabelas ganham borda para nao sumirem no fundo preto */
+html.alto-contraste .section,
+html.alto-contraste .configuracao,
+html.alto-contraste .historico,
+html.alto-contraste .painel-entrada,
+html.alto-contraste .painel-resultado,
+html.alto-contraste .grafico-area,
+html.alto-contraste .dados-historicos {
+    border: 2px solid #ffffff !important;
+}
+
+html.alto-contraste th,
+html.alto-contraste td {
+    border: 1px solid #ffffff !important;
+}
+
+/* Botao de contraste ligado fica marcado */
+html.alto-contraste .botao-contraste {
+    border: 2px solid #ffff00 !important;
+}

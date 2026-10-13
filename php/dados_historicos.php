@@ -146,8 +146,9 @@ $paginaAtiva = 'analise_preditiva';
     <title>Dados Históricos - SiSGEH</title>
     <link rel="stylesheet" href="../css/historico.css?v=20260511-layout">
     <link rel="stylesheet" href="../css/components/botoes.css">
-    <link rel="stylesheet" href="../css/components/sidebar.css?v=5">
+    <link rel="stylesheet" href="../css/components/sidebar.css?v=6">
     <link rel="stylesheet" href="../css/analise_preditiva.css?v=gotas2026">
+    <link rel="stylesheet" href="../css/components/contraste.css">
 </head>
 <body>
 <?php include('includes/sidebar.php'); ?>

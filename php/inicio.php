@@ -21,9 +21,10 @@ $paginaAtiva = '';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Início - SiSGEH</title>
-    <link rel="stylesheet" href="../css/components/sidebar.css?v=5">
+    <link rel="stylesheet" href="../css/components/sidebar.css?v=6">
     <link rel="stylesheet" href="../css/style.css?v=gotas2026">
     <link rel="stylesheet" href="../css/components/botoes.css">
+    <link rel="stylesheet" href="../css/components/contraste.css">
 </head>
 <body>
 

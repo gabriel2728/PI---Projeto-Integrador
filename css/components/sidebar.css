@@ -79,6 +79,48 @@
     background-color: #224c7c;
 }
 
+/* Botao de alto contraste. Com o menu aberto fica no topo do menu
+   (do lado oposto da seta); com o menu fechado fica do lado dos 3 riscos */
+.botao-contraste {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 0.8rem;
+    left: 0.8rem;
+    z-index: 950;
+    width: 2.8rem;
+    height: 2.8rem;
+    padding: 0;
+
+    background-color: transparent;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: left 0.25s ease, background-color 0.25s ease;
+}
+
+.botao-contraste svg {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.botao-contraste:hover {
+    background-color: rgba(255,255,255,0.15);
+}
+
+/* menu fechado: vira um botao azul igual ao dos 3 riscos, do lado dele */
+body.sidebar-fechada .botao-contraste {
+    left: 4.2rem;
+    background-color: #2f6fb8;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+body.sidebar-fechada .botao-contraste:hover {
+    background-color: #224c7c;
+}
+
 .sidebar-nav {
     flex: 1;
     display: flex;
@@ -243,6 +285,18 @@ body.sidebar-fechada main.com-sidebar {
 
     body.sidebar-aberta .sidebar-abrir {
         display: none;
+    }
+
+    .botao-contraste {
+        left: 4.2rem;
+        background-color: #2f6fb8;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    body.sidebar-aberta .botao-contraste {
+        left: 0.8rem;
+        background-color: transparent;
+        box-shadow: none;
     }
 
     main.com-sidebar,

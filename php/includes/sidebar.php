@@ -34,6 +34,14 @@ $itensMenu = [
 </svg>
 </button>
 
+<!-- Botao de alto contraste: fica sempre visivel no topo, do lado
+     do botao do menu (ou dentro do menu, quando ele esta aberto) -->
+<button type="button" class="botao-contraste" id="botaoContraste" aria-label="Alto contraste" aria-pressed="false" title="Alto contraste">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-circle-half" viewBox="0 0 16 16">
+  <path d="M8 15A7 7 0 1 0 8 1zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16"/>
+</svg>
+</button>
+
 <aside class="sidebar">
     <div class="sidebar-topo">
         <!-- Seta: fecha o menu -->
@@ -110,6 +118,55 @@ $itensMenu = [
             corpo.classList.remove('sidebar-fechada');
             salvar(false);
         }
+    });
+
+    // ===== Alto contraste =====
+    // Liga a classe "alto-contraste" no <html>; as cores ficam em
+    // css/components/contraste.css. A escolha fica salva no navegador.
+    var CHAVE_CONTRASTE = 'sisgeh-alto-contraste';
+    var raiz = document.documentElement;
+    var botaoContraste = document.getElementById('botaoContraste');
+
+    function aplicarContraste(ativo) {
+        raiz.classList.toggle('alto-contraste', ativo);
+        botaoContraste.setAttribute('aria-pressed', ativo ? 'true' : 'false');
+        atualizarGraficos();
+    }
+
+    // Graficos (Chart.js) sao desenhados em canvas e nao pegam o CSS,
+    // entao troca a cor dos textos e linhas deles na mao
+    function atualizarGraficos() {
+        if (!window.Chart) {
+            return;
+        }
+        var ativo = raiz.classList.contains('alto-contraste');
+        Chart.defaults.color = ativo ? '#ffffff' : '#666666';
+        Chart.defaults.borderColor = ativo ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.1)';
+        Object.values(Chart.instances).forEach(function (grafico) {
+            grafico.options.color = Chart.defaults.color;
+            Object.values(grafico.options.scales || {}).forEach(function (eixo) {
+                if (eixo.ticks) { eixo.ticks.color = Chart.defaults.color; }
+                if (eixo.title) { eixo.title.color = Chart.defaults.color; }
+                if (eixo.grid) { eixo.grid.color = Chart.defaults.borderColor; }
+            });
+            grafico.update();
+        });
+    }
+
+    try {
+        if (localStorage.getItem(CHAVE_CONTRASTE) === '1') {
+            aplicarContraste(true);
+        }
+    } catch (e) {}
+
+    // Os graficos sao criados depois deste script, entao ajusta de novo
+    // quando a pagina terminar de carregar
+    document.addEventListener('DOMContentLoaded', atualizarGraficos);
+
+    botaoContraste.addEventListener('click', function () {
+        var ativo = !raiz.classList.contains('alto-contraste');
+        aplicarContraste(ativo);
+        try { localStorage.setItem(CHAVE_CONTRASTE, ativo ? '1' : '0'); } catch (e) {}
     });
 
     document.getElementById('sidebarFechar').addEventListener('click', function () {
