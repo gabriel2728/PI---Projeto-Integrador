@@ -80,7 +80,7 @@ main{
     padding: 0;
     border: 0;
     background: transparent;
-    color: #5f6974;
+    color: #4f5862; /* era #5f6974: fica direto no fundo de gotas, precisava de mais contraste */
     font-family: "Open Sauce Light", sans-serif;
     font-size: clamp(0.95rem, 1vw, 1.08rem);
     line-height: 1.55;

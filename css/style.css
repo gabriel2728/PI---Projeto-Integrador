@@ -64,7 +64,7 @@ main{
 }
 
 .mensagem-pequena p {
-    color: #929292;
+    color: #6b6b6b; /* era #929292, clarinho demais para ler no card branco */
     font-size: clamp(1rem, 1.5vw, 2rem);
 	
 	margin: 0 1rem;
