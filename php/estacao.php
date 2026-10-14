@@ -56,6 +56,16 @@ $coresEstacao = [
     'Franca' => '#f59e0b',
 ];
 
+// Modo daltonismo (Configuracoes do Sistema): verde e laranja se confundem,
+// entao usa a paleta Okabe-Ito
+if (!empty($_SESSION['daltonismo'])) {
+    $coresEstacao = [
+        'Bauru - Água Parada' => '#0072b2',
+        'Ourinhos' => '#009e73',
+        'Franca' => '#e69f00',
+    ];
+}
+
 $payload = [
     'labels' => $labels,
     'labelsIso' => $labelsIso,
@@ -84,11 +94,12 @@ $paginaAtiva = 'estacao';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Estações - SiSGEH</title>
     <link rel="stylesheet" href="../css/components/sidebar.css?v=7">
-    <link rel="stylesheet" href="../css/analise_preditiva.css?v=gotas2026">
-    <link rel="stylesheet" href="../css/estacao.css">
+    <link rel="stylesheet" href="../css/analise_preditiva.css?v=cores2026">
+    <link rel="stylesheet" href="../css/estacao.css?v=filtro2026">
     <link rel="stylesheet" href="../css/components/card.css">
     <link rel="stylesheet" href="../css/components/botoes.css">
     <link rel="stylesheet" href="../css/components/escuro.css">
+    <link rel="stylesheet" href="../css/components/daltonismo.css">
     <link rel="stylesheet" href="../css/components/contraste.css">
 </head>
 <body>
@@ -99,7 +110,6 @@ $paginaAtiva = 'estacao';
         <div class="intro intro-principal">
             <div class="mensagem-pequena">
                 <h2>Estações Meteorológicas</h2>
-                <p class="descricao-analise">Temperatura, umidade do ar e precipitação registradas em 3 estações, de janeiro/2023 a agosto/2026.</p>
             </div>
         </div>
 
@@ -114,6 +124,7 @@ $paginaAtiva = 'estacao';
             <section class="painel-entrada">
                 <div class="mensagem-pequena">
                     <h3>Filtrar gráficos</h3>
+                    <p class="descricao-analise descricao-filtro">Temperatura, umidade do ar e precipitação registradas em 3 estações, de janeiro/2023 a agosto/2026.</p>
                 </div>
 
                 <div class="filtro-estacoes">

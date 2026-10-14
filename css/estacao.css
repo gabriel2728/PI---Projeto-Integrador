@@ -52,3 +52,8 @@
 .dados-historicos table {
     font-size: 0.85rem;
 }
+
+/* frase explicativa dentro do card "Filtrar graficos" */
+.mensagem-pequena .descricao-filtro {
+    margin-bottom: 1.2rem;
+}
