@@ -147,8 +147,9 @@ $paginaAtiva = 'analise_preditiva';
     <link rel="stylesheet" href="../css/historico.css?v=20260511-layout">
     <link rel="stylesheet" href="../css/components/botoes.css">
     <link rel="stylesheet" href="../css/components/sidebar.css?v=7">
-    <link rel="stylesheet" href="../css/analise_preditiva.css?v=gotas2026">
+    <link rel="stylesheet" href="../css/analise_preditiva.css?v=cores2026">
     <link rel="stylesheet" href="../css/components/escuro.css">
+    <link rel="stylesheet" href="../css/components/daltonismo.css">
     <link rel="stylesheet" href="../css/components/contraste.css">
 </head>
 <body>

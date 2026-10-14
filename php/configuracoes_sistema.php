@@ -13,6 +13,12 @@ if (!isset($_SESSION['id_usuario'])) {
 $id_usuario = (int) $_SESSION['id_usuario'];
 $csrf_token = gerarTokenCSRF();
 
+// Bancos criados antes do modo daltonismo nao tem a coluna: cria na hora
+$colunaDaltonismo = $conn->query("SHOW COLUMNS FROM UsuarioConfiguracoes LIKE 'modo_daltonismo'");
+if ($colunaDaltonismo && $colunaDaltonismo->num_rows === 0) {
+    $conn->query("ALTER TABLE UsuarioConfiguracoes ADD COLUMN modo_daltonismo BOOLEAN DEFAULT false");
+}
+
 // Buscar configurações atuais do usuário
 $configuracoes = [];
 $stmt = $conn->prepare("SELECT * FROM UsuarioConfiguracoes WHERE id_usuario = ?");
@@ -32,7 +38,8 @@ if ($result->num_rows > 0) {
         'notificacoes_email' => 1,
         'notificacoes_sistema' => 1,
         'notificacoes_simulacao' => 1,
-        'notificacoes_relatorios' => 1
+        'notificacoes_relatorios' => 1,
+        'modo_daltonismo' => 0
     ];
 }
 
@@ -51,6 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $notificacoes_sistema = isset($_POST['notificacoes_sistema']) ? 1 : 0;
     $notificacoes_simulacao = isset($_POST['notificacoes_simulacao']) ? 1 : 0;
     $notificacoes_relatorios = isset($_POST['notificacoes_relatorios']) ? 1 : 0;
+    $modo_daltonismo = isset($_POST['modo_daltonismo']) ? 1 : 0;
 
     // Atualizar configurações no banco
     $stmt = $conn->prepare("UPDATE UsuarioConfiguracoes SET
@@ -58,13 +66,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             notificacoes_email = ?,
             notificacoes_sistema = ?,
             notificacoes_simulacao = ?,
-            notificacoes_relatorios = ?
+            notificacoes_relatorios = ?,
+            modo_daltonismo = ?
             WHERE id_usuario = ?");
-    $stmt->bind_param('siiiii', $tema, $notificacoes_email, $notificacoes_sistema, $notificacoes_simulacao, $notificacoes_relatorios, $id_usuario);
+    $stmt->bind_param('siiiiii', $tema, $notificacoes_email, $notificacoes_sistema, $notificacoes_simulacao, $notificacoes_relatorios, $modo_daltonismo, $id_usuario);
 
     if ($stmt->execute()) {
         $_SESSION['mensagem_sucesso'] = 'Configurações do sistema salvas com sucesso!';
         $_SESSION['tema'] = $tema; // menu lateral aplica o tema a partir da sessao
+        $_SESSION['daltonismo'] = (bool) $modo_daltonismo;
         // Atualizar array de configurações
         $configuracoes['tema'] = $tema;
         $configuracoes['notificacoes_email'] = $notificacoes_email;
@@ -89,10 +99,11 @@ $paginaAtiva = 'configuracoes';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Configurações do Sistema - SiSGEH</title>
     <link rel="stylesheet" href="../css/components/sidebar.css?v=7">
-    <link rel="stylesheet" href="../css/style.css?v=gotas2026">
+    <link rel="stylesheet" href="../css/style.css?v=cores2026">
     <link rel="stylesheet" href="../css/components/botoes.css">
     <link rel="stylesheet" href="../css/components/card.css">
     <link rel="stylesheet" href="../css/components/escuro.css">
+    <link rel="stylesheet" href="../css/components/daltonismo.css">
     <link rel="stylesheet" href="../css/components/contraste.css">
 </head>
 <body>
@@ -138,6 +149,17 @@ $paginaAtiva = 'configuracoes';
                                 <label for="notificacoes_sistema">🔔 Notificações do sistema</label>
                             </div>
                         
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Acessibilidade:</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="modo_daltonismo" id="modo_daltonismo"
+                                    <?php echo !empty($configuracoes['modo_daltonismo']) ? 'checked' : ''; ?>>
+                                <label for="modo_daltonismo">👁️ Modo daltonismo (vermelho-verde)</label>
+                            </div>
                         </div>
                     </div>
 

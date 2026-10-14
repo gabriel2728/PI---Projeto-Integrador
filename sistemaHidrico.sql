@@ -175,6 +175,7 @@ CREATE TABLE UsuarioConfiguracoes (
     notificacoes_sistema BOOLEAN DEFAULT true,
     notificacoes_simulacao BOOLEAN DEFAULT true,
     notificacoes_relatorios BOOLEAN DEFAULT true,
+    modo_daltonismo BOOLEAN DEFAULT false,
     UNIQUE KEY uk_config_usuario (id_usuario),
     FOREIGN KEY (id_usuario) REFERENCES Usuario(id_usuario)
 );

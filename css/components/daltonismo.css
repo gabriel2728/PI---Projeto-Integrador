@@ -1,0 +1,76 @@
+/* ===== Modo daltonismo (vermelho-verde) =====
+   Ligado em Configuracoes do Sistema. O menu lateral (php/includes/sidebar.php)
+   coloca a classe "daltonismo" no <html>.
+   Troca o par vermelho/verde por azul/laranja (paleta Okabe-Ito) e coloca
+   um simbolo nas mensagens, para o significado nao depender so da cor.
+   Os graficos sao tratados no script do menu lateral.
+   Precisa vir DEPOIS do escuro.css e ANTES do contraste.css. */
+
+/* ===== Sucesso: verde -> azul ===== */
+html.daltonismo:not(.alto-contraste) .mensagem.sucesso,
+html.daltonismo:not(.alto-contraste) .status-mensagem.sucesso,
+html.daltonismo:not(.alto-contraste) .resultado-card.sucesso,
+html.daltonismo:not(.alto-contraste) .resultado-card[style*="ecfdf5"],
+html.daltonismo:not(.alto-contraste) #mensagemSucesso {
+    background: #e0f0ff !important;
+    border-color: #56b4e9 !important;
+    color: #08457a !important;
+}
+
+/* ===== Erro: vermelho -> laranja ===== */
+html.daltonismo:not(.alto-contraste) .mensagem.erro,
+html.daltonismo:not(.alto-contraste) .status-mensagem.erro,
+html.daltonismo:not(.alto-contraste) .alerta.erro {
+    background: #fff0e0 !important;
+    border-color: #e69f00 !important;
+    color: #8a3b00 !important;
+}
+
+/* Simbolo antes do texto: quem nao distingue a cor entende pelo icone */
+html.daltonismo .mensagem.sucesso::before,
+html.daltonismo .status-mensagem.sucesso::before,
+html.daltonismo .resultado-card.sucesso::before,
+html.daltonismo .resultado-card[style*="ecfdf5"]::before,
+html.daltonismo #mensagemSucesso::before {
+    content: "✓ ";
+    font-weight: bold;
+}
+
+html.daltonismo .mensagem.erro::before,
+html.daltonismo .status-mensagem.erro::before,
+html.daltonismo .alerta.erro::before {
+    content: "⚠ ";
+    font-weight: bold;
+}
+
+/* ===== Botoes de perigo (Excluir, Sair): vermelho -> vermelhao ===== */
+html.daltonismo:not(.alto-contraste) .btn-vermelho,
+html.daltonismo:not(.alto-contraste) .botao-acao-excluir,
+html.daltonismo:not(.alto-contraste) .sidebar-sair button {
+    background-color: #b84a00 !important;
+}
+
+html.daltonismo:not(.alto-contraste) .btn-vermelho:hover,
+html.daltonismo:not(.alto-contraste) .botao-acao-excluir:hover,
+html.daltonismo:not(.alto-contraste) .sidebar-sair button:hover {
+    background-color: #8a3700 !important;
+}
+
+/* ===== Daltonismo + modo escuro ===== */
+html.tema-escuro.daltonismo:not(.alto-contraste) .mensagem.sucesso,
+html.tema-escuro.daltonismo:not(.alto-contraste) .status-mensagem.sucesso,
+html.tema-escuro.daltonismo:not(.alto-contraste) .resultado-card.sucesso,
+html.tema-escuro.daltonismo:not(.alto-contraste) .resultado-card[style*="ecfdf5"],
+html.tema-escuro.daltonismo:not(.alto-contraste) #mensagemSucesso {
+    background: #0d2c4a !important;
+    border-color: #1f6fa8 !important;
+    color: #9fd3fa !important;
+}
+
+html.tema-escuro.daltonismo:not(.alto-contraste) .mensagem.erro,
+html.tema-escuro.daltonismo:not(.alto-contraste) .status-mensagem.erro,
+html.tema-escuro.daltonismo:not(.alto-contraste) .alerta.erro {
+    background: #3a2408 !important;
+    border-color: #a86400 !important;
+    color: #ffc875 !important;
+}

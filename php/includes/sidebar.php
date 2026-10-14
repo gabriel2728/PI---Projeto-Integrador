@@ -3,22 +3,25 @@
 // com um dos valores: simulacao, historico, analise_preditiva, estacao, configuracoes
 $paginaAtiva = $paginaAtiva ?? '';
 
-// Tema (claro/escuro) escolhido em Configuracoes do Sistema. Fica guardado
-// na sessao para nao consultar o banco em toda pagina; so busca no banco
-// quando ainda nao tem (ex.: logo depois do login)
+// Preferencias de Configuracoes do Sistema (tema claro/escuro e modo
+// daltonismo). Ficam guardadas na sessao para nao consultar o banco em toda
+// pagina; so busca no banco quando ainda nao tem (ex.: logo depois do login)
 if (!isset($_SESSION['tema']) && isset($_SESSION['id_usuario'], $conn) && $conn instanceof mysqli) {
     try {
-        $stmtTema = $conn->prepare("SELECT tema FROM UsuarioConfiguracoes WHERE id_usuario = ?");
+        // SELECT * para nao quebrar em banco antigo sem a coluna modo_daltonismo
+        $stmtTema = $conn->prepare("SELECT * FROM UsuarioConfiguracoes WHERE id_usuario = ?");
         $idUsuarioTema = (int) $_SESSION['id_usuario'];
         $stmtTema->bind_param('i', $idUsuarioTema);
         $stmtTema->execute();
         $linhaTema = $stmtTema->get_result()->fetch_assoc();
         $_SESSION['tema'] = $linhaTema['tema'] ?? 'claro';
+        $_SESSION['daltonismo'] = !empty($linhaTema['modo_daltonismo']);
     } catch (Throwable $e) {
-        // conexao indisponivel (ex.: ja fechada pela pagina): fica no claro
+        // conexao indisponivel (ex.: ja fechada pela pagina): fica no padrao
     }
 }
 $temaEscuro = ($_SESSION['tema'] ?? 'claro') === 'escuro';
+$modoDaltonismo = !empty($_SESSION['daltonismo']);
 
 $itensMenu = [
     ['chave' => 'simulacao', 'icone' => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-droplet-fill" viewBox="0 0 16 16">
@@ -47,6 +50,11 @@ $itensMenu = [
 <!-- Modo escuro: coloca a classe no <html> antes do resto da pagina
      aparecer, para nao piscar a tela clara (cores em css/components/escuro.css) -->
 <script>document.documentElement.classList.add('tema-escuro');</script>
+<?php endif; ?>
+<?php if ($modoDaltonismo): ?>
+<!-- Modo daltonismo: troca vermelho/verde por cores que daltonicos
+     distinguem (css/components/daltonismo.css e graficos no script abaixo) -->
+<script>document.documentElement.classList.add('daltonismo');</script>
 <?php endif; ?>
 
 <!-- Botao de 3 riscos: abre o menu. Fica FORA da sidebar porque ela
@@ -158,10 +166,68 @@ $itensMenu = [
 
     // Graficos (Chart.js) sao desenhados em canvas e nao pegam o CSS,
     // entao troca a cor dos textos e linhas deles na mao
+    // Modo daltonismo: cores usadas nos graficos -> paleta Okabe-Ito,
+    // que da pra distinguir com qualquer tipo de daltonismo
+    var CORES_DALTONISMO = {
+        '#2f80ed': '#0072b2', // azul
+        '#eb5757': '#d55e00', // vermelho -> vermelhao
+        '#c0392b': '#d55e00',
+        '#16a34a': '#009e73', // verde -> verde-azulado
+        '#15803d': '#009e73',
+        '#f59e0b': '#e69f00', // laranja
+        '#8e44ad': '#cc79a7'  // roxo -> rosa
+    };
+
+    // Modo escuro: cinza escuro (cenario "Normal") some no fundo escuro
+    var CORES_ESCURO = {
+        '#4b4b4b': '#9ca3af'
+    };
+
+    function trocarCor(cor) {
+        if (Array.isArray(cor)) {
+            return cor.map(trocarCor);
+        }
+        if (typeof cor !== 'string') {
+            return cor;
+        }
+        var chave = cor.toLowerCase();
+        if (raiz.classList.contains('daltonismo') && CORES_DALTONISMO[chave]) {
+            return CORES_DALTONISMO[chave];
+        }
+        if (raiz.classList.contains('tema-escuro') && CORES_ESCURO[chave]) {
+            return CORES_ESCURO[chave];
+        }
+        return cor;
+    }
+
+    var pluginCoresRegistrado = false;
+
+    function registrarPluginCores() {
+        if (pluginCoresRegistrado
+            || !(raiz.classList.contains('daltonismo') || raiz.classList.contains('tema-escuro'))) {
+            return;
+        }
+        pluginCoresRegistrado = true;
+        // Roda antes de todo grafico ser desenhado, inclusive os criados depois
+        Chart.register({
+            id: 'sisgehCores',
+            beforeUpdate: function (grafico) {
+                grafico.data.datasets.forEach(function (serie) {
+                    ['backgroundColor', 'borderColor', 'pointBackgroundColor', 'pointBorderColor'].forEach(function (chave) {
+                        if (serie[chave]) {
+                            serie[chave] = trocarCor(serie[chave]);
+                        }
+                    });
+                });
+            }
+        });
+    }
+
     function atualizarGraficos() {
         if (!window.Chart) {
             return;
         }
+        registrarPluginCores();
         var contraste = raiz.classList.contains('alto-contraste');
         var escuro = raiz.classList.contains('tema-escuro');
         Chart.defaults.color = contraste ? '#ffffff' : (escuro ? '#cbd5e1' : '#666666');
