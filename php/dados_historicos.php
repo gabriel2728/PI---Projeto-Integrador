@@ -146,11 +146,11 @@ $paginaAtiva = 'analise_preditiva';
     <title>Dados Históricos - SiSGEH</title>
     <link rel="stylesheet" href="../css/historico.css?v=20260511-layout">
     <link rel="stylesheet" href="../css/components/botoes.css">
-    <link rel="stylesheet" href="../css/components/sidebar.css?v=7">
+    <link rel="stylesheet" href="../css/components/sidebar.css?v=9">
     <link rel="stylesheet" href="../css/analise_preditiva.css?v=cores2026">
     <link rel="stylesheet" href="../css/components/escuro.css">
     <link rel="stylesheet" href="../css/components/daltonismo.css">
-    <link rel="stylesheet" href="../css/components/contraste.css">
+    <link rel="stylesheet" href="../css/components/contraste.css?v=2">
 </head>
 <body>
 <?php include('includes/sidebar.php'); ?>
@@ -251,6 +251,9 @@ $paginaAtiva = 'analise_preditiva';
     		</section>
 	</div>
 </main>
-<script src="../js/pesquisa.js"></script>
+
+<footer class="com-sidebar">
+    <p>&copy; Todos os direitos reservados. <a href="../sobre.html">Sobre o sistema</a> · <a href="../politica.html">Políticas de privacidade</a></p>
+</footer>
 </body>
 </html>

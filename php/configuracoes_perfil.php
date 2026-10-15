@@ -36,9 +36,9 @@ $paginaAtiva = 'configuracoes';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Configurações de Perfil - SiSGEH</title>
-    <link rel="stylesheet" href="../css/components/sidebar.css?v=7">
+    <link rel="stylesheet" href="../css/components/sidebar.css?v=9">
     <link rel="stylesheet" href="../css/estilo_configuracao_perfil.css"> 
-    <link rel="stylesheet" href="../css/style.css?v=cores2026">
+    <link rel="stylesheet" href="../css/style.css?v=config2026">
     <link rel="stylesheet" href="../css/components/botoes.css">
     <link rel="stylesheet" href="../css/components/card.css">
     <script>
@@ -353,7 +353,7 @@ $paginaAtiva = 'configuracoes';
     </script>
     <link rel="stylesheet" href="../css/components/escuro.css">
     <link rel="stylesheet" href="../css/components/daltonismo.css">
-    <link rel="stylesheet" href="../css/components/contraste.css">
+    <link rel="stylesheet" href="../css/components/contraste.css?v=2">
 </head>
 <body>
     <?php include('includes/sidebar.php'); ?>
@@ -412,8 +412,7 @@ $paginaAtiva = 'configuracoes';
     </main>    
 
     <footer class="com-sidebar">
-        <p>&copy; Todos os direitos reservados. <a href="../politica.html">Políticas de privacidade.</a></p>
+        <p>&copy; Todos os direitos reservados. <a href="../sobre.html">Sobre o sistema</a> · <a href="../politica.html">Políticas de privacidade</a></p>
     </footer>
-    <script src="../js/pesquisa.js"></script>
 </body>
 </html>

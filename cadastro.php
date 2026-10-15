@@ -9,8 +9,8 @@ $csrf_token = gerarTokenCSRF();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro | SiSGEH</title>
-    <link rel="stylesheet" type="text/css" href="css/components/header.css">
-    <link rel="stylesheet" type="text/css" href="css/style.css?v=cores2026">
+    <link rel="stylesheet" type="text/css" href="css/components/header.css?v=3">
+    <link rel="stylesheet" type="text/css" href="css/style.css?v=config2026">
     <link rel="stylesheet" type="text/css" href="css/components/card.css?v=4">
    <link rel="stylesheet" type="text/css" href="css/components/botoes.css">
    <link rel="stylesheet" type="text/css" href="css/components/marca.css">  
@@ -18,23 +18,17 @@ $csrf_token = gerarTokenCSRF();
 <body>
 
     <header>
-        <div class="caixa_de_texto">
-            <input type="text" class="search-text" placeholder="Pesquisar...">
-        </div>
 
        <div class="marca-container">
                     <div class="marca">
                         <h1 style="color: #ffffff">SiSGEH</h1>
                         <hr style="color: #ffffff">
-                        <p style="color: #ffffff"> Sistema de geração de energia hidrelétrica </p>
+                        <p style="color: #ffffff"> Sistema de Simulação de Geração de Eletricidade em Hidrelétrica </p>
                     </div>
         </div>
 
         <nav class="links">
             <ul>
-                <li>
-                    <a href="sobre.html" class="sobre">Sobre</a>
-                </li>
 
                 <li>
                     <a href="php/login.php" class="link_home">
@@ -65,7 +59,7 @@ $csrf_token = gerarTokenCSRF();
         </div>
     </main>
     <footer>
-        <p>&copy; Todos os direitos reservados. <a href="politica.html">Políticas de privacidade.</a></p>
+        <p>&copy; Todos os direitos reservados. <a href="sobre.html">Sobre o sistema</a> · <a href="politica.html">Políticas de privacidade</a></p>
     </footer>
 <script>
 document.querySelector("form").addEventListener("submit", function(event) {

@@ -96,8 +96,8 @@ if (isset($_POST['entrar'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="../css/components/header.css"> 
-    <link rel="stylesheet" href="../css/login.css?v=marca2026">
+    <link rel="stylesheet" href="../css/components/header.css?v=3"> 
+    <link rel="stylesheet" href="../css/login.css?v=rodape2026">
     <link rel="stylesheet" href="../css/components/marca.css">
 </head>
 <body>
@@ -128,7 +128,7 @@ if (isset($_POST['entrar'])) {
                     <div class="marca">
                         <h1>SiSGEH</h1>
                         <hr>
-                        <p> Sistema de geração de energia hidrelétrica </p>
+                        <p> Sistema de Simulação de Geração de Eletricidade em Hidrelétrica </p>
                     </div>
                 </div>
 
@@ -151,6 +151,10 @@ if (isset($_POST['entrar'])) {
                 </form>
 
                 <a href="../recuperar_senha.php" class="esqueci_senha">Esqueci minha senha</a>
+
+                <footer class="rodape-login">
+                    <p>&copy; Todos os direitos reservados. <a href="../sobre.html">Sobre o sistema</a> · <a href="../politica.html">Políticas de privacidade</a></p>
+                </footer>
 
             </section>
 

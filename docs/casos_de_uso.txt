@@ -1,6 +1,6 @@
                     ╔══════════════════════════════════════════════════════════════╗
                     ║               SiSGEH – Sistema de Simulação de               ║
-                    ║               Geração de Energia Hidrelétrica                ║
+                    ║           Geração de Eletricidade em Hidrelétrica            ║
                     ║                                                              ║
                     ║                                                              ║
                     ║     ╭──────────────────────────────────────╮                 ║

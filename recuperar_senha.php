@@ -72,8 +72,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Recuperar senha - SiSGEH</title>
-<link rel="stylesheet" href="css/components/header.css">
-<link rel="stylesheet" href="css/style.css?v=cores2026">
+<link rel="stylesheet" href="css/components/header.css?v=3">
+<link rel="stylesheet" href="css/style.css?v=config2026">
 <link rel="stylesheet" href="css/components/botoes.css">
 <link rel="stylesheet" type="text/css" href="css/recuperar_senha.css"> 
 <link rel="stylesheet" type="text/css" href="css/components/card.css">
@@ -81,16 +81,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
 
 <header>
-    <div class="caixa_de_texto">
-            <input type="text" class="search-text" placeholder="Pesquisar...">
-    </div>
 
     <h1 class="sisgeh">SiSGEH</h1>
 
     <nav class="links">
         <ul>
             <li>
-                <a href="sobre.html" class="sobre">Sobre</a>
 
                 <a href="php/login.php" class="link_home">
                     <img src="images/home.png" alt="Voltar para a Home" class="home">
@@ -129,7 +125,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </main>
 
 <footer>
-    <p>&copy; Todos os direitos reservados. <a href="politica.html">Políticas de privacidade.</a></p>
+    <p>&copy; Todos os direitos reservados. <a href="sobre.html">Sobre o sistema</a> · <a href="politica.html">Políticas de privacidade</a></p>
 </footer>
 
 </body>

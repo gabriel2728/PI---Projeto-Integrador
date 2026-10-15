@@ -223,3 +223,15 @@ figure {
     max-width: 140px;
     object-fit: contain;
 }
+/* Rodape (Sobre o sistema / Politicas de privacidade) embaixo do formulario */
+.rodape-login {
+    margin-top: 2.5rem;
+}
+
+.rodape-login p,
+.rodape-login a {
+    margin: 0;
+    color: #4b4b4b;
+    font-size: clamp(0.7rem, 0.9vw, 1rem);
+    font-family: "Open Sauce Light";
+}
