@@ -43,16 +43,14 @@ html.daltonismo .alerta.erro::before {
     font-weight: bold;
 }
 
-/* ===== Botoes de perigo (Excluir, Sair): vermelho -> vermelhao ===== */
+/* ===== Botoes de perigo (Excluir): vermelho -> vermelhao ===== */
 html.daltonismo:not(.alto-contraste) .btn-vermelho,
-html.daltonismo:not(.alto-contraste) .botao-acao-excluir,
-html.daltonismo:not(.alto-contraste) .sidebar-sair button {
+html.daltonismo:not(.alto-contraste) .botao-acao-excluir {
     background-color: #b84a00 !important;
 }
 
 html.daltonismo:not(.alto-contraste) .btn-vermelho:hover,
-html.daltonismo:not(.alto-contraste) .botao-acao-excluir:hover,
-html.daltonismo:not(.alto-contraste) .sidebar-sair button:hover {
+html.daltonismo:not(.alto-contraste) .botao-acao-excluir:hover {
     background-color: #8a3700 !important;
 }
 

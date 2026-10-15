@@ -183,30 +183,35 @@ body.sidebar-fechada .botao-contraste:hover {
     max-width: none;
 }
 
+/* Mesmo visual dos outros itens do menu (fundo transparente e linha embaixo) */
 .sidebar-sair button {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-
-
     gap: 0.8rem;
-    width: 90%;
-    padding: 0.9rem 1.5rem;
-    margin: 0.6rem 1.5rem;
+    width: calc(100% - 1.6rem);
+    padding: 0.9rem 1rem;
+    margin: 0.6rem 0.8rem;
     box-sizing: border-box;
 
-    border-radius: 6px;
     background: none;
     border: none;
-    background-color: #ac2828;
+    border-bottom: 1px solid rgba(255,255,255,0.25);
+    border-radius: 0;
     color: #ffffff;
     font-family: "Open Sauce Light", sans-serif;
     font-size: 0.8rem;
     cursor: pointer;
 }
 
+/* so a palavra "Sair" sublinhada */
+.sidebar-sair .texto {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
 .sidebar-sair button:hover {
-    background-color: rgb(255, 0, 0);
+    background-color: rgba(255,255,255,0.15);
     transform: translateY(-3px);
     box-shadow: 0 7px 14px rgba(0,0,0,0.2);
 }
