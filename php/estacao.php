@@ -98,8 +98,8 @@ $paginaAtiva = 'estacao';
     <link rel="stylesheet" href="../css/estacao.css?v=filtro2026">
     <link rel="stylesheet" href="../css/components/card.css">
     <link rel="stylesheet" href="../css/components/botoes.css">
-    <link rel="stylesheet" href="../css/components/escuro.css">
-    <link rel="stylesheet" href="../css/components/daltonismo.css">
+    <link rel="stylesheet" href="../css/components/escuro.css?v=2">
+    <link rel="stylesheet" href="../css/components/daltonismo.css?v=2">
     <link rel="stylesheet" href="../css/components/contraste.css?v=2">
 </head>
 <body>

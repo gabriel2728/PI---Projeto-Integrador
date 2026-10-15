@@ -73,8 +73,8 @@ $paginaAtiva = 'configuracoes';
             color: #333;
         }
     </style>
-    <link rel="stylesheet" href="../css/components/escuro.css">
-    <link rel="stylesheet" href="../css/components/daltonismo.css">
+    <link rel="stylesheet" href="../css/components/escuro.css?v=2">
+    <link rel="stylesheet" href="../css/components/daltonismo.css?v=2">
     <link rel="stylesheet" href="../css/components/contraste.css?v=2">
 </head>
 <body>

@@ -24,8 +24,8 @@ $csrf_token = gerarTokenCSRF();
     <link rel="stylesheet" href="../css/components/botoes.css">
     <link rel="stylesheet" href="../css/components/card.css">
     <link rel="stylesheet" href="../css/components/tabela.css?v=20260925-cenarios">
-    <link rel="stylesheet" href="../css/components/escuro.css">
-    <link rel="stylesheet" href="../css/components/daltonismo.css">
+    <link rel="stylesheet" href="../css/components/escuro.css?v=2">
+    <link rel="stylesheet" href="../css/components/daltonismo.css?v=2">
     <link rel="stylesheet" href="../css/components/contraste.css?v=2">
 </head>
 <body>
