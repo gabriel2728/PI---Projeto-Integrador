@@ -15,6 +15,18 @@ html.alto-contraste *::after {
     text-shadow: none !important;
 }
 
+/* Textos "em linha" ficam sem fundo: se tiverem padding, o fundo preto
+   deles invadia as linhas vizinhas e cobria as letras */
+html.alto-contraste label,
+html.alto-contraste span,
+html.alto-contraste strong,
+html.alto-contraste b,
+html.alto-contraste em,
+html.alto-contraste i,
+html.alto-contraste small {
+    background-color: transparent !important;
+}
+
 html.alto-contraste,
 html.alto-contraste body {
     background: #000000 !important;

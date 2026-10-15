@@ -143,3 +143,47 @@ footer p, footer a {
 	padding: 1rem;
 	margin: 1rem;
 }
+/* ===== Configuracoes do Sistema: grupos de opcoes ===== */
+.form-group {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.4rem;
+	width: 100%;
+	margin-bottom: 1.2rem;
+}
+
+/* o padding de 1rem do label (la em cima) invadia as linhas vizinhas */
+.form-group label {
+	padding: 0.2rem 0;
+}
+
+/* titulo do grupo ("Notificacoes:", "Acessibilidade:") */
+.form-group > label {
+	font-weight: bold;
+}
+
+.checkbox-group {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 0.3rem;
+}
+
+.checkbox-item {
+	display: flex;
+	align-items: center;
+	gap: 0.6rem;
+}
+
+.checkbox-item label {
+	font-weight: normal;
+	cursor: pointer;
+}
+
+.form-group select {
+	padding: 0.4rem 0.8rem;
+	font-size: clamp(0.9rem, 1vw, 1.2rem);
+	border-radius: 0.4rem;
+	cursor: pointer;
+}
